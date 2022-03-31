@@ -12,4 +12,3 @@ Object.keys(ElIcons).forEach(function (key) {
 });
 web_server.config.devtools = true;
 web_server.use(store).use(router).use(ElementPlus).mount("#app");
-
