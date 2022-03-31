@@ -22,8 +22,8 @@ export default {
     myWebHead,
     myWebNav,
     myWebMain,
-    myWebFooter,
-  },
+    myWebFooter
+  }
 };
 </script>
 <style lang="less">

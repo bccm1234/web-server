@@ -46,7 +46,7 @@ export default {
   name: "nav-head",
   data() {
     return {};
-  },
+  }
 };
 </script>
 <style scoped lang="less">
