@@ -1,16 +1,19 @@
 <template>
-  <head>
-    <myWebHead></myWebHead>
-  </head>
-  <nav>
-    <myWebNav></myWebNav>
-  </nav>
-  <main>
-    <myWebMain></myWebMain>
-  </main>
-  <footer>
-    <myWebFooter></myWebFooter>
-  </footer>
+  <div>
+    <head>
+      <router-view></router-view>
+      <myWebHead></myWebHead>
+    </head>
+    <nav>
+      <myWebNav></myWebNav>
+    </nav>
+    <main>
+      <myWebMain></myWebMain>
+    </main>
+    <footer>
+      <myWebFooter></myWebFooter>
+    </footer>
+  </div>
 </template>
 <script>
 import myWebHead from "@/components/web-head.vue";
