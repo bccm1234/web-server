@@ -1,34 +1,13 @@
 <template>
   <div id="app">
-    <head>
-      <router-view></router-view>
-      <myWebHead></myWebHead>
-    </head>
     <nav>
-      <myWebNav></myWebNav>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
     </nav>
-    <main>
-      <myWebMain></myWebMain>
-    </main>
-    <footer>
-      <myWebFooter></myWebFooter>
-    </footer>
+    <router-view />
   </div>
 </template>
-<script>
-import myWebHead from "@/components/web-head.vue";
-import myWebNav from "@/components/web-nav.vue";
-import myWebMain from "@/components/web-main.vue";
-import myWebFooter from "@/components/web-foot.vue";
-export default {
-  components: {
-    myWebHead,
-    myWebNav,
-    myWebMain,
-    myWebFooter
-  }
-};
-</script>
+
 <style lang="less">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
