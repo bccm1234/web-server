@@ -1,6 +1,8 @@
 <template>
   <div>
-    <el-image src="@/assets/logo.png" :fit="contain"></el-image>
+    <el-container>
+      <el-image :src="require('@/assets/logo.png')" />
+    </el-container>
   </div>
 </template>
 

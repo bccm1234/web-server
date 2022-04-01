@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <head>
+    <header>
       <myWebHead></myWebHead>
-    </head>
+    </header>
     <nav>
       <myWebNav></myWebNav>
     </nav>
