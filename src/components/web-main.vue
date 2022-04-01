@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <el-image src="@/assets/logo.png" :fit="contain"></el-image>
-  </div>
+  <div></div>
 </template>
 
 <script>
