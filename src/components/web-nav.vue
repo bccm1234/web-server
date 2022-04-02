@@ -5,7 +5,9 @@
         ><el-image :src="require('@/assets/logo.png')"
       /></el-col>
       <el-col :span="4" class="right-col"
-        ><el-button type="text">Home</el-button>
+        ><el-button type="text"
+          ><el-link :underline="false" href="/">Home</el-link></el-button
+        >
         <el-button type="text">Login</el-button>
         <el-button type="text">Signup</el-button>
       </el-col>
@@ -31,5 +33,8 @@ export default {};
 .el-button {
   color: white;
   height: 100%;
+  .el-link {
+    color: white;
+  }
 }
 </style>

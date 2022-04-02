@@ -34,6 +34,7 @@
     line-height: 3.5rem;
     text-align: center;
     cursor: pointer;
+    border-radius: 10px;
   }
   
   .column-element {
@@ -123,14 +124,14 @@
   
   @keyframes element-hover {
     0% {
-      transform: scale(1) rotateX(0deg) skewX(0deg);
+      transform: scale(1) ;
     }
   
-    50% {
+    /* 50% {
       transform: scale(0.8) rotateX(270deg) skewX(90deg);
-    }
+    } */
   
     100% {
-      transform: scale(1.8) rotateX(720deg) skewX(180deg);
+      transform: scale(1.8) ;
     }
   }
