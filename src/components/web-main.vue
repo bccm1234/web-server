@@ -178,6 +178,7 @@
 
 <script>
 import "@/assets/table.css";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -187,11 +188,11 @@ export default {
     };
   },
 
-  created:
-      this.$axios.get("/index/element").then(function (response) {
-        console.log(response);
-      }
-
+  created() {
+    axios.get("/index/element").then(function (response) {
+      console.log(response);
+    });
+  }
 };
 </script>
 
