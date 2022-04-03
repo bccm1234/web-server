@@ -185,6 +185,13 @@ export default {
         mater: ""
       }
     };
+  },
+  methods: {
+    created() {
+      this.axios.get("/index/element").then(function (response) {
+        console.log(response);
+      });
+    }
   }
 };
 </script>
