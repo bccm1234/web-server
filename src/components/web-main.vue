@@ -186,13 +186,12 @@ export default {
       }
     };
   },
-  methods: {
-    created() {
-      this.axios.get("/index/element").then(function (response) {
+
+  created:
+      this.$axios.get("/index/element").then(function (response) {
         console.log(response);
-      });
-    }
-  }
+      }
+
 };
 </script>
 
