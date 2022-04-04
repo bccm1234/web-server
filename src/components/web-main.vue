@@ -881,12 +881,14 @@
         </div>
       </div>
     </div>
+    <mysearchresult></mysearchresult>
   </div>
 </template>
 
 <script>
 import "@/assets/table.css";
 import axios from "axios";
+import mysearchresult from "./search-result.vue";
 export default {
   data() {
     return {
@@ -1014,7 +1016,6 @@ export default {
       }
     };
   },
-
   created() {
     axios.get("/index/element").then(function (response) {
       console.log(response);
@@ -1030,9 +1031,9 @@ export default {
       }
       this.isActive[ele] = !this.isActive[ele];
       this.formInline.mater = this.mater_list.join("");
-      console.log(this.mater_list);
     }
-  }
+  },
+  components: mysearchresult
 };
 </script>
 
