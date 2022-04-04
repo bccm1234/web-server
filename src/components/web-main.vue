@@ -8,7 +8,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">Search</el-button>
+        <el-button type="primary" @click="getresult">Search</el-button>
       </el-form-item>
     </el-form>
     <div class="element-top">
@@ -881,14 +881,13 @@
         </div>
       </div>
     </div>
-    <mysearchresult></mysearchresult>
+    <mysearchresult :visible="visible"></mysearchresult>
   </div>
 </template>
 
 <script>
 import "@/assets/table.css";
-import axios from "axios";
-import mysearchresult from "./search-result.vue";
+import mysearchresult from "@/components/search-result.vue";
 export default {
   data() {
     return {
@@ -1011,15 +1010,11 @@ export default {
         Lr: false
       },
       mater_list: [],
+      visible: false,
       formInline: {
         mater: ""
       }
     };
-  },
-  created() {
-    axios.get("/index/element").then(function (response) {
-      console.log(response);
-    });
   },
   methods: {
     searchElement(event) {
@@ -1031,9 +1026,12 @@ export default {
       }
       this.isActive[ele] = !this.isActive[ele];
       this.formInline.mater = this.mater_list.join("");
+    },
+    getresult() {
+      this.visible = true;
     }
   },
-  components: mysearchresult
+  components: { mysearchresult }
 };
 </script>
 
