@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 100%">
     <el-form :inline="true" :model="formInline" size="large">
       <el-form-item label="Explore Materials">
         <el-input
