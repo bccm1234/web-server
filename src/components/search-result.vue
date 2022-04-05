@@ -1,6 +1,12 @@
 <template>
   <div v-show="visible">
-    <el-table :data="searchList" border style="width: 75%; margin: 0 auto">
+    <el-table
+      :data="searchList"
+      border
+      style="width: 75%; margin: 0 auto"
+      :default-sort="default_sortmethod"
+      @sort-change="sortChange"
+    >
       <el-table-column prop="ID" label="ID" width="180" sortable>
       </el-table-column>
       <el-table-column prop="a" label="a" width="180" sortable>
@@ -54,7 +60,8 @@ export default {
     return {
       searchList: [],
       currentPage: 1,
-      constList: []
+      constList: [],
+      default_sortmethod: { prop: "ID", order: "ascending" }
     };
   },
   props: { visible: { type: Boolean, require: true } },
@@ -85,6 +92,25 @@ export default {
     },
     handleCurrentChange() {
       this.handleSizeChange();
+    },
+    sortChange({ prop, order }) {
+      this.searchList.sort(this.compare(prop, order));
+    },
+    compare(propertyName, sort) {
+      return function (obj1, obj2) {
+        var value1 = obj1[propertyName];
+        var value2 = obj2[propertyName];
+        if (typeof value1 === "string" && typeof value2 === "string") {
+          const res = value1.localeCompare(value2, "zh");
+          return sort === "ascending" ? res : -res;
+        } else {
+          if (value1 <= value2) {
+            return sort === "ascending" ? -1 : 1;
+          } else if (value1 > value2) {
+            return sort === "ascending" ? 1 : -1;
+          }
+        }
+      };
     }
   }
 };
