@@ -6,10 +6,15 @@
       /></el-col>
       <el-col :span="4" class="right-col"
         ><el-button type="text"
-          ><el-link :underline="false" href="/">Home</el-link></el-button
+          ><el-link :underline="false" href="#/home">Home</el-link></el-button
         >
-        <el-button type="text">Login</el-button>
-        <el-button type="text">Signup</el-button>
+        <!-- <router-link to="home">main</router-link> -->
+        <el-button type="text">
+          <el-link :underline="false" href="#/login">Login</el-link>
+        </el-button>
+        <el-button type="text">
+          <el-link :underline="false" href="#/detail">Detail</el-link>
+        </el-button>
       </el-col>
     </el-row>
   </div>

@@ -7,7 +7,7 @@
       <myWebNav></myWebNav>
     </nav>
     <main>
-      <myWebMain></myWebMain>
+      <router-view></router-view>
     </main>
     <footer>
       <myWebFooter></myWebFooter>
@@ -17,14 +17,18 @@
 <script>
 import myWebHead from "@/components/web-head.vue";
 import myWebNav from "@/components/web-nav.vue";
-import myWebMain from "@/components/web-main.vue";
+// import myWebMain from "@/components/web-main.vue";
 import myWebFooter from "@/components/web-foot.vue";
+// import myWebLogin from "@/components/web-login.vue"
+// import webDetail from "@/components/web-detail.vue";
 export default {
   components: {
     myWebHead,
     myWebNav,
-    myWebMain,
+    // myWebMain,
     myWebFooter
+    // myWebLogin
+    // webDetail
   }
 };
 </script>
