@@ -9,19 +9,19 @@
     >
       <el-table-column prop="ID" label="ID" width="180" sortable>
       </el-table-column>
-      <el-table-column prop="a" label="a" width="180" sortable>
+      <el-table-column prop="a" label="a" width="180" sortable="custom">
       </el-table-column>
       <el-table-column
         prop="b"
         label="b"
         width="180"
-        sortable
+        sortable="custom"
       ></el-table-column>
       <el-table-column
         prop="c"
         label="c"
         width="180"
-        sortable
+        sortable="custom"
       ></el-table-column>
       <el-table-column
         prop="formula"
@@ -32,7 +32,7 @@
         prop="bandgap"
         label="bandgap"
         width="180"
-        sortable
+        sortable="custom"
       ></el-table-column>
       <el-table-column
         prop="crystal system"
@@ -61,7 +61,8 @@ export default {
       searchList: [],
       currentPage: 1,
       constList: [],
-      default_sortmethod: { prop: "ID", order: "ascending" }
+      default_sortmethod: { prop: "ID", order: "ascending" },
+      current_sortmethod: { prop: "", order: "" }
     };
   },
   props: { visible: { type: Boolean, require: true } },
@@ -100,15 +101,15 @@ export default {
       return function (obj1, obj2) {
         var value1 = obj1[propertyName];
         var value2 = obj2[propertyName];
+        var reg = /-?(0|([1-9]\d*))\.\d+/;
         if (typeof value1 === "string" && typeof value2 === "string") {
-          const res = value1.localeCompare(value2, "zh");
-          return sort === "ascending" ? res : -res;
-        } else {
-          if (value1 <= value2) {
-            return sort === "ascending" ? -1 : 1;
-          } else if (value1 > value2) {
-            return sort === "ascending" ? 1 : -1;
-          }
+          value1 = parseFloat(value1.match(reg)[0]);
+          value2 = parseFloat(value2.match(reg)[0]);
+        }
+        if (value1 <= value2) {
+          return sort === "ascending" ? -1 : 1;
+        } else if (value1 > value2) {
+          return sort === "ascending" ? 1 : -1;
         }
       };
     }
