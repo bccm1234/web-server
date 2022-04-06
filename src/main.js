@@ -6,7 +6,7 @@ import "./main.css";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import "./mock/index.js";
-import "./mock/childpage.js"
+import "./mock/childpage.js";
 import axios from "axios";
 
 Vue.prototype.$axios = axios;
