@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row type="flex" justify="space-between">
+    <el-row type="flex" justify="space-between" }>
       <el-col :span="2"
         ><el-image :src="require('@/assets/logo.png')"
       /></el-col>
@@ -24,9 +24,6 @@ export default {};
 </script>
 
 <style lang="less" scoped>
-div {
-  position: fixed;
-}
 .el-row {
   background-color: rgb(26, 36, 47);
 }

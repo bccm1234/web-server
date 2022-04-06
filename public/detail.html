@@ -1,45 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script type="text/javascript" src="../libs/JSmol/JSmol.min.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <script>
-        var id = 1
-        var idNumber = window.location.search
-        var id = idNumber.substring(1,idNumber.length)
-        // // console.log(id)
-        var str = "../model/"+id+".cif"
-        function makeModel() {
-            var Info = {
-                color: "#FFFFFF",
-                height: 400,
-                width: 400,
-                // script: "load $CO2",
-                src: str,
-                use: "HTML5",
-                j2sPath: "../libs/JSmol/j2s",
-                // serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
-            };
-            Jmol.getApplet("myJmol", Info);
-        }
-        makeModel()
+      var idNumber = window.location.search;
+      var id = idNumber.substring(1, idNumber.length);
+      // // console.log(id)
+      var str = "../model/" + id + ".cif";
+      function makeModel() {
+        var Info = {
+          color: "#FFFFFF",
+          height: 400,
+          width: 400,
+          // script: "load $CO2",
+          src: str,
+          use: "HTML5",
+          j2sPath: "../libs/JSmol/j2s"
+          // serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+        };
+        Jmol.getApplet("myJmol", Info);
+      }
+      makeModel();
     </script>
     <style>
-        *{
-            margin: 0;
-            padding: 0;
-        }
-        /* canvas{
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      /* canvas{
             border: 1px solid black;
         } */
     </style>
-</body>
-
+  </body>
 </html>
