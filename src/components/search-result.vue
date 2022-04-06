@@ -8,7 +8,7 @@
       @sort-change="sortChange"
       @row-click="detailedinformation"
     >
-      <el-table-column prop="ID" label="ID" width="180" sortable>
+      <el-table-column prop="id" label="ID" width="180" sortable>
       </el-table-column>
       <el-table-column prop="a" label="a" width="180" sortable="custom">
       </el-table-column>
@@ -30,7 +30,7 @@
         width="180"
       ></el-table-column>
       <el-table-column
-        prop="bandgap"
+        prop="band gap"
         label="bandgap"
         width="180"
         sortable="custom"
@@ -62,7 +62,7 @@ export default {
       searchList: [],
       currentPage: 1,
       constList: [],
-      default_sortmethod: { prop: "ID", order: "ascending" }
+      default_sortmethod: { prop: "id", order: "ascending" }
     };
   },
   props: { visible: { type: Boolean, require: true } },
@@ -74,7 +74,15 @@ export default {
       })
       .then(
         (data) => (
-          (this.constList = data.filter((x) => (x.ID = parseInt(x.ID)))),
+          (this.constList = data.filter(
+            (x) => (
+              (x.id = parseInt(x.id)),
+              (x.a = x.a + "Å"),
+              (x.b = x.b + "Å"),
+              (x.c = x.c + "Å"),
+              (x["band gap"] = x["band gap"] + "eV")
+            )
+          )),
           this.handleSizeChange()
         )
       );
