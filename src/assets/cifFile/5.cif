@@ -1,0 +1,50 @@
+# generated using pymatgen
+data_Cu2O3
+_symmetry_space_group_name_H-M   Fdd2
+_cell_length_a   9.72776800
+_cell_length_b   11.92010400
+_cell_length_c   3.60871200
+_cell_angle_alpha   90.00000000
+_cell_angle_beta   90.00000000
+_cell_angle_gamma   90.00000000
+_symmetry_Int_Tables_number   43
+_chemical_formula_structural   Cu2O3
+_chemical_formula_sum   'Cu16 O24'
+_cell_volume   418.45183122
+_cell_formula_units_Z   8
+loop_
+ _symmetry_equiv_pos_site_id
+ _symmetry_equiv_pos_as_xyz
+  1  'x, y, z'
+  2  '-x, -y, z'
+  3  '-x+1/4, y+3/4, z+3/4'
+  4  'x+1/4, -y+3/4, z+3/4'
+  5  'x, y+1/2, z+1/2'
+  6  '-x, -y+1/2, z+1/2'
+  7  '-x+1/4, y+1/4, z+1/4'
+  8  'x+1/4, -y+1/4, z+1/4'
+  9  'x+1/2, y, z+1/2'
+  10  '-x+1/2, -y, z+1/2'
+  11  '-x+3/4, y+3/4, z+1/4'
+  12  'x+3/4, -y+3/4, z+1/4'
+  13  'x+1/2, y+1/2, z'
+  14  '-x+1/2, -y+1/2, z'
+  15  '-x+3/4, y+1/4, z+3/4'
+  16  'x+3/4, -y+1/4, z+3/4'
+loop_
+ _atom_type_symbol
+ _atom_type_oxidation_number
+  Cu2+  2.0
+  O2-  -2.0
+  O-  -1.0
+loop_
+ _atom_site_type_symbol
+ _atom_site_label
+ _atom_site_symmetry_multiplicity
+ _atom_site_fract_x
+ _atom_site_fract_y
+ _atom_site_fract_z
+ _atom_site_occupancy
+  Cu2+  Cu0  16  0.11513600  0.29708050  0.99475350  1
+  O-  O1  16  0.01608850  0.16861050  0.87143900  1
+  O2-  O2  8  0.00000000  0.00000000  0.42740300  1
