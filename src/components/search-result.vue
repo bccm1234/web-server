@@ -122,7 +122,7 @@ export default {
       };
     },
     detailedinformation(row) {
-      this.$router.push({ name: "detail", query: row.ID });
+      this.$router.push({ name: "detail", query: { id: row.id } });
     }
   }
 };

@@ -7,7 +7,7 @@
       <myWebNav></myWebNav>
     </nav>
     <main>
-      <keep-alive>
+      <keep-alive exclude="web-detail">
         <router-view></router-view>
       </keep-alive>
     </main>
