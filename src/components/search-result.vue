@@ -6,6 +6,7 @@
       style="width: 75%; margin: 0 auto"
       :default-sort="default_sortmethod"
       @sort-change="sortChange"
+      @row-click="detailedinformation"
     >
       <el-table-column prop="ID" label="ID" width="180" sortable>
       </el-table-column>
@@ -111,6 +112,9 @@ export default {
           return sort === "ascending" ? 1 : -1;
         }
       };
+    },
+    detailedinformation(row) {
+      this.$router.push({ name: "detail", query: row.ID });
     }
   }
 };
