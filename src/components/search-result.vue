@@ -61,8 +61,7 @@ export default {
       searchList: [],
       currentPage: 1,
       constList: [],
-      default_sortmethod: { prop: "ID", order: "ascending" },
-      current_sortmethod: { prop: "", order: "" }
+      default_sortmethod: { prop: "ID", order: "ascending" }
     };
   },
   props: { visible: { type: Boolean, require: true } },

@@ -14,7 +14,7 @@ export default {
   name: "web-detail",
   data() {
     return {
-      JSmolURL: "http://127.0.0.1:5500/web-server/public/detail.html?" + id
+      JSmolURL: "file:///D:/Desktop/webdatabasev2/public/detail.html?" + id
     };
   }
 };

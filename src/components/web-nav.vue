@@ -8,7 +8,6 @@
         ><el-button type="text"
           ><el-link :underline="false" href="#/home">Home</el-link></el-button
         >
-        <!-- <router-link to="home">main</router-link> -->
         <el-button type="text">
           <el-link :underline="false" href="#/login">Login</el-link>
         </el-button>
@@ -25,6 +24,9 @@ export default {};
 </script>
 
 <style lang="less" scoped>
+div {
+  position: fixed;
+}
 .el-row {
   background-color: rgb(26, 36, 47);
 }
