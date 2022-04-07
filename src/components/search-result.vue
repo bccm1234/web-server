@@ -3,42 +3,24 @@
     <el-table
       :data="searchList"
       border
-      style="width: 75%; margin: 0 auto"
+      style="width: 60%; margin: 0 auto"
       :default-sort="default_sortmethod"
       @sort-change="sortChange"
       @row-click="detailedinformation"
     >
-      <el-table-column prop="id" label="ID" width="180" sortable>
-      </el-table-column>
-      <el-table-column prop="a" label="a" width="180" sortable="custom">
-      </el-table-column>
-      <el-table-column
-        prop="b"
-        label="b"
-        width="180"
-        sortable="custom"
-      ></el-table-column>
-      <el-table-column
-        prop="c"
-        label="c"
-        width="180"
-        sortable="custom"
-      ></el-table-column>
-      <el-table-column
-        prop="formula"
-        label="formula"
-        width="180"
-      ></el-table-column>
+      <el-table-column prop="id" label="ID" sortable> </el-table-column>
+      <el-table-column prop="a" label="a" sortable="custom"></el-table-column>
+      <el-table-column prop="b" label="b" sortable="custom"></el-table-column>
+      <el-table-column prop="c" label="c" sortable="custom"></el-table-column>
+      <el-table-column prop="formula" label="formula"></el-table-column>
       <el-table-column
         prop="band gap"
         label="bandgap"
-        width="180"
         sortable="custom"
       ></el-table-column>
       <el-table-column
         prop="crystal system"
         label="crystal system"
-        min-width="180"
       ></el-table-column>
     </el-table>
     <el-pagination
