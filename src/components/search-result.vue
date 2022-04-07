@@ -12,7 +12,11 @@
       <el-table-column prop="a" label="a" sortable="custom"></el-table-column>
       <el-table-column prop="b" label="b" sortable="custom"></el-table-column>
       <el-table-column prop="c" label="c" sortable="custom"></el-table-column>
-      <el-table-column prop="formula" label="formula"></el-table-column>
+      <el-table-column prop="formula" label="formula">
+        <template slot-scope="scope"
+          ><div v-html="scope.row.formula"></div
+        ></template>
+      </el-table-column>
       <el-table-column
         prop="band gap"
         label="bandgap"
@@ -62,7 +66,8 @@ export default {
               (x.a = x.a + "Å"),
               (x.b = x.b + "Å"),
               (x.c = x.c + "Å"),
-              (x["band gap"] = x["band gap"] + "eV")
+              (x["band gap"] = x["band gap"] + "eV"),
+              (x["formula"] = this.handleBigNumber(x["formula"]))
             )
           )),
           this.handleSizeChange()
@@ -70,6 +75,14 @@ export default {
       );
   },
   methods: {
+    handleBigNumber(num) {
+      let List = "";
+      for (let i of num) {
+        if (i.match(/\d+/)) List += "<sub>" + i + "</sub>";
+        else List += i;
+      }
+      return List;
+    },
     handleSizeChange() {
       const floor =
         (this.$children[1].internalCurrentPage - 1) *
