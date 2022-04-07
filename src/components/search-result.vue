@@ -98,13 +98,14 @@ export default {
       this.handleSizeChange();
     },
     sortChange({ prop, order }) {
-      this.searchList.sort(this.compare(prop, order));
+      this.constList.sort(this.compare(prop, order));
+      this.handleSizeChange();
     },
     compare(propertyName, sort) {
       return function (obj1, obj2) {
         var value1 = obj1[propertyName];
         var value2 = obj2[propertyName];
-        var reg = /-?(0|([1-9]\d*))\.\d+/;
+        var reg = /-?(0|([1-9]\d*))\.?\d*/;
         if (typeof value1 === "string" && typeof value2 === "string") {
           value1 = parseFloat(value1.match(reg)[0]);
           value2 = parseFloat(value2.match(reg)[0]);
