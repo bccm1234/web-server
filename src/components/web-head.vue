@@ -10,6 +10,13 @@
 export default {};
 </script>
 <style lang="less" scoped>
+div {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  height: 80px;
+  z-index: 999;
+}
 .el-row {
   height: 40px;
   background-color: rgb(217, 237, 247);
