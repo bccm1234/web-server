@@ -1,41 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script type="text/javascript" src="../libs/JSmol/JSmol.min.js"></script>
-  </head>
+</head>
 
-  <body>
+<body>
     <script>
-      var idNumber = window.location.search;
-      var id = idNumber.substring(1, idNumber.length);
-      var str = "../src/assets/cifFile/" + id + ".cif";
-      function makeModel() {
+        var idNumber = window.location.search;
+        var id = idNumber.substring(1, idNumber.length);
+        var str = "../src/assets/cifFile/" + id + ".cif";
         var Info = {
-          color: "#FFFFFF",
-          height: 400,
-          width: 400,
-          // script: "load $CO2",
-          src: str,
-          use: "HTML5",
-          j2sPath: "../libs/JSmol/j2s"
-          // serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+            color: "#FFFFFF",
+            height: 400,
+            width: 400,
+            // script: "load $CO2",
+            src: str,
+            use: "HTML5",
+            j2sPath: "../libs/JSmol/j2s"
+            // serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
         };
         Jmol.getApplet("myJmol", Info);
-      }
-      makeModel();
     </script>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
-      /* canvas{
-            border: 1px solid black;
-        } */
+        * {
+            margin: 0;
+            padding: 0;
+        }
     </style>
-  </body>
+</body>
+
 </html>
