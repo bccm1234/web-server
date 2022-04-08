@@ -37,7 +37,12 @@
         <div class="jsmolBox">
           <iframe :src="JSmolURL" scrolling="no" class="br-5"></iframe>
           <div class="colorDownload">
-            <span class="colorBox br-5">{{ infoObject.element1 }}</span>
+            <span
+              class="colorBox br-5"
+              ref="ele1"
+              :style="{ 'background-color': color1 }"
+              >{{ infoObject.element1 }}</span
+            >
             <span class="colorBox br-5">{{ infoObject.element2 }}</span>
             <a class="downloadLink" href="#">download Link</a>
           </div>
@@ -178,15 +183,14 @@ export default {
   },
   methods: {
     async fetchData() {
-      var idNumber = window.location.hash;
-      var id = idNumber.substring(12, idNumber.length);
-      this.JSmolURL =
-        "http://127.0.0.1:5500/web-server/public/detail.html?" + id;
+      let idNumber = window.location.hash;
+      let id = idNumber.substring(12, idNumber.length);
+      this.JSmolURL = "http://127.0.0.1:5500/public/detail.html?" + id;
       const { data: res } = await axios.get("/index/element");
       this.infoObject = res.data[id];
+      console.log("info", this.infoObject);
       this.spaceText(this.infoObject["space group"]);
-      this.color1 = this.getColor(this.infoObject["element"][1]);
-      this.color2 = this.getColor(this.infoObject["element"][0]);
+      this.getColor(this.infoObject["element"][0], this.getcolor);
     },
     spaceText(str) {
       let a = "";
@@ -210,11 +214,14 @@ export default {
       console.log(str);
       this.speaceGroup = str;
     },
-    async getColor(id) {
+    getColor(id, getcolor) {
+      return getcolor(id);
+    },
+    async getcolor(id) {
       const { data: res } = await axios.get("/childpage/elementcolor");
-      console.log(res);
-      var color = res.data[id - 1];
-      return color;
+      console.log("getColor", res, id);
+      let color = res.data[id - 1].color;
+      this.$refs.ele1.style["background-color"] = color;
     }
   }
 };
@@ -313,7 +320,7 @@ iframe {
   display: inline-block;
   width: 50px;
   height: 50px;
-  background-color: #fff;
+  // background-color: #fff;
   line-height: 50px;
   margin-top: 1%;
   text-align: center;
