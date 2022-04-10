@@ -1,5 +1,5 @@
 <template>
-  <div v-show="visible">
+  <div v-show="visible" id="search-result">
     <el-table
       :data="searchList"
       border

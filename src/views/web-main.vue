@@ -8,7 +8,12 @@
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="getresult">Search</el-button>
+        <el-button
+          type="primary"
+          @click="getresult"
+          @click.native="jumptoresult"
+          >Search</el-button
+        >
       </el-form-item>
     </el-form>
     <div class="element-top">
@@ -1029,6 +1034,10 @@ export default {
     },
     getresult() {
       this.visible = true;
+    },
+    jumptoresult() {
+      let el = document.querySelector("#search-result");
+      window.scrollTo(0, el.offsetTop - 100);
     }
   },
   components: { mysearchresult }
