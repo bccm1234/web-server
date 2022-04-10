@@ -21,5 +21,10 @@ module.exports = {
         trailingComma: "none"
       }
     ]
+  },
+  parserOptions: {
+    perser:'@babel/esline-parser',
+    requireCondigFile: false
   }
+
 };

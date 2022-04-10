@@ -37,8 +37,15 @@
         <div class="jsmolBox">
           <iframe :src="JSmolURL" scrolling="no" class="br-5"></iframe>
           <div class="colorDownload">
-            <span class="colorBox br-5">{{ infoObject.element1 }}</span>
-            <span class="colorBox br-5">{{ infoObject.element2 }}</span>
+            <span
+              class="colorBox br-5"
+              :style="{ backgroundColor: color1 }"
+              style="color: white"
+              >{{ infoObject.element1 }}</span
+            >
+            <span class="colorBox br-5" style="color: blue">{{
+              infoObject.element2
+            }}</span>
             <a class="downloadLink" href="#">download Link</a>
           </div>
         </div>
@@ -163,7 +170,7 @@ export default {
       JSmolURL: "",
       infoObject: {},
       speaceGroup: "",
-      color1: "",
+      color1: "blue",
       color2: ""
     };
   },
@@ -181,12 +188,12 @@ export default {
       var idNumber = window.location.hash;
       var id = idNumber.substring(12, idNumber.length);
       this.JSmolURL =
-        "http://127.0.0.1:5500/web-server/public/detail.html?" + id;
+        "http://127.0.0.1:5501/web-server/public/detail.html?" + id;
       const { data: res } = await axios.get("/index/element");
       this.infoObject = res.data[id];
       this.spaceText(this.infoObject["space group"]);
-      this.color1 = this.getColor(this.infoObject["element"][1]);
-      this.color2 = this.getColor(this.infoObject["element"][0]);
+      this.color1 = this.color(this.infoObject["element"][1]);
+      this.color2 = this.color(this.infoObject["element"][0]);
     },
     spaceText(str) {
       let a = "";
@@ -212,9 +219,13 @@ export default {
     },
     async getColor(id) {
       const { data: res } = await axios.get("/childpage/elementcolor");
+      console.log("ppppppp");
       console.log(res);
-      var color = res.data[id - 1];
+      let color = res.data[id - 1];
       return color;
+    },
+    color(id, callback) {
+      return callback(id);
     }
   }
 };
