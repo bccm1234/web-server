@@ -3,6 +3,7 @@
     <el-form :inline="true" :model="formInline" size="large">
       <el-form-item label="Explore Materials">
         <el-input
+          @input="beforetablehighlight"
           v-model="formInline.mater"
           placeholder="Please input"
         ></el-input>
@@ -1030,7 +1031,7 @@ export default {
         this.mater_list = this.mater_list.filter((x) => x !== ele);
       }
       this.isActive[ele] = !this.isActive[ele];
-      this.formInline.mater = this.mater_list.join("");
+      this.formInline.mater = this.mater_list.join("-");
     },
     getresult() {
       this.visible = true;
@@ -1038,6 +1039,30 @@ export default {
     jumptoresult() {
       let el = document.querySelector("#search-result");
       window.scrollTo(0, el.offsetTop - 100);
+    },
+    beforetablehighlight() {
+      let elechar = this.formInline.mater.split("-");
+      let eleChar = [];
+      elechar.map((x) => {
+        x = x.replaceAll(/[^A-Za-z]/g, "");
+        eleChar.push(x);
+      });
+      eleChar.forEach((x) => this.tablehighlight(x));
+      this.mater_list.forEach((x) => this.cancelhighlight(x, eleChar));
+    },
+    tablehighlight(ele) {
+      if (Object.keys(this.isActive).includes(ele)) {
+        if (this.isActive[ele] === false) {
+          this.mater_list.push(ele);
+          this.isActive[ele] = !this.isActive[ele];
+        }
+      }
+    },
+    cancelhighlight(ele, eleChar) {
+      if (!eleChar.includes(ele)) {
+        this.mater_list = this.mater_list.filter((x) => x !== ele);
+        this.isActive[ele] = !this.isActive[ele];
+      }
     }
   },
   components: { mysearchresult }
