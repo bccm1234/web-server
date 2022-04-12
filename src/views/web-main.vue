@@ -10,12 +10,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button
-          type="primary"
-          @click="getresult"
-          @click.native="jumptoresult"
-          >Search</el-button
-        >
+        <el-button type="primary" @click="getresult">Search</el-button>
       </el-form-item>
     </el-form>
     <div class="element-top">
@@ -888,7 +883,10 @@
         </div>
       </div>
     </div>
-    <mysearchresult :visible="visible"></mysearchresult>
+    <mysearchresult
+      :visible="visible"
+      :searchMethod="searchMethod"
+    ></mysearchresult>
   </div>
 </template>
 
@@ -1018,6 +1016,7 @@ export default {
       },
       mater_list: [],
       visible: false,
+      searchMethod: null,
       formInline: {
         mater: ""
       }
@@ -1036,6 +1035,11 @@ export default {
     },
     getresult() {
       this.visible = true;
+      this.searchMethod = this.judgemethod(this.formInline.mater);
+      this.jumptoresult();
+    },
+    judgemethod(elestr) {
+      console.log(elestr);
     },
     jumptoresult() {
       let el = document.querySelector("#search-result");

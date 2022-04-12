@@ -1,12 +1,13 @@
 <template>
-  <div v-show="visible" id="search-result">
+  <div v-show="visible">
     <el-table
-      :data="searchList"
+      :data="List"
       border
       style="width: 60%; margin: 0 auto"
       :default-sort="default_sortmethod"
       @sort-change="sortChange"
       @row-click="detailedinformation"
+      id="search-result"
     >
       <el-table-column prop="id" label="ID" sortable> </el-table-column>
       <el-table-column prop="a" label="a" sortable="custom"></el-table-column>
@@ -45,13 +46,16 @@ import axios from "axios";
 export default {
   data() {
     return {
-      searchList: [],
+      List: [],
       currentPage: 1,
       constList: [],
       default_sortmethod: { prop: "id", order: "ascending" }
     };
   },
-  props: { visible: { type: Boolean, require: true } },
+  props: {
+    visible: { type: Boolean, require: true },
+    searchMethod: { type: Number, require: false }
+  },
   created() {
     axios
       .get("/index/element")
@@ -74,6 +78,23 @@ export default {
         )
       );
   },
+  watch: {
+    searchMethod: function (newVal) {
+      switch (newVal) {
+        case 1:
+          console.log(1);
+          break;
+        case 2:
+          console.log(2);
+          break;
+        case 3:
+          console.log(3);
+          break;
+        default:
+          break;
+      }
+    }
+  },
   methods: {
     handleBigNumber(num) {
       let List = "";
@@ -92,7 +113,7 @@ export default {
         this.$children[1].internalCurrentPage *
           this.$children[1].internalPageSize
       );
-      this.searchList = this.constList.slice(floor, upper);
+      this.List = this.constList.slice(floor, upper);
     },
     handleCurrentChange() {
       this.handleSizeChange();
