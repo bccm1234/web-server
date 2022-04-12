@@ -6,6 +6,7 @@
           @input="beforetablehighlight"
           v-model="formInline.mater"
           placeholder="Please input"
+          clearable
         ></el-input>
       </el-form-item>
       <el-form-item>
