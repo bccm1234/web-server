@@ -1019,7 +1019,8 @@ export default {
       searchMethod: null,
       formInline: {
         mater: ""
-      }
+      },
+      timer: null
     };
   },
   methods: {
@@ -1042,8 +1043,11 @@ export default {
       console.log(elestr);
     },
     jumptoresult() {
-      let el = document.querySelector("#search-result");
-      window.scrollTo(0, el.offsetTop - 100);
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        let el = document.querySelector("#search-result");
+        window.scrollTo(0, el.offsetTop - 100);
+      }, 50);
     },
     beforetablehighlight() {
       let elechar = this.formInline.mater.split("-");
