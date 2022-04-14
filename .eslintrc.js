@@ -22,9 +22,8 @@ module.exports = {
       }
     ]
   },
+  // eslint-disable-next-line no-dupe-keys
   parserOptions: {
-    perser:'@babel/esline-parser',
     requireCondigFile: false
   }
-
 };

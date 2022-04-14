@@ -13,16 +13,26 @@
         <el-row class="tac">
           <el-col :span="24">
             <el-menu default-active="2" class="el-menu-vertical-demo">
-              <el-menu-item index="2">
-                <span slot="title"><a href="#one">Summery</a></span>
+              <el-menu-item
+                index="2"
+                @click="jump(0)"
+                class="navItem"
+                style="background-color: #ecf5ff"
+              >
+                Summery
               </el-menu-item>
               <el-submenu index="2">
                 <span slot="title">Properties</span>
                 <el-menu-item-group>
-                  <el-menu-item index="1-1"
-                    ><a href="#two">Electronic Structure</a></el-menu-item
+                  <el-menu-item index="1-1" @click="jump(1)" class="navItem"
+                    >Electronic Structure</el-menu-item
                   >
-                  <el-menu-item index="1-2">Themodynamic Stablity</el-menu-item>
+                  <el-menu-item index="1-2" @click="jump(2)" class="navItem"
+                    >Themodynamic Stablity</el-menu-item
+                  >
+                  <el-menu-item index="1-2" @click="jump(3)" class="navItem"
+                    >box4</el-menu-item
+                  >
                 </el-menu-item-group>
               </el-submenu>
             </el-menu>
@@ -32,8 +42,7 @@
     </div>
     <!-- right -->
     <div class="rightBox">
-      <div class="rightBox1">
-        <a id="one"></a>
+      <div class="rightItem" id="0">
         <div class="jsmolBox">
           <iframe :src="JSmolURL" scrolling="no" class="br-5"></iframe>
           <div class="colorDownload">
@@ -43,48 +52,55 @@
               style="color: white"
               >{{ infoObject.element1 }}</span
             >
-            <span class="colorBox br-5" style="color: blue">{{
-              infoObject.element2
-            }}</span>
+            <span
+              class="colorBox br-5"
+              :style="{ backgroundColor: color2 }"
+              style="color: white"
+              >{{ infoObject.element2 }}</span
+            >
             <a class="downloadLink" href="#">download Link</a>
           </div>
         </div>
         <div class="properties">
           <el-card class="box-card base">
             <div class="text baseItem">
-              <span>Energy Above Hull</span>
+              <span class="leftStr">Energy Above Hull</span>
               <span class="rightNum"
                 >{{ infoObject["energy above hull"] }} eV/atom</span
               >
             </div>
             <div class="text baseItem">
-              <span>Band Gap</span>
+              <span class="leftStr">Band Gap</span>
               <span class="rightNum">{{ infoObject["band gap"] }} eV</span>
             </div>
             <div class="text baseItem">
-              <span>Speace Group</span>
+              <span class="leftStr">Speace Group</span>
               <span class="rightNum" v-html="speaceGroup"></span>
             </div>
             <div class="text baseItem">
-              <span class="leftProperties">Predicted Formation Energy</span>
+              <span class="leftProperties leftStr"
+                >Predicted Formation Energy</span
+              >
               <span class="rightNum"
                 >{{ infoObject["predicted formation energy"] }} ev/atom</span
               >
             </div>
             <div class="text baseItem">
-              <span>Total Magnetization</span>
+              <span class="leftStr">Total Magnetization</span>
               <span class="rightNum"
                 >{{ infoObject["total magnetization"] }} μB/f.u.</span
               >
             </div>
             <div class="text baseItem">
-              <span>Magnetic Ordering</span>
+              <span class="leftStr">Magnetic Ordering</span>
               <span class="rightNum">{{
                 infoObject["magnetic ordering"]
               }}</span>
             </div>
             <div class="text baseItem">
-              <span class="leftProperties">Experimentally Observed</span>
+              <span class="leftProperties leftStr"
+                >Experimentally Observed</span
+              >
               <span class="rightNum">{{
                 infoObject["experimentally observed"]
               }}</span>
@@ -152,12 +168,15 @@
           </el-card>
         </div>
       </div>
-      <div class="rightBox2">
-        <a id="two"></a>
-        box
+      <div class="rightItem" id="1">
+        <div style="height: 600px">box1</div>
       </div>
-      <div class="rightBox2">box</div>
-      <div class="rightBox2">box</div>
+      <div class="rightItem" id="2">
+        <div style="height: 600px">box2</div>
+      </div>
+      <div class="rightItem" id="3">
+        <div style="height: 600px">box3</div>
+      </div>
     </div>
   </div>
 </template>
@@ -179,21 +198,24 @@ export default {
     // 此时 data 已经被 observed 了
     this.fetchData();
   },
+  mounted() {
+    window.addEventListener("scroll", this.scrollColor);
+  },
   watch: {
     // 如果路由有变化，会再次执行该方法
     $route: "fetchData"
   },
   methods: {
     async fetchData() {
-      var idNumber = window.location.hash;
-      var id = idNumber.substring(12, idNumber.length);
+      let idNumber = window.location.hash;
+      let id = idNumber.substring(12, idNumber.length);
       this.JSmolURL =
         "http://127.0.0.1:5501/web-server/public/detail.html?" + id;
       const { data: res } = await axios.get("/index/element");
       this.infoObject = res.data[id];
+      console.log("info", this.infoObject);
       this.spaceText(this.infoObject["space group"]);
-      this.color1 = this.color(this.infoObject["element"][1]);
-      this.color2 = this.color(this.infoObject["element"][0]);
+      this.getcolor();
     },
     spaceText(str) {
       let a = "";
@@ -217,15 +239,30 @@ export default {
       console.log(str);
       this.speaceGroup = str;
     },
-    async getColor(id) {
+    async getcolor() {
       const { data: res } = await axios.get("/childpage/elementcolor");
-      console.log("ppppppp");
-      console.log(res);
-      let color = res.data[id - 1];
-      return color;
+      this.color2 = res.data[this.infoObject.element[0] - 1].color;
+      this.color1 = res.data[this.infoObject.element[1] - 1].color;
+      console.log("22222222", this.color1);
+      console.log("res", res);
     },
-    color(id, callback) {
-      return callback(id);
+    jump(id) {
+      const scrolly = document.getElementById(id).offsetTop;
+      window.scrollTo(0, scrolly);
+    },
+    scrollColor() {
+      const nav = document.getElementsByClassName("navItem");
+      const item = document.getElementsByClassName("rightItem");
+      const scrolltop = document.documentElement.scrollTop;
+      for (let i = 0; i < item.length; i++) {
+        const distance = item[i].offsetTop - scrolltop;
+        nav[i].style.backgroundColor = "";
+        nav[i].className = "el-menu-item navItem";
+        if (distance < 300 && distance >= -300) {
+          nav[i].classList.add("is-active");
+          nav[i].style.backgroundColor = "#ecf5ff";
+        }
+      }
     }
   }
 };
@@ -302,13 +339,7 @@ export default {
   float: left;
   width: 50%;
 }
-.rightBox1 {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
 iframe {
-  float: left;
   width: 100%;
   aspect-ratio: 1;
   border: none;
@@ -324,7 +355,7 @@ iframe {
   display: inline-block;
   width: 50px;
   height: 50px;
-  background-color: #fff;
+  // background-color: #fff;
   line-height: 50px;
   margin-top: 1%;
   text-align: center;
@@ -339,13 +370,14 @@ iframe {
   position: relative;
   top: 0;
   left: 50%;
-  width: 49%;
-  background-color: olive;
+  width: 50%;
+  aspect-ratio: 0.8;
 }
 .base {
   position: absolute;
   left: 1%;
   width: 100%;
+  height: 100%;
   padding: 0 10px;
   line-height: 40px;
 }
@@ -353,17 +385,23 @@ iframe {
   position: relative;
   border-bottom: 1px solid #ccc;
   text-align: left;
+  aspect-ratio: 5.5;
 }
 .leftProperties {
   display: inline-block;
   width: 64%;
+}
+.leftStr {
+  position: absolute;
+  bottom: 10%;
+  width: 60%;
+  line-height: 1.3rem;
 }
 .rightNum {
   position: absolute;
   right: 0;
   bottom: 0;
   width: 36%;
-  text-align: left;
   line-height: 1.3rem;
   color: blue;
 }
@@ -405,10 +443,10 @@ iframe {
   display: inline-block;
   width: 25%;
 }
-.rightBox2 {
+.rightItem {
+  position: relative;
   width: 100%;
-  background-color: #fff;
-  height: 500px;
-  margin-top: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
 }
 </style>
