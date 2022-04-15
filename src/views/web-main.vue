@@ -6,11 +6,18 @@
           @input="beforetablehighlight"
           v-model="formInline.mater"
           placeholder="Please input"
+          @keyup.13.native="getresult(format)"
           clearable
+          @clear="getformat"
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="getresult">Search</el-button>
+        <el-button
+          type="primary"
+          @click="getresult(format)"
+          :disabled="!format || !formInline.mater"
+          >Search</el-button
+        >
       </el-form-item>
     </el-form>
     <div class="element-top">
@@ -896,6 +903,7 @@ import mysearchresult from "@/components/search-result.vue";
 export default {
   data() {
     return {
+      format: false,
       isActive: {
         H: false,
         He: false,
@@ -1033,14 +1041,35 @@ export default {
       }
       this.isActive[ele] = !this.isActive[ele];
       this.formInline.mater = this.mater_list.join("-");
+      this.beforetablehighlight();
     },
-    getresult() {
-      this.visible = true;
-      this.searchMethod = this.judgemethod(this.formInline.mater);
-      this.jumptoresult();
+    getresult(format) {
+      if (format) {
+        this.visible = true;
+        this.searchMethod = this.judgemethod(this.formInline.mater);
+        this.jumptoresult();
+      }
     },
     judgemethod(elestr) {
-      console.log(elestr);
+      if (elestr.includes("mp")) {
+        console.log("使用Material ID搜索");
+        return 5;
+      } else if (elestr.includes("-") && elestr.includes("*")) {
+        console.log("使用半模糊查询");
+        return 4;
+      } else if (elestr.includes("-")) {
+        console.log("使用-查询");
+        return 3;
+      } else if (elestr.includes("*")) {
+        console.log("使用模糊查询");
+        return 2;
+      } else if (elestr.includes(",")) {
+        console.log("使用,查询");
+        return 1;
+      } else {
+        console.log("固定查询");
+        return 0;
+      }
     },
     jumptoresult() {
       clearTimeout(this.timer);
@@ -1050,10 +1079,35 @@ export default {
       }, 50);
     },
     beforetablehighlight() {
-      let elechar = this.formInline.mater.split("-");
+      let elestr = this.formInline.mater;
+      let elechar = [];
+      if (elestr.includes("-")) {
+        elechar = elestr.split("-");
+      } else if (elestr.includes(",")) {
+        elechar = elestr.split(",");
+      } else {
+        let index = "";
+        let startindex = "";
+        for (let i = 0; i < elestr.length; i++) {
+          if (elestr[i].match(/[A-Z]/)) {
+            startindex = index;
+            index = i;
+            if (parseFloat(startindex).toString() !== "NaN")
+              elechar.push(elestr.slice(startindex, index));
+          }
+        }
+        elechar.push(elestr.slice(index, elestr.length));
+      }
+      elechar.forEach((x) => {
+        if (x.match(/[^A-Za-z0-9,*-]/)) return (this.format = false);
+        this.format = true;
+      });
       let eleChar = [];
       elechar.map((x) => {
         x = x.replaceAll(/[^A-Za-z]/g, "");
+        if (!Object.keys(this.isActive).includes(x) && x !== "")
+          return (this.format = false);
+        this.format = true;
         eleChar.push(x);
       });
       eleChar.forEach((x) => this.tablehighlight(x));
@@ -1072,6 +1126,9 @@ export default {
         this.mater_list = this.mater_list.filter((x) => x !== ele);
         this.isActive[ele] = !this.isActive[ele];
       }
+    },
+    getformat() {
+      this.format = false;
     }
   },
   components: { mysearchresult }
