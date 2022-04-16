@@ -892,12 +892,13 @@
     </div>
     <mysearchresult
       :visible="visible"
-      :searchMethod="searchMethod"
+      :searchList="searchList"
     ></mysearchresult>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import "@/assets/table.css";
 import mysearchresult from "@/components/search-result.vue";
 export default {
@@ -1024,14 +1025,60 @@ export default {
       },
       mater_list: [],
       visible: false,
-      searchMethod: null,
+      constList: [],
+      searchList: [],
       formInline: {
         mater: ""
       },
-      timer: null
+      timer: null,
+      searchMethod: 999
     };
   },
+  created() {
+    axios
+      .get("/index/element")
+      .then(function (response) {
+        return response.data.data;
+      })
+      .then((data) => {
+        this.constList = data.filter(
+          (x) => (
+            (x.id = parseInt(x.id)),
+            (x.a = x.a + "Å"),
+            (x.b = x.b + "Å"),
+            (x.c = x.c + "Å"),
+            (x["band gap"] = x["band gap"] + "eV")
+          )
+        );
+      });
+  },
   methods: {
+    getresultlist(method) {
+      switch (method) {
+        case 0:
+          this.searchList = this.constList.filter(
+            (x) => x.formula === this.formInline.mater
+          );
+          break;
+        case 1:
+          console.log(1);
+          break;
+        case 2:
+          console.log(2);
+          break;
+        case 3:
+          console.log(3);
+          break;
+        case 4:
+          console.log(4);
+          break;
+        case 5:
+          console.log(5);
+          break;
+        default:
+          break;
+      }
+    },
     searchElement(event) {
       const ele = event.currentTarget.innerHTML.trim();
       if (this.isActive[ele] === false) {
@@ -1047,6 +1094,7 @@ export default {
       if (format) {
         this.visible = true;
         this.searchMethod = this.judgemethod(this.formInline.mater);
+        this.getresultlist(this.searchMethod);
         this.jumptoresult();
       }
     },

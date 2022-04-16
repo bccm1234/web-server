@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   data() {
     return {
@@ -54,54 +53,14 @@ export default {
   },
   props: {
     visible: { type: Boolean, require: true },
-    searchMethod: { type: Number, require: false }
-  },
-  created() {
-    axios
-      .get("/index/element")
-      .then(function (response) {
-        return response.data.data;
-      })
-      .then(
-        (data) => (
-          (this.constList = data.filter(
-            (x) => (
-              (x.id = parseInt(x.id)),
-              (x.a = x.a + "Å"),
-              (x.b = x.b + "Å"),
-              (x.c = x.c + "Å"),
-              (x["band gap"] = x["band gap"] + "eV"),
-              (x["formula"] = this.handleBigNumber(x["formula"]))
-            )
-          )),
-          this.handleSizeChange()
-        )
-      );
+    searchList: { type: Array, require: false }
   },
   watch: {
-    searchMethod: function (newVal) {
-      switch (newVal) {
-        case 0:
-          console.log(0);
-          break;
-        case 1:
-          console.log(1);
-          break;
-        case 2:
-          console.log(2);
-          break;
-        case 3:
-          console.log(3);
-          break;
-        case 4:
-          console.log(4);
-          break;
-        case 5:
-          console.log(5);
-          break;
-        default:
-          break;
-      }
+    searchList: function () {
+      this.constList = this.searchList.filter(
+        (x) => (x["formula"] = this.handleBigNumber(x["formula"]))
+      );
+      this.handleSizeChange();
     }
   },
   methods: {
