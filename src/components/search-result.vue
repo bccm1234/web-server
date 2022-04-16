@@ -35,7 +35,7 @@
       :page-sizes="[5, 10, 15, 20]"
       :page-size="10"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="this.constList.length"
+      :total="this.searchList.length"
     >
     </el-pagination>
   </div>
@@ -47,7 +47,8 @@ export default {
     return {
       List: [],
       currentPage: 1,
-      constList: [],
+      preList: [],
+      aftersearchList: [],
       default_sortmethod: { prop: "id", order: "ascending" }
     };
   },
@@ -57,7 +58,8 @@ export default {
   },
   watch: {
     searchList: function () {
-      this.constList = this.searchList.filter(
+      this.aftersearchList = JSON.parse(JSON.stringify(this.searchList));
+      this.preList = this.aftersearchList.filter(
         (x) => (x["formula"] = this.handleBigNumber(x["formula"]))
       );
       this.handleSizeChange();
@@ -77,17 +79,17 @@ export default {
         (this.$children[1].internalCurrentPage - 1) *
         this.$children[1].internalPageSize;
       const upper = Math.min(
-        this.constList.length,
+        this.searchList.length,
         this.$children[1].internalCurrentPage *
           this.$children[1].internalPageSize
       );
-      this.List = this.constList.slice(floor, upper);
+      this.List = this.preList.slice(floor, upper);
     },
     handleCurrentChange() {
       this.handleSizeChange();
     },
     sortChange({ prop, order }) {
-      this.constList.sort(this.compare(prop, order));
+      this.preList.sort(this.compare(prop, order));
       this.handleSizeChange();
     },
     compare(propertyName, sort) {

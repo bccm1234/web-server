@@ -1073,11 +1073,11 @@ export default {
       switch (method) {
         case 0:
           this.searchList = this.constList.filter(
-            (x) => x.formula === this.formInline.mater
+            (x) => x.formula == this.formInline.mater
           );
           break;
         case 1:
-          console.log(1);
+          this.getmethodone(this.formInline.mater);
           break;
         case 2:
           console.log(2);
@@ -1094,6 +1094,23 @@ export default {
         default:
           break;
       }
+    },
+    getmethodone(elestr) {
+      let elelist = elestr.split(",");
+      elelist = elelist.map((x) => {
+        return this.$store.state.element_table[x];
+      });
+      this.searchList = this.constList.filter(
+        (x) =>
+          x.element.length >= elelist.length &&
+          this.judgeele(elelist, x.element)
+      );
+    },
+    judgeele(elelist, datalist) {
+      for (let i = 0; i < elelist.length; i++) {
+        if (!datalist.includes(elelist[i])) return false;
+      }
+      return true;
     },
     searchElement(event) {
       const ele = event.currentTarget.innerHTML.trim();
