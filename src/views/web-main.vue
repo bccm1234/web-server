@@ -770,6 +770,13 @@
         <div
           class="base-element line-element color-8"
           @click="searchElement"
+          :class="{ active: isActive.Er }"
+        >
+          Er
+        </div>
+        <div
+          class="base-element line-element color-8"
+          @click="searchElement"
           :class="{ active: isActive.Tm }"
         >
           Tm
@@ -870,9 +877,16 @@
         <div
           class="base-element line-element color-9"
           @click="searchElement"
-          :class="{ active: isActive.Mc }"
+          :class="{ active: isActive.Fm }"
         >
-          Mc
+          Fm
+        </div>
+        <div
+          class="base-element line-element color-9"
+          @click="searchElement"
+          :class="{ active: isActive.Md }"
+        >
+          Md
         </div>
         <div
           class="base-element line-element color-9"
@@ -1006,6 +1020,7 @@ export default {
         Tb: false,
         Dy: false,
         Ho: false,
+        Er: false,
         Tm: false,
         Yb: false,
         Lu: false,
@@ -1019,7 +1034,8 @@ export default {
         Bk: false,
         Cf: false,
         Es: false,
-        Mc: false,
+        Fm: false,
+        Md: false,
         No: false,
         Lr: false
       },
