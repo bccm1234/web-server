@@ -1097,6 +1097,9 @@ export default {
     },
     getmethodone(elestr) {
       let elelist = elestr.split(",");
+      elelist = elelist.filter((x) => {
+        if (x) return x;
+      });
       elelist = elelist.map((x) => {
         return this.$store.state.element_table[x];
       });
