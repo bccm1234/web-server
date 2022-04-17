@@ -1086,7 +1086,7 @@ export default {
           this.getmethodthree(this.formInline.mater);
           break;
         case 4:
-          console.log(4);
+          this.getmethodfour(this.formInline.mater);
           break;
         case 5:
           console.log(5);
@@ -1197,6 +1197,25 @@ export default {
       this.searchList = this.constList.filter(
         (x) =>
           x.element.length == elelist.length &&
+          this.judgeele_methodone(elelist, x.element)
+      );
+    },
+    getmethodfour(elestr) {
+      let elelist = elestr.split("-");
+      elelist = elelist.filter((x) => {
+        if (x) return x;
+      });
+      let elelistlength = elelist.length;
+      elelist = elelist.filter((x) => {
+        if (!x.match(/\*/g)) return x;
+      });
+      elelist = elelist.map((x) => {
+        x = x.replaceAll(/[0-9]+/g, "");
+        return this.$store.state.element_table[x];
+      });
+      this.searchList = this.constList.filter(
+        (x) =>
+          x.element.length == elelistlength &&
           this.judgeele_methodone(elelist, x.element)
       );
     },
