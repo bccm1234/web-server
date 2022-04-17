@@ -15,7 +15,7 @@
         <el-button
           type="primary"
           @click="getresult(format)"
-          :disabled="!format || !formInline.mater"
+          :disabled="!format[2] || !formInline.mater"
           >Search</el-button
         >
       </el-form-item>
@@ -918,7 +918,7 @@ import mysearchresult from "@/components/search-result.vue";
 export default {
   data() {
     return {
-      format: false,
+      format: [false, false, false],
       isActive: {
         H: false,
         He: false,
@@ -1080,7 +1080,7 @@ export default {
           this.getmethodone(this.formInline.mater);
           break;
         case 2:
-          console.log(2);
+          this.getmethodtwo(this.formInline.mater);
           break;
         case 3:
           console.log(3);
@@ -1101,6 +1101,7 @@ export default {
         if (x) return x;
       });
       elelist = elelist.map((x) => {
+        x = x.replaceAll(/[0-9]+/g, "");
         return this.$store.state.element_table[x];
       });
       this.searchList = this.constList.filter(
@@ -1114,6 +1115,13 @@ export default {
         if (!datalist.includes(elelist[i])) return false;
       }
       return true;
+    },
+    getmethodtwo(elestr) {
+      let elelist = elestr.split("*");
+      elelist = elelist.filter((x) => {
+        if (x) return x;
+      });
+      console.log(elelist);
     },
     searchElement(event) {
       const ele = event.currentTarget.innerHTML.trim();
@@ -1176,24 +1184,33 @@ export default {
           if (elestr[i].match(/[A-Z]/)) {
             startindex = index;
             index = i;
+            if (index != 0) elechar.push(elestr.slice(0, index));
             if (parseFloat(startindex).toString() !== "NaN")
               elechar.push(elestr.slice(startindex, index));
           }
         }
         elechar.push(elestr.slice(index, elestr.length));
       }
+      let verify1 = [];
       elechar.forEach((x) => {
-        if (x.match(/[^A-Za-z0-9,*-]/)) return (this.format = false);
-        this.format = true;
+        if (x.match(/[^A-Za-z0-9,*-]/)) {
+          verify1.push(false);
+        } else verify1.push(true);
       });
+      if (verify1.every((x) => x == true)) this.format[0] = true;
+      else this.format[0] = false;
       let eleChar = [];
+      let verify2 = [];
       elechar.map((x) => {
         x = x.replaceAll(/[^A-Za-z]/g, "");
         if (!Object.keys(this.isActive).includes(x) && x !== "")
-          return (this.format = false);
-        this.format = true;
+          verify2.push(false);
+        else verify2.push(true);
+        if (verify2.every((x) => x == true)) this.format[1] = true;
+        else this.format[1] = false;
         eleChar.push(x);
       });
+      this.format[2] = this.format[1] && this.format[0];
       eleChar.forEach((x) => this.tablehighlight(x));
       this.mater_list.forEach((x) => this.cancelhighlight(x, eleChar));
     },
@@ -1212,7 +1229,7 @@ export default {
       }
     },
     getformat() {
-      this.format = false;
+      this.format[2] = false;
     }
   },
   components: { mysearchresult }
