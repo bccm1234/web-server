@@ -2,14 +2,26 @@
   <div style="width: 100%">
     <el-form :inline="true" :model="formInline" size="large">
       <el-form-item label="Explore Materials">
-        <el-input
+        <el-autocomplete
           @input="beforetablehighlight"
           v-model="formInline.mater"
           placeholder="Please input"
           @keyup.13.native="getresult(format)"
-          clearable
-          @clear="getformat"
-        ></el-input>
+          :fetch-suggestions="querySearch"
+        >
+          <i
+            class="el-icon-close el-input__icon"
+            slot="suffix"
+            @click="getformat"
+          >
+          </i>
+          <template slot-scope="{ item }">
+            <div>
+              <span class="address">{{ item.address }}</span>
+              <span>{{ item.value }}</span>
+            </div>
+          </template></el-autocomplete
+        >
       </el-form-item>
       <el-form-item>
         <el-button
@@ -1047,7 +1059,23 @@ export default {
         mater: ""
       },
       timer: null,
-      searchMethod: 999
+      searchMethod: 999,
+      example: [
+        { address: "Include at least elements: ", value: "Cu,O" },
+        {
+          address: "Include only elements: ",
+          value: "Ti-O"
+        },
+        {
+          address: "Include only elements plus wildcard elements: ",
+          value: "O-*"
+        },
+        { address: "Has exact formula: ", value: "CuO" },
+        {
+          address: "Has formula with wildcard atoms: ",
+          value: "Al*"
+        }
+      ]
     };
   },
   created() {
@@ -1328,7 +1356,13 @@ export default {
       }
     },
     getformat() {
+      this.formInline.mater = "";
+      this.beforetablehighlight();
       this.format[2] = false;
+    },
+    querySearch(queryString, cb) {
+      var results = this.example;
+      cb(results);
     }
   },
   components: { mysearchresult }
@@ -1339,7 +1373,11 @@ export default {
 .el-form {
   margin-top: 15px;
 }
-.el-input {
-  width: 300px;
+.el-autocomplete {
+  width: 400px;
+}
+.address {
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 </style>
