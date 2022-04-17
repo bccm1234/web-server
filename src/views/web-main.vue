@@ -1083,7 +1083,7 @@ export default {
           this.getmethodtwo(this.formInline.mater);
           break;
         case 3:
-          console.log(3);
+          this.getmethodthree(this.formInline.mater);
           break;
         case 4:
           console.log(4);
@@ -1107,21 +1107,98 @@ export default {
       this.searchList = this.constList.filter(
         (x) =>
           x.element.length >= elelist.length &&
-          this.judgeele(elelist, x.element)
+          this.judgeele_methodone(elelist, x.element)
       );
     },
-    judgeele(elelist, datalist) {
+    judgeele_methodone(elelist, datalist) {
       for (let i = 0; i < elelist.length; i++) {
         if (!datalist.includes(elelist[i])) return false;
       }
       return true;
     },
     getmethodtwo(elestr) {
-      let elelist = elestr.split("*");
+      let elelist = [];
+      let index = "";
+      let startindex = "";
+      for (let i = 0; i < elestr.length; i++) {
+        if (elestr[i].match(/[A-Z]|\*/)) {
+          startindex = index;
+          index = i;
+          if (parseFloat(startindex).toString() !== "NaN")
+            elelist.push(elestr.slice(startindex, index));
+        }
+      }
+      elelist.push(elestr.slice(index, elestr.length));
+      elelist = elelist.map((x) => {
+        if (x === "*") x = "1";
+        else x = x.replace(/\*/, "");
+        return x;
+      });
+      let indexlist = [];
+      elelist.forEach((x) => {
+        if (x.match(/[A-Z]/)) {
+          indexlist.push(x.replace(/[0-9]/g, ""));
+        }
+      });
+      this.searchList = this.constList.filter(
+        (x) =>
+          x.element.length == elelist.length &&
+          this.judgeele_methodtwo(elelist, x, indexlist)
+      );
+    },
+    judgeele_methodtwo(elelist, dataobject, indexlist) {
+      for (let i = 0; i < elelist.length; i++) {
+        if (elelist[i].match(/[A-Z]/)) {
+          if (!dataobject.formula.includes(elelist[i])) return false;
+          else {
+            if (!this.judgeele_methodtwo_num(elelist[i], dataobject))
+              return false;
+          }
+        } else {
+          let num = elelist[i];
+          if (!this.judgeele_methodtwo_ele(num, dataobject, indexlist))
+            return false;
+        }
+      }
+      return true;
+    },
+    judgeele_methodtwo_num(ele, dataobject) {
+      let elechar = ele.match(/[A-Za-z]+/g);
+      let elenum = ele.match(/[0-9]+/g) ? ele.match(/[0-9]+/g) : ["1"];
+      for (let i = 1; i < dataobject.element.length + 1; i++) {
+        if (
+          dataobject["element" + i + "num"] == elenum &&
+          dataobject["element" + i] == elechar
+        )
+          return true;
+      }
+      return false;
+    },
+    judgeele_methodtwo_ele(num, dataobject, indexlist) {
+      for (let i = 1; i < dataobject.element.length + 1; i++) {
+        if (
+          dataobject["element" + i + "num"] == num &&
+          !indexlist.includes(dataobject["element" + i])
+        ) {
+          return true;
+        }
+      }
+      return false;
+    },
+    getmethodthree(elestr) {
+      let elelist = elestr.split("-");
       elelist = elelist.filter((x) => {
         if (x) return x;
       });
-      console.log(elelist);
+      elelist = elelist.map((x) => {
+        x = x.replaceAll(/[0-9]+/g, "");
+        return this.$store.state.element_table[x];
+      });
+      this.searchList = this.constList.filter(
+        (x) =>
+          x.element.length == elelist.length &&
+          this.judgeele_methodone(elelist, x.element)
+      );
     },
     searchElement(event) {
       const ele = event.currentTarget.innerHTML.trim();
@@ -1135,7 +1212,7 @@ export default {
       this.beforetablehighlight();
     },
     getresult(format) {
-      if (format) {
+      if (format[2]) {
         this.visible = true;
         this.searchMethod = this.judgemethod(this.formInline.mater);
         this.getresultlist(this.searchMethod);
@@ -1184,9 +1261,12 @@ export default {
           if (elestr[i].match(/[A-Z]/)) {
             startindex = index;
             index = i;
-            if (index != 0) elechar.push(elestr.slice(0, index));
-            if (parseFloat(startindex).toString() !== "NaN")
+            if (index != 0 && startindex === "") {
+              elechar.push(elestr.slice(0, index));
+            }
+            if (parseFloat(startindex).toString() !== "NaN") {
               elechar.push(elestr.slice(startindex, index));
+            }
           }
         }
         elechar.push(elestr.slice(index, elestr.length));
