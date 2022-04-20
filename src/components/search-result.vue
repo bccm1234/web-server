@@ -9,7 +9,8 @@
       @row-click="detailedinformation"
       id="search-result"
     >
-      <el-table-column prop="id" label="ID" sortable> </el-table-column>
+      <el-table-column prop="id" label="ID" sortable="custom">
+      </el-table-column>
       <el-table-column prop="a" label="a" sortable="custom"></el-table-column>
       <el-table-column prop="b" label="b" sortable="custom"></el-table-column>
       <el-table-column prop="c" label="c" sortable="custom"></el-table-column>
