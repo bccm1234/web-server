@@ -61,8 +61,25 @@
               <b>{{ this.searchList.length + " materials" }}</b>
               match your search
             </span>
-            <div>{{ "Showing " + (this.floor + 1) + "-" + this.upper }}</div>
+            <div>
+              {{
+                "Showing " +
+                (this.upper ? this.floor + 1 : 0) +
+                "-" +
+                this.upper
+              }}
+            </div>
           </div>
+          <el-popover
+            placement="left"
+            title="列筛选"
+            trigger="click"
+            width="420"
+          >
+            <el-button slot="reference" type="primary" size="small" plain>
+              <i class="el-icon-arrow-down el-icon-menu"></i>列表项展示筛选
+            </el-button>
+          </el-popover>
         </el-header>
         <el-main>
           <el-table
@@ -88,6 +105,26 @@
             <el-table-column
               prop="c"
               label="c"
+              sortable="custom"
+            ></el-table-column>
+            <el-table-column
+              prop="α"
+              label="α"
+              sortable="custom"
+            ></el-table-column>
+            <el-table-column
+              prop="β"
+              label="β"
+              sortable="custom"
+            ></el-table-column>
+            <el-table-column
+              prop="γ"
+              label="γ"
+              sortable="custom"
+            ></el-table-column>
+            <el-table-column
+              prop="volume"
+              label="volume"
               sortable="custom"
             ></el-table-column>
             <el-table-column prop="formula" label="formula">
@@ -299,12 +336,13 @@ export default {
 }
 .el-container {
   .el-header {
+    display: flex;
     background-color: #fff;
     padding: 0px;
     margin: 10px 20px 0;
+    justify-content: space-between;
     .searchresult-header {
       margin-top: 10px;
-      float: left;
       padding-left: 10px;
       span {
         font-size: 16px;
@@ -316,6 +354,9 @@ export default {
         font-size: 14px;
         text-align: left;
       }
+    }
+    span {
+      align-self: center;
     }
   }
 }

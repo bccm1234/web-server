@@ -1091,6 +1091,10 @@ export default {
             (x.a = x.a + "Å"),
             (x.b = x.b + "Å"),
             (x.c = x.c + "Å"),
+            (x.α = x.α + "°"),
+            (x.β = x.β + "°"),
+            (x.γ = x.γ + "°"),
+            (x["volume"] = x["volume"] + "Å³"),
             (x["band gap"] = x["band gap"] + "eV")
           )
         );
