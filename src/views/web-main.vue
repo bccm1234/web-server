@@ -924,7 +924,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import "@/assets/table.css";
 import mysearchresult from "@/components/search-result.vue";
 export default {
@@ -1079,7 +1078,7 @@ export default {
     };
   },
   created() {
-    axios
+    this.$axios
       .get("/index/element")
       .then(function (response) {
         return response.data.data;

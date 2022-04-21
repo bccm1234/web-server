@@ -9,7 +9,11 @@ import "./mock/index.js";
 import "./mock/elementcolor";
 import "./mock/childpage.js";
 import axios from "axios";
-
+Vue.directive("focus", {
+  inserted: function (el) {
+    el.focus();
+  }
+});
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
