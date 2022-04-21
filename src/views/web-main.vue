@@ -1291,7 +1291,7 @@ export default {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         let el = document.querySelector("#search-result");
-        window.scrollTo(0, el.offsetTop - 100);
+        window.scrollTo(0, el.offsetTop - 110);
       }, 50);
     },
     beforetablehighlight() {

@@ -1,5 +1,5 @@
 <template>
-  <div v-show="visible">
+  <div v-show="visible" id="search-result">
     <el-container>
       <el-aside width="450px">
         <div class="filter-header">
@@ -55,7 +55,15 @@
         </el-form>
       </el-aside>
       <el-container>
-        <el-header></el-header>
+        <el-header>
+          <div class="searchresult-header">
+            <span>
+              <b>{{ this.searchList.length + " materials" }}</b>
+              match your search
+            </span>
+            <div>{{ "Showing " + (this.floor + 1) + "-" + this.upper }}</div>
+          </div>
+        </el-header>
         <el-main>
           <el-table
             :data="List"
@@ -64,7 +72,6 @@
             :default-sort="default_sortmethod"
             @sort-change="sortChange"
             @row-click="detailedinformation"
-            id="search-result"
           >
             <el-table-column prop="id" label="ID" sortable="custom">
             </el-table-column>
@@ -130,6 +137,8 @@ export default {
       toggle: {
         Symmetry: false
       },
+      floor: "",
+      upper: "",
       spacegroup_options: [
         {
           value: "选项1",
@@ -203,14 +212,14 @@ export default {
       return List;
     },
     handleSizeChange() {
-      const floor =
+      this.floor =
         (this.$refs.page.internalCurrentPage - 1) *
         this.$refs.page.internalPageSize;
-      const upper = Math.min(
+      this.upper = Math.min(
         this.searchList.length,
         this.$refs.page.internalCurrentPage * this.$refs.page.internalPageSize
       );
-      this.List = this.preList.slice(floor, upper);
+      this.List = this.preList.slice(this.floor, this.upper);
     },
     handleCurrentChange() {
       this.handleSizeChange();
@@ -286,6 +295,28 @@ export default {
   .clear {
     clear: both;
     padding-top: 7px;
+  }
+}
+.el-container {
+  .el-header {
+    background-color: #fff;
+    padding: 0px;
+    margin: 10px 20px 0;
+    .searchresult-header {
+      margin-top: 10px;
+      float: left;
+      padding-left: 10px;
+      span {
+        font-size: 16px;
+        b {
+          font-size: 20px;
+        }
+      }
+      div {
+        font-size: 14px;
+        text-align: left;
+      }
+    }
   }
 }
 </style>
