@@ -11,7 +11,7 @@ import "./mock/childpage.js";
 import axios from "axios";
 Vue.directive("focus", {
   inserted: function (el) {
-    el.focus();
+    el.querySelector(".el-input").children[0].focus();
   }
 });
 Vue.prototype.$axios = axios;

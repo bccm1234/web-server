@@ -3,6 +3,7 @@
     <el-form :inline="true" :model="formInline" size="large">
       <el-form-item label="Explore Materials">
         <el-autocomplete
+          v-focus
           @input="beforetablehighlight"
           v-model="formInline.mater"
           placeholder="Please input"
