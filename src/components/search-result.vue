@@ -58,7 +58,7 @@
         <el-header>
           <div class="searchresult-header">
             <span>
-              <b>{{ this.searchList.length + " materials" }}</b>
+              <b>{{ this.total + " materials" }}</b>
               match your search
             </span>
             <div>
@@ -244,7 +244,7 @@
             :page-sizes="[5, 10, 15, 20]"
             :page-size="10"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="this.searchList.length"
+            :total="total"
           >
           </el-pagination>
         </el-footer>
@@ -257,6 +257,7 @@
 export default {
   data() {
     return {
+      List: [],
       form: { spacegroup: "", crystal: "" },
       currentPage: 1,
       preList_filter: [],
@@ -361,10 +362,10 @@ export default {
     searchList: { type: Array, require: false }
   },
   computed: {
-    List: function () {
-      let beforeList =
-        this.preList_filter == [] ? this.preList : this.preList_filter;
-      return beforeList.slice(this.floor, this.upper);
+    total: function () {
+      if (this.preList_filter.length != 0) {
+        return this.preList_filter.length;
+      } else return this.searchList.length;
     }
   },
   watch: {
@@ -392,6 +393,7 @@ export default {
         this.preList_filter = this.preList.filter((x) => {
           if (x["crystal system"] == newval) return x;
         });
+        this.handleSizeChange();
       },
       deep: true
     }
@@ -468,9 +470,15 @@ export default {
         (this.$refs.page.internalCurrentPage - 1) *
         this.$refs.page.internalPageSize;
       this.upper = Math.min(
-        this.searchList.length,
+        this.total,
         this.$refs.page.internalCurrentPage * this.$refs.page.internalPageSize
       );
+      this.getList(this.preList, this.preList_filter);
+    },
+    getList(List, filterList) {
+      if (filterList.length != 0) {
+        this.List = filterList.slice(this.floor, this.upper);
+      } else this.List = List.slice(this.floor, this.upper);
     },
     handleCurrentChange() {
       this.handleSizeChange();
