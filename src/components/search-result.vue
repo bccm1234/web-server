@@ -90,44 +90,60 @@
             @sort-change="sortChange"
             @row-click="detailedinformation"
           >
-            <el-table-column prop="id" label="ID" sortable="custom">
+            <el-table-column
+              prop="id"
+              label="ID"
+              sortable="custom"
+              :width="flexColumnWidth('ID', 'id')"
+            >
             </el-table-column>
             <el-table-column
               prop="a"
               label="a"
               sortable="custom"
+              :width="flexColumnWidth('a', 'a')"
             ></el-table-column>
             <el-table-column
               prop="b"
               label="b"
               sortable="custom"
+              :width="flexColumnWidth('b', 'b')"
             ></el-table-column>
             <el-table-column
               prop="c"
               label="c"
               sortable="custom"
+              :width="flexColumnWidth('c', 'c')"
             ></el-table-column>
             <el-table-column
               prop="α"
               label="α"
               sortable="custom"
+              :width="flexColumnWidth('α', 'α')"
             ></el-table-column>
             <el-table-column
               prop="β"
               label="β"
               sortable="custom"
+              :width="flexColumnWidth('β', 'β')"
             ></el-table-column>
             <el-table-column
               prop="γ"
               label="γ"
               sortable="custom"
+              :width="flexColumnWidth('γ', 'γ')"
             ></el-table-column>
             <el-table-column
               prop="volume"
               label="volume"
               sortable="custom"
+              :width="flexColumnWidth('volume', 'volume')"
             ></el-table-column>
-            <el-table-column prop="formula" label="formula">
+            <el-table-column
+              prop="formula"
+              label="formula"
+              :width="flexColumnWidth('formula', 'formula')"
+            >
               <template slot-scope="scope"
                 ><div v-html="scope.row.formula"></div
               ></template>
@@ -136,12 +152,18 @@
               prop="band gap"
               label="band gap"
               sortable="custom"
+              :width="flexColumnWidth('band gap', 'band gap')"
             ></el-table-column>
             <el-table-column
               prop="crystal system"
               label="crystal system"
+              :width="flexColumnWidth('crystal system', 'crystal')"
             ></el-table-column>
-            <el-table-column prop="space group" label="space group">
+            <el-table-column
+              prop="space group"
+              label="space group"
+              :width="flexColumnWidth('space group', 'space group')"
+            >
               <template slot-scope="scope"
                 ><div v-html="scope.row['space group']"></div
               ></template>
@@ -150,24 +172,41 @@
               prop="energy above hull"
               label="energy above hull"
               sortable="custom"
+              :width="flexColumnWidth('energy above hull', 'energy above hull')"
             ></el-table-column>
             <el-table-column
               prop="predicted formation energy"
               label="predicted formation energy"
               sortable="custom"
+              :width="
+                flexColumnWidth(
+                  'predicted formation energy',
+                  'predicted formation energy'
+                )
+              "
             ></el-table-column>
             <el-table-column
               prop="magnetic ordering"
               label="magnetic ordering"
+              :width="flexColumnWidth('magnetic ordering', 'magnetic ordering')"
             ></el-table-column>
             <el-table-column
               prop="total magnetization"
               label="total magnetization"
               sortable="custom"
+              :width="
+                flexColumnWidth('total magnetization', 'total magnetization')
+              "
             ></el-table-column>
             <el-table-column
               prop="experimentally observed"
               label="experimentally observed"
+              :width="
+                flexColumnWidth(
+                  'experimentally observed',
+                  'experimentally observed'
+                )
+              "
             ></el-table-column>
           </el-table>
         </el-main>
@@ -297,6 +336,35 @@ export default {
         }
       }
       return str;
+    },
+    flexColumnWidth(label, prop) {
+      // 1.获取该列的所有数据
+      const arr = this.List.map((x) => x[prop]);
+      arr.push(label); // 把每列的表头也加进去算
+      // 2.计算每列内容最大的宽度 + 表格的内间距（依据实际情况而定）
+      return this.getMaxLength(arr) + 35 + "px";
+    },
+    getMaxLength(arr) {
+      return arr.reduce((acc, item) => {
+        if (item) {
+          const calcLen = this.getTextWidth(item);
+          if (acc < calcLen) {
+            acc = calcLen;
+          }
+        }
+        if (acc < 50) acc = 50;
+        return acc;
+      }, 0);
+    },
+    getTextWidth(str) {
+      let width = 0;
+      const html = document.createElement("span");
+      html.innerHTML = str;
+      html.className = "getTextWidth";
+      document.querySelector("body").appendChild(html);
+      width = document.querySelector(".getTextWidth").offsetWidth;
+      document.querySelector(".getTextWidth").remove();
+      return width;
     },
     handleSizeChange() {
       this.floor =
