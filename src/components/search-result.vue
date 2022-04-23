@@ -484,7 +484,9 @@ export default {
       this.handleSizeChange();
     },
     sortChange({ prop, order }) {
-      this.preList.sort(this.compare(prop, order));
+      if (this.preList_filter.length != 0)
+        this.preList_filter.sort(this.compare(prop, order));
+      else this.preList.sort(this.compare(prop, order));
       this.handleSizeChange();
     },
     compare(propertyName, sort) {
