@@ -31,7 +31,7 @@
                   v-for="item in spacegroup_options"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.value"
+                  :value="item.label"
                 >
                   <span style="float: left" v-html="item.label"></span>
                   <span style="float: right; color: #8492a6; font-size: 13px">{{
@@ -46,7 +46,7 @@
                   v-for="item in crystal_options"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.value"
+                  :value="item.label"
                 >
                 </el-option>
               </el-select>
@@ -74,8 +74,16 @@
             placement="left"
             title="列筛选"
             trigger="click"
-            width="420"
+            width="340"
           >
+            <el-checkbox-group v-model="checkedColumns" size="mini">
+              <el-checkbox
+                v-for="item in checkBoxGroup"
+                :key="item"
+                :label="item"
+                :value="item"
+              ></el-checkbox>
+            </el-checkbox-group>
             <el-button slot="reference" type="primary" size="small" plain>
               <i class="el-icon-arrow-down el-icon-menu"></i>列表项展示筛选
             </el-button>
@@ -91,6 +99,7 @@
             @row-click="detailedinformation"
           >
             <el-table-column
+              v-if="colData[0].istrue"
               prop="id"
               label="ID"
               sortable="custom"
@@ -98,48 +107,56 @@
             >
             </el-table-column>
             <el-table-column
+              v-if="colData[1].istrue"
               prop="a"
               label="a"
               sortable="custom"
               :width="flexColumnWidth('a', 'a')"
             ></el-table-column>
             <el-table-column
+              v-if="colData[2].istrue"
               prop="b"
               label="b"
               sortable="custom"
               :width="flexColumnWidth('b', 'b')"
             ></el-table-column>
             <el-table-column
+              v-if="colData[3].istrue"
               prop="c"
               label="c"
               sortable="custom"
               :width="flexColumnWidth('c', 'c')"
             ></el-table-column>
             <el-table-column
+              v-if="colData[4].istrue"
               prop="α"
               label="α"
               sortable="custom"
               :width="flexColumnWidth('α', 'α')"
             ></el-table-column>
             <el-table-column
+              v-if="colData[5].istrue"
               prop="β"
               label="β"
               sortable="custom"
               :width="flexColumnWidth('β', 'β')"
             ></el-table-column>
             <el-table-column
+              v-if="colData[6].istrue"
               prop="γ"
               label="γ"
               sortable="custom"
               :width="flexColumnWidth('γ', 'γ')"
             ></el-table-column>
             <el-table-column
+              v-if="colData[7].istrue"
               prop="volume"
               label="volume"
               sortable="custom"
               :width="flexColumnWidth('volume', 'volume')"
             ></el-table-column>
             <el-table-column
+              v-if="colData[8].istrue"
               prop="formula"
               label="formula"
               :width="flexColumnWidth('formula', 'formula')"
@@ -149,17 +166,20 @@
               ></template>
             </el-table-column>
             <el-table-column
+              v-if="colData[9].istrue"
               prop="band gap"
               label="band gap"
               sortable="custom"
               :width="flexColumnWidth('band gap', 'band gap')"
             ></el-table-column>
             <el-table-column
+              v-if="colData[10].istrue"
               prop="crystal system"
               label="crystal system"
               :width="flexColumnWidth('crystal system', 'crystal')"
             ></el-table-column>
             <el-table-column
+              v-if="colData[11].istrue"
               prop="space group"
               label="space group"
               :width="flexColumnWidth('space group', 'space group')"
@@ -169,12 +189,14 @@
               ></template>
             </el-table-column>
             <el-table-column
+              v-if="colData[12].istrue"
               prop="energy above hull"
               label="energy above hull"
               sortable="custom"
               :width="flexColumnWidth('energy above hull', 'energy above hull')"
             ></el-table-column>
             <el-table-column
+              v-if="colData[13].istrue"
               prop="predicted formation energy"
               label="predicted formation energy"
               sortable="custom"
@@ -186,11 +208,13 @@
               "
             ></el-table-column>
             <el-table-column
+              v-if="colData[14].istrue"
               prop="magnetic ordering"
               label="magnetic ordering"
               :width="flexColumnWidth('magnetic ordering', 'magnetic ordering')"
             ></el-table-column>
             <el-table-column
+              v-if="colData[15].istrue"
               prop="total magnetization"
               label="total magnetization"
               sortable="custom"
@@ -199,6 +223,7 @@
               "
             ></el-table-column>
             <el-table-column
+              v-if="colData[16].istrue"
               prop="experimentally observed"
               label="experimentally observed"
               :width="
@@ -233,8 +258,8 @@ export default {
   data() {
     return {
       form: { spacegroup: "", crystal: "" },
-      List: [],
       currentPage: 1,
+      preList_filter: [],
       preList: [],
       aftersearchList: [],
       default_sortmethod: { prop: "id", order: "ascending" },
@@ -267,29 +292,67 @@ export default {
       ],
       crystal_options: [
         {
-          value: "Beijing",
-          label: "北京"
+          value: "Cubic",
+          label: "Cubic"
         },
         {
-          value: "Shanghai",
-          label: "上海"
+          value: "Hexagonal",
+          label: "Hexagonal"
         },
         {
-          value: "Nanjing",
-          label: "南京"
+          value: "Trigonal",
+          label: "Trigonal"
         },
         {
-          value: "Chengdu",
-          label: "成都"
+          value: "Tetragonal",
+          label: "Tetragonal"
         },
         {
-          value: "Shenzhen",
-          label: "深圳"
+          value: "Orthorhombic",
+          label: "Orthorhombic"
         },
         {
-          value: "Guangzhou",
-          label: "广州"
+          value: "Monoclinic",
+          label: "Monoclinic"
+        },
+        {
+          value: "Triclinic",
+          label: "Triclinic"
         }
+      ],
+      colData: [
+        { title: "ID", istrue: true },
+        { title: "a", istrue: true },
+        { title: "b", istrue: true },
+        { title: "c", istrue: true },
+        { title: "α", istrue: true },
+        { title: "β", istrue: true },
+        { title: "γ", istrue: true },
+        { title: "volume", istrue: true },
+        { title: "formula", istrue: true },
+        { title: "band gap", istrue: true },
+        { title: "crystal system", istrue: true },
+        { title: "space group", istrue: true },
+        { title: "energy above hull", istrue: false },
+        { title: "predicted formation energy", istrue: false },
+        { title: "magnetic ordering", istrue: false },
+        { title: "total magnetization", istrue: false },
+        { title: "experimentally observed", istrue: false }
+      ],
+      checkBoxGroup: [],
+      checkedColumns: [
+        "ID",
+        "formula",
+        "a",
+        "b",
+        "c",
+        "α",
+        "β",
+        "γ",
+        "volume",
+        "crystal system",
+        "space group",
+        "band gap"
       ]
     };
   },
@@ -297,17 +360,46 @@ export default {
     visible: { type: Boolean, require: true },
     searchList: { type: Array, require: false }
   },
+  computed: {
+    List: function () {
+      let beforeList =
+        this.preList_filter == [] ? this.preList : this.preList_filter;
+      return beforeList.slice(this.floor, this.upper);
+    }
+  },
   watch: {
     searchList: function () {
       this.aftersearchList = JSON.parse(JSON.stringify(this.searchList));
       this.preList = this.aftersearchList.filter(
         (x) => (
           (x["formula"] = this.handleBigNumber(x["formula"])),
-          (x["space group"] = this.handlespacegroup(x["space group"]))
+          (x["space group"] = this.handlespacegroup(x["space group"])),
+          (x["crystal system"] = this.handleBigChar(x["crystal system"]))
         )
       );
       this.handleSizeChange();
+    },
+    checkedColumns: function (newval) {
+      let arr = this.checkBoxGroup.filter((i) => !newval.includes(i));
+      this.colData.forEach((item) => {
+        if (arr.includes(item.title)) {
+          item.istrue = false;
+        } else item.istrue = true;
+      });
+    },
+    "form.crystal": {
+      handler(newval) {
+        this.preList_filter = this.preList.filter((x) => {
+          if (x["crystal system"] == newval) return x;
+        });
+      },
+      deep: true
     }
+  },
+  created() {
+    this.colData.forEach((item) => {
+      this.checkBoxGroup.push(item.title);
+    });
   },
   methods: {
     handleBigNumber(num) {
@@ -336,6 +428,11 @@ export default {
         }
       }
       return str;
+    },
+    handleBigChar(str) {
+      let bigchar = str.slice(0, 1).toUpperCase();
+      let smallchar = str.slice(1);
+      return bigchar + smallchar;
     },
     flexColumnWidth(label, prop) {
       // 1.获取该列的所有数据
@@ -374,7 +471,6 @@ export default {
         this.searchList.length,
         this.$refs.page.internalCurrentPage * this.$refs.page.internalPageSize
       );
-      this.List = this.preList.slice(this.floor, this.upper);
     },
     handleCurrentChange() {
       this.handleSizeChange();
