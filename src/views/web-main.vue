@@ -1095,7 +1095,10 @@ export default {
             (x.β = x.β + "°"),
             (x.γ = x.γ + "°"),
             (x["volume"] = x["volume"] + "Å³"),
-            (x["band gap"] = x["band gap"] + "eV")
+            (x["band gap"] = x["band gap"] + "eV"),
+            (x["energy above hull"] = x["energy above hull"] + "eV"),
+            (x["predicted formation energy"] =
+              x["predicted formation energy"] + "eV")
           )
         );
       });

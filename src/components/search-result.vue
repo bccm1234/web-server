@@ -134,12 +134,40 @@
             </el-table-column>
             <el-table-column
               prop="band gap"
-              label="bandgap"
+              label="band gap"
               sortable="custom"
             ></el-table-column>
             <el-table-column
               prop="crystal system"
               label="crystal system"
+            ></el-table-column>
+            <el-table-column prop="space group" label="space group">
+              <template slot-scope="scope"
+                ><div v-html="scope.row['space group']"></div
+              ></template>
+            </el-table-column>
+            <el-table-column
+              prop="energy above hull"
+              label="energy above hull"
+              sortable="custom"
+            ></el-table-column>
+            <el-table-column
+              prop="predicted formation energy"
+              label="predicted formation energy"
+              sortable="custom"
+            ></el-table-column>
+            <el-table-column
+              prop="magnetic ordering"
+              label="magnetic ordering"
+            ></el-table-column>
+            <el-table-column
+              prop="total magnetization"
+              label="total magnetization"
+              sortable="custom"
+            ></el-table-column>
+            <el-table-column
+              prop="experimentally observed"
+              label="experimentally observed"
             ></el-table-column>
           </el-table>
         </el-main>
@@ -234,7 +262,10 @@ export default {
     searchList: function () {
       this.aftersearchList = JSON.parse(JSON.stringify(this.searchList));
       this.preList = this.aftersearchList.filter(
-        (x) => (x["formula"] = this.handleBigNumber(x["formula"]))
+        (x) => (
+          (x["formula"] = this.handleBigNumber(x["formula"])),
+          (x["space group"] = this.handlespacegroup(x["space group"]))
+        )
       );
       this.handleSizeChange();
     }
@@ -247,6 +278,25 @@ export default {
         else List += i;
       }
       return List;
+    },
+    handlespacegroup(str) {
+      let a = "";
+      let b = "";
+      for (let i = 0; i < str.length; i++) {
+        if (str[i] === "-") {
+          a = str[i] + str[i + 1];
+          b =
+            "<span style='text-decoration: overline'>" + str[i + 1] + "</span>";
+          i += b.length - 1;
+          str = str.replace(new RegExp(a), b);
+        } else if (str[i] === "_") {
+          a = str[i] + str[i + 1];
+          b = "<sub>" + str[i + 1] + "</sub>";
+          i += b.length - 1;
+          str = str.replace(new RegExp(a), b);
+        }
+      }
+      return str;
     },
     handleSizeChange() {
       this.floor =
