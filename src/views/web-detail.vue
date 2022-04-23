@@ -249,16 +249,22 @@ export default {
     jump(id) {
       const scrolly = document.getElementById(id).offsetTop;
       window.scrollTo(0, scrolly);
+      const nav = document.getElementsByClassName("navItem");
+      nav[id].classList.add("bgc");
     },
     scrollColor() {
       const nav = document.getElementsByClassName("navItem");
       const item = document.getElementsByClassName("rightItem");
       const scrolltop = document.documentElement.scrollTop;
+      const screenHeight = document.documentElement.clientHeight;
+      const scrollHeight = (screenHeight - 160) / 2;
       for (let i = 0; i < item.length; i++) {
-        const distance = item[i].offsetTop - scrolltop;
-        nav[i].style.backgroundColor = "";
-        nav[i].className = "el-menu-item navItem";
-        if (distance < 300 && distance >= -300) {
+        const distanceT = item[i].offsetTop - scrolltop;
+        if (distanceT < scrollHeight && distanceT > -scrollHeight) {
+          for (let i = 0; i < item.length; i++) {
+            nav[i].style.backgroundColor = "";
+            nav[i].className = "el-menu-item navItem";
+          }
           nav[i].classList.add("is-active");
           nav[i].style.backgroundColor = "#ecf5ff";
         }
