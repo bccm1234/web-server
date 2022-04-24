@@ -918,6 +918,7 @@
       </div>
     </div>
     <mysearchresult
+      ref="searchresult"
       :visible="visible"
       :searchList="searchList"
     ></mysearchresult>
@@ -1268,6 +1269,7 @@ export default {
     getresult(format) {
       if (format[2]) {
         this.visible = true;
+        this.$refs.searchresult.reset();
         this.searchMethod = this.judgemethod(this.formInline.mater);
         this.getresultlist(this.searchMethod);
         this.jumptoresult();

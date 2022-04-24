@@ -25,8 +25,9 @@
             >Symmetry</i
           >
           <div v-show="toggle.Symmetry" class="clear">
-            <el-form-item label="Spacegroup Symbol" prop="spacegroup">
-              <el-select v-model="form.spacegroup">
+            <el-form-item label="Spacegroup Symbol" prop="space group">
+              <!-- 无法正常显示，需要对v-model内容里的标签进行处理 -->
+              <el-select v-model="form['space group']">
                 <el-option
                   v-for="item in spacegroup_options"
                   :key="item.value"
@@ -40,8 +41,8 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="Crystal System" prop="crystal">
-              <el-select v-model="form.crystal">
+            <el-form-item label="Crystal System" prop="crystal system">
+              <el-select v-model="form['crystal system']">
                 <el-option
                   v-for="item in crystal_options"
                   :key="item.value"
@@ -258,7 +259,7 @@ export default {
   data() {
     return {
       List: [],
-      form: { spacegroup: "", crystal: "" },
+      form: { "space group": "", "crystal system": "" },
       currentPage: 1,
       preList_filter: [],
       preList: [],
@@ -1271,9 +1272,8 @@ export default {
   },
   computed: {
     total: function () {
-      if (this.preList_filter.length != 0) {
-        return this.preList_filter.length;
-      } else return this.searchList.length;
+      let totalList = this.selectList(this.preList, this.preList_filter);
+      return totalList.length;
     }
   },
   watch: {
@@ -1296,10 +1296,16 @@ export default {
         } else item.istrue = true;
       });
     },
-    "form.crystal": {
+    form: {
       handler(newval) {
         this.preList_filter = this.preList.filter((x) => {
-          if (x["crystal system"] == newval) return x;
+          let select = true;
+          for (let key in newval) {
+            if (newval[key] != "") {
+              if (x[key] != newval[key]) select = false;
+            }
+          }
+          if (select) return x;
         });
         this.handleSizeChange();
       },
@@ -1312,6 +1318,16 @@ export default {
     });
   },
   methods: {
+    filterisempty(form) {
+      for (let key in form) {
+        if (form[key] != "") return false;
+      }
+      return true;
+    },
+    selectList(preList, preList_filter) {
+      if (this.filterisempty(this.form)) return preList;
+      else return preList_filter;
+    },
     handleBigNumber(num) {
       let List = "";
       for (let i of num) {
@@ -1374,6 +1390,7 @@ export default {
       return width;
     },
     handleSizeChange() {
+      //bug 先计算floor 再改变internalCurrentPage
       this.floor =
         (this.$refs.page.internalCurrentPage - 1) *
         this.$refs.page.internalPageSize;
@@ -1381,20 +1398,18 @@ export default {
         this.total,
         this.$refs.page.internalCurrentPage * this.$refs.page.internalPageSize
       );
-      this.getList(this.preList, this.preList_filter);
-    },
-    getList(List, filterList) {
-      if (filterList.length != 0) {
-        this.List = filterList.slice(this.floor, this.upper);
-      } else this.List = List.slice(this.floor, this.upper);
+      this.List = this.selectList(this.preList, this.preList_filter).slice(
+        this.floor,
+        this.upper
+      );
     },
     handleCurrentChange() {
       this.handleSizeChange();
     },
     sortChange({ prop, order }) {
-      if (this.preList_filter.length != 0)
-        this.preList_filter.sort(this.compare(prop, order));
-      else this.preList.sort(this.compare(prop, order));
+      this.selectList(this.preList, this.preList_filter).sort(
+        this.compare(prop, order)
+      );
       this.handleSizeChange();
     },
     compare(propertyName, sort) {
