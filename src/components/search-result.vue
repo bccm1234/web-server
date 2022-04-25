@@ -26,12 +26,21 @@
           >
           <div v-show="toggle.Symmetry" class="clear">
             <el-form-item label="Spacegroup Symbol" prop="space group">
-              <!-- 无法正常显示，需要对v-model内容里的标签进行处理 -->
-              <el-select v-model="form['space group']">
+              <el-select
+                v-model="form['space group']"
+                @change="getspacegroup"
+                ref="spacegroup"
+              >
+                <template slot="prefix">
+                  <div
+                    v-html="form['space group']"
+                    style="margin-left: 45px; color: rgb(44, 62, 80)"
+                  ></div>
+                </template>
                 <el-option
                   v-for="item in spacegroup_options"
                   :key="item.value"
-                  :label="item.label"
+                  :label="item.value"
                   :value="item.label"
                 >
                   <span style="float: left" v-html="item.label"></span>
@@ -47,7 +56,7 @@
                   v-for="item in crystal_options"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.label"
+                  :value="item.value"
                 >
                 </el-option>
               </el-select>
@@ -1318,6 +1327,9 @@ export default {
     });
   },
   methods: {
+    getspacegroup() {
+      console.log(this.$refs.spacegroup.$children[0].$props);
+    },
     filterisempty(form) {
       for (let key in form) {
         if (form[key] != "") return false;
@@ -1479,6 +1491,9 @@ export default {
   .clear {
     clear: both;
     padding-top: 7px;
+    /deep/ .el-input--prefix .el-input__inner {
+      padding-left: 15px;
+    }
   }
 }
 .el-container {
