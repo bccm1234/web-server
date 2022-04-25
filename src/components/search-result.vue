@@ -248,7 +248,7 @@
         <el-footer>
           <el-pagination
             ref="page"
-            @size-change="handleSizeChange"
+            @size-change="handleSizeChange('sizechange')"
             @current-change="handleCurrentChange"
             :current-page="currentPage"
             :page-sizes="[5, 10, 15, 20]"
@@ -1401,28 +1401,35 @@ export default {
       document.querySelector(".getTextWidth").remove();
       return width;
     },
-    handleSizeChange() {
-      //bug 先计算floor 再改变internalCurrentPage
-      this.floor =
-        (this.$refs.page.internalCurrentPage - 1) *
-        this.$refs.page.internalPageSize;
-      this.upper = Math.min(
-        this.total,
-        this.$refs.page.internalCurrentPage * this.$refs.page.internalPageSize
-      );
+    handleSizeChange(str) {
+      if (str === undefined) {
+        this.floor = (this.currentPage - 1) * this.$refs.page.internalPageSize;
+        this.upper = Math.min(
+          this.total,
+          this.currentPage * this.$refs.page.internalPageSize
+        );
+      } else {
+        this.floor =
+          (this.$refs.page.internalCurrentPage - 1) *
+          this.$refs.page.internalPageSize;
+        this.upper = Math.min(
+          this.total,
+          this.$refs.page.internalCurrentPage * this.$refs.page.internalPageSize
+        );
+      }
       this.List = this.selectList(this.preList, this.preList_filter).slice(
         this.floor,
         this.upper
       );
     },
     handleCurrentChange() {
-      this.handleSizeChange();
+      this.handleSizeChange("fill");
     },
     sortChange({ prop, order }) {
       this.selectList(this.preList, this.preList_filter).sort(
         this.compare(prop, order)
       );
-      this.handleSizeChange();
+      this.handleSizeChange("fill");
     },
     compare(propertyName, sort) {
       return function (obj1, obj2) {
