@@ -24503,7 +24503,9 @@ export default {
           {
             axisLine: { onZero: false },
             min: "dataMin",
-            max: "dataMax",
+            max: function (value) {
+              return value.max + 0.001;
+            },
             position: "bottom",
             axisLabel: { show: false },
             axisTick: { show: false }
@@ -24520,18 +24522,14 @@ export default {
             axisLine: { onZero: false },
             min: -15,
             max: 12,
-            axisLabel: {
-              showMaxLabel: false
-            },
+            axisLabel: { showMaxLabel: false },
             name: "Energy(eV)",
             nameLocation: "center",
             position: "left"
           },
           {
             axisLine: { onZero: false },
-            axisLabel: {
-              showMaxLabel: false
-            },
+            axisLabel: {},
             position: "right"
           }
         ],
@@ -24540,54 +24538,36 @@ export default {
             type: "line",
             seriesLayoutBy: "row",
             showSymbol: false,
-            itemStyle: { color: "#FF0000" }
-          },
-          {
-            type: "line",
-            name: 1,
-            label: { show: true, position: "top" },
-            data: [
-              [0, -15],
-              [0, 12]
-            ],
-            showSymbol: false,
-            itemStyle: { color: "#000000" }
-          },
-          {
-            type: "line",
-            data: [
-              [0.533, -15],
-              [0.533, 12]
-            ],
-            showSymbol: false,
-            itemStyle: { color: "#000000" }
-          },
-          {
-            type: "line",
-            data: [
-              [1.263, -15],
-              [1.263, 12]
-            ],
-            showSymbol: false,
-            itemStyle: { color: "#000000" }
-          },
-          {
-            type: "line",
-            data: [
-              [2.169, -15],
-              [2.169, 12]
-            ],
-            showSymbol: false,
-            itemStyle: { color: "#000000" }
-          },
-          {
-            type: "line",
-            data: [
-              [2.909, -15],
-              [2.909, 12]
-            ],
-            showSymbol: false,
-            itemStyle: { color: "#000000" }
+            itemStyle: { color: "#FF0000" },
+            markLine: {
+              symbol: ["none", "none"], //去掉箭头
+              itemStyle: {
+                normal: { lineStyle: { type: "solid", color: "black" } }
+              },
+              label: { position: "start", formatter: "{b}" },
+              data: [
+                {
+                  name: "Γ",
+                  xAxis: 0
+                },
+                {
+                  name: "L",
+                  xAxis: 0.533
+                },
+                {
+                  name: "T",
+                  xAxis: 1.263
+                },
+                {
+                  name: "Γ",
+                  xAxis: 2.169
+                },
+                {
+                  name: "F",
+                  xAxis: 2.909
+                }
+              ]
+            }
           }
         ]
       });
