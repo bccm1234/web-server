@@ -14586,9 +14586,9 @@ export default {
               y: "tot+"
             },
             showSymbol: false,
-            itemStyle: { color: "#FF0000" },
+            itemStyle: { color: "rgb(135,135,135)" },
             lineStyle: { width: 1 },
-            areaStyle: { color: "rgb(255,0,0,0.2)" }
+            areaStyle: { color: "rgb(200,200,200)" }
           },
           {
             type: "line",
@@ -14599,9 +14599,9 @@ export default {
               y: "tot-"
             },
             showSymbol: false,
-            itemStyle: { color: "#FF0000" },
+            itemStyle: { color: "rgb(135,135,135)" },
             lineStyle: { width: 1 },
-            areaStyle: { color: "rgb(255,0,0,0.2)" }
+            areaStyle: { color: "rgb(200,200,200)" }
           },
           {
             type: "line",
@@ -14612,7 +14612,7 @@ export default {
               y: "s+"
             },
             showSymbol: false,
-            itemStyle: { color: "#FFFF00" },
+            itemStyle: { color: "rgb(255,0,0)" },
             lineStyle: { width: 1 }
           },
           {
@@ -14624,7 +14624,7 @@ export default {
               y: "s-"
             },
             showSymbol: false,
-            itemStyle: { color: "#FFFF00" },
+            itemStyle: { color: "rgb(255,0,0)" },
             lineStyle: { width: 1 }
           },
           {

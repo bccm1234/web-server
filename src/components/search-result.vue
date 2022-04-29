@@ -275,7 +275,7 @@ export default {
       aftersearchList: [],
       default_sortmethod: { prop: "id", order: "ascending" },
       toggle: {
-        Symmetry: false
+        Symmetry: true
       },
       floor: "",
       upper: "",
@@ -1244,15 +1244,15 @@ export default {
         { title: "a", istrue: true },
         { title: "b", istrue: true },
         { title: "c", istrue: true },
-        { title: "α", istrue: true },
-        { title: "β", istrue: true },
-        { title: "γ", istrue: true },
+        { title: "α", istrue: false },
+        { title: "β", istrue: false },
+        { title: "γ", istrue: false },
         { title: "volume", istrue: true },
         { title: "formula", istrue: true },
         { title: "band gap", istrue: true },
         { title: "crystal system", istrue: true },
         { title: "space group", istrue: true },
-        { title: "energy above hull", istrue: false },
+        { title: "energy above hull", istrue: true },
         { title: "predicted formation energy", istrue: false },
         { title: "magnetic ordering", istrue: false },
         { title: "total magnetization", istrue: false },
@@ -1265,13 +1265,11 @@ export default {
         "a",
         "b",
         "c",
-        "α",
-        "β",
-        "γ",
         "volume",
         "crystal system",
         "space group",
-        "band gap"
+        "band gap",
+        "energy above hull"
       ]
     };
   },
