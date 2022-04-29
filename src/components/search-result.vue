@@ -1377,7 +1377,7 @@ export default {
       const arr = this.List.map((x) => x[prop]);
       arr.push(label); // 把每列的表头也加进去算
       // 2.计算每列内容最大的宽度 + 表格的内间距（依据实际情况而定）
-      return this.getMaxLength(arr) + 35 + "px";
+      return this.getMaxLength(arr) + 40 + "px";
     },
     getMaxLength(arr) {
       return arr.reduce((acc, item) => {

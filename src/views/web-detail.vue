@@ -98,8 +98,7 @@ export default {
         const str = this.infoObj["space group"];
         this.spaceText(str);
         this.JSmolURL =
-          "http://127.0.0.1:5501/web-server/public/detail.html?" +
-          (this.infoObj.id - 1);
+          "http://127.0.0.1:5500/public/detail.html?" + (this.infoObj.id - 1);
       }, 100);
     },
     spaceText(str) {
