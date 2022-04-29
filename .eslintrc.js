@@ -22,5 +22,9 @@ module.exports = {
         trailingComma: "none"
       }
     ]
+  },
+  // eslint-disable-next-line no-dupe-keys
+  parserOptions: {
+    requireCondigFile: false
   }
 };

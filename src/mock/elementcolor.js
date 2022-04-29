@@ -23,6 +23,7 @@ Mock.mock("/childpage/elementcolor", "get", () => {
       { id: 17, element: "Cl", color: "#1ff01f" },
       { id: 18, element: "Ar", color: "#80d1e3" },
       { id: 19, element: "K", color: "#8f40d4" },
+      { id: 20, element: "Ca", color: "#a52a2a" },
       { id: 21, element: "Sc", color: "#e6e6e6" },
       { id: 22, element: "Ti", color: "#bfc2c7" },
       { id: 23, element: "V", color: "#a6a6ab" },

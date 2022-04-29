@@ -1,9 +1,7 @@
 <template>
-  <div>
+  <div class="navBox">
     <el-row type="flex" justify="space-between">
-      <el-col :span="2"
-        ><el-image :src="require('@/assets/logo.png')"
-      /></el-col>
+      <el-col :span="6" class="left-col">CO2数据库</el-col>
       <el-col :span="4" class="right-col"
         ><el-button type="text"
           ><el-link :underline="false" href="#/home">Home</el-link></el-button
@@ -24,21 +22,19 @@ export default {};
 </script>
 
 <style lang="less" scoped>
-div {
+.el-row {
   position: fixed;
-  top: 40px;
+  top: 0px;
   width: 100%;
   height: 80px;
   z-index: 999;
+  background-color: #003153;
 }
-.el-row {
-  background-color: rgb(26, 36, 47);
-}
-.el-image {
-  float: left;
-  left: 5%;
-  height: 75px;
-  width: 75px;
+.left-col {
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 80px;
+  color: #fff8f8;
 }
 .right-col {
   display: flex;
