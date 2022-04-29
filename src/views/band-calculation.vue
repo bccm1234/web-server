@@ -3,7 +3,13 @@
     <div class="band">
       <ul>
         <li class="title">Band Structure</li>
-        <li class="item">Band Gap :</li>
+        <li class="item">
+          <span>Band Gap : </span>
+          <span class="itemRight">
+            <slot name="a"></slot>
+            ev
+          </span>
+        </li>
       </ul>
       <slot name="bandCanvas"></slot>
     </div>

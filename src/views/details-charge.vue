@@ -21,7 +21,9 @@
         >
       </div>
       <div class="mainBox">
-        <component :is="comName"></component>
+        <component :is="comName">
+          <template #a>3</template>
+        </component>
       </div>
     </div>
   </div>
@@ -59,6 +61,9 @@ export default {
   background: #84b1ff;
 }
 //固定样式
+.totalBox {
+  margin-top: 30px;
+}
 .navName {
   width: 860px;
   height: 70px;
@@ -74,6 +79,7 @@ export default {
   background-color: #fff;
   padding: 30px;
   text-align: left;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
 }
 .button {
   border-bottom: 3px solid rgba(0, 0, 0, 0.8);

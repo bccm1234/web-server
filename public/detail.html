@@ -5,39 +5,61 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script type="text/javascript" src="../libs/JSmol/JSmol.min.js"></script>
+    <script src="https://3Dmol.csb.pitt.edu/build/3Dmol-min.js"></script>
   </head>
 
   <body>
+    <div id="container-01" class="mol-container"></div>
     <script>
-      var idNumber = window.location.search;
-      var id = idNumber.substring(1, idNumber.length);
-      var str = "../src/assets/cifFile/" + id + ".cif";
-      var width = document.documentElement.clientWidth;
-      var Info = {
-        color: "#eef5ff",
-        height: width,
-        width: width,
-        // script: "load $CO2",
-        src: str,
-        use: "HTML5",
-        j2sPath: "../libs/JSmol/j2s",
-        // serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
-      };
-      Jmol.getApplet("myJmol", Info);
-      window.addEventListener("DOMContentLoaded", function () {
-        //dom加载快于load
-        //2.2 调整窗口大小事件
-        // window.onresize 是调整窗口大小加载事件
-        window.onresize = function () {
-          window.location.reload();
-        };
+      let idNumber = window.location.search;
+      let id = idNumber.substring(1, idNumber.length);
+      $(function () {
+        let element = $("#container-01");
+        let config = { backgroundColor: "#CCC" };
+        let viewer = $3Dmol.createViewer(element, config);
+        let cifUri = "../src/assets/cifFile/" + id + ".cif";
+        jQuery.ajax(cifUri, {
+          success: function (data) {
+            let v = viewer;
+            v.addModel(data, "cif").setStyle(
+              {},
+              { stick: { colorscheme: "Jmol", radius: 0.2 } }
+            );
+            v.addModel(data, "cif").setStyle(
+              {},
+              { sphere: { colorscheme: "Jmol", radius: 0.5 } }
+            );
+            v.addUnitCell();
+            //等势面
+            // var voldata = new $3Dmol.VolumeData(data, "cube");
+            // viewer.addIsosurface(voldata, {
+            //   isoval: 0.01,
+            //   color: "blue",
+            //   opacity: 0.7,
+            // });
+            // viewer.addIsosurface(voldata, {
+            //   isoval: -0.02,
+            //   color: "red",
+            //   opacity: 0.7,
+            // });
+            v.zoomTo();
+            v.render();
+          },
+          error: function (hdr, status, err) {
+            console.error("Failed to load PDB " + cifUri + ": " + err);
+          },
+        });
       });
     </script>
     <style>
       * {
         margin: 0;
         padding: 0;
+      }
+      .mol-container {
+        width: 400px;
+        height: 400px;
+        position: relative;
       }
     </style>
   </body>

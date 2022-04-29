@@ -29,7 +29,16 @@ Mock.mock("/index/element", "get", () => {
         "predicted formation energy": -0.644,
         "magnetic ordering": "non-magnetic",
         "total magnetization": 0.01,
-        "experimentally observed": "yes"
+        "experimentally observed": "yes",
+        experiment: {
+          a: 4.2,
+          b: 4.2,
+          c: 4.2,
+          α: 90,
+          β: 90,
+          γ: 90,
+          doi: "https://doi.org/10.2788/33777"
+        }
       },
       {
         _id: {

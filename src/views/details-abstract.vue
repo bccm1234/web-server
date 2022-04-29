@@ -3,6 +3,9 @@
     <div class="modelBox">
       <slot name="modelCanvas"></slot>
       <slot name="colorBox"></slot>
+      <span class="downloadBox br-10"
+        ><i class="el-icon-download download"></i> DownLoad</span
+      >
     </div>
     <div class="list">
       <ul class="abstractTable">
@@ -125,6 +128,23 @@ export default {
   text-align: center;
   margin-right: 3%;
   font-weight: 700;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
+}
+.downloadBox {
+  display: inline-block;
+  width: 150px;
+  height: 45px;
+  line-height: 50px;
+  margin-top: 453px;
+  text-align: center;
+  margin-left: 130px;
+  font-weight: 700;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
+  background: #84b1ff;
+  cursor: pointer;
+}
+.download {
+  font-weight: 700;
 }
 .list {
   /* list */
@@ -158,13 +178,11 @@ export default {
   margin: 8px 0;
 }
 .abstractItem {
-  border-bottom: 2px solid #002fa7;
-  padding: 0 10px;
   text-align: left;
 }
 .abstractItemLeft {
   display: inline-block;
-  width: 180px;
+  margin-right: 30px;
 }
 .abstractItemRight {
   color: blue;

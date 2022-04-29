@@ -21,8 +21,64 @@
         >
       </div>
       <div class="mainBox">
-        <component :is="comName">
-          <template #a>1</template>
+        <component :is="comName" :experiment="infoObj.experiment">
+          <!-- calculation组件 -->
+          <template #c-lattice-a>{{ infoObj.a }}</template>
+          <template #c-lattice-α>{{ infoObj.α }}</template>
+          <template #c-lattice-b>{{ infoObj.b }}</template>
+          <template #c-lattice-β>{{ infoObj.β }}</template>
+          <template #c-lattice-c>{{ infoObj.a }}</template>
+          <template #c-lattice-γ>{{ infoObj.γ }}</template>
+          <template #c-crystalSystem>{{ infoObj["crystal system"] }}</template>
+          <template #c-spaceGroup
+            ><span class="itemRight" v-html="spaceGroup"></span
+          ></template>
+          <template #c-runType>{{
+            infoObj.runtype ? infoObj.a : "Not Found"
+          }}</template>
+          <template #c-Uvalues>{{
+            infoObj.uvalue ? infoObj.value : "Not Found"
+          }}</template>
+          <template #c-energyCutoff>{{
+            infoObj.energyCutoff ? infoObj.energyCutoff : "Not Found"
+          }}</template>
+          <template #c-code>{{
+            infoObj.code ? infoObj.code : "Not Found"
+          }}</template>
+          <template #c-Kpoint>{{
+            infoObj.Kpoint ? infoObj.Kpoint : "Not Found"
+          }}</template>
+          <template #c-moreDetails>{{
+            infoObj.moreDetails ? infoObj.moreDetails : "Not Found"
+          }}</template>
+          <!-- experiment组件 -->
+          <template #e-lattice-a>{{
+            infoObj.experiment.a ? infoObj.experiment.a : "Not Found"
+          }}</template>
+          <template #e-lattice-α>{{
+            infoObj.experiment.α ? infoObj.experiment.α : "Not Found"
+          }}</template>
+          <template #e-lattice-b>{{
+            infoObj.experiment.b ? infoObj.experiment.b : "Not Found"
+          }}</template>
+          <template #e-lattice-β>{{
+            infoObj.experiment.β ? infoObj.experiment.β : "Not Found"
+          }}</template>
+          <template #e-lattice-c>{{
+            infoObj.experiment.c ? infoObj.experiment.c : "Not Found"
+          }}</template>
+          <template #e-lattice-γ>{{
+            infoObj.experiment.γ ? infoObj.experiment.γ : "Not Found"
+          }}</template>
+          <template #e-crystalSystem>{{ infoObj["crystal system"] }}</template>
+          <template #e-spaceGroup
+            ><span class="itemRight" v-html="spaceGroup"></span
+          ></template>
+          <template #crystalDoi>
+            <a :href="infoObj.experiment.doi" target="blank">{{
+              infoObj.experiment.doi
+            }}</a>
+          </template>
         </component>
       </div>
     </div>
@@ -39,6 +95,7 @@ export default {
       comName: "templateCalculation"
     };
   },
+  props: ["infoObj", "spaceGroup"],
   components: {
     templateCalculation,
     templateExperiment
@@ -76,6 +133,7 @@ export default {
   background-color: #fff;
   padding: 30px;
   text-align: left;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
 }
 .button {
   border-bottom: 3px solid rgba(0, 0, 0, 0.8);

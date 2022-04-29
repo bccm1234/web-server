@@ -3,7 +3,7 @@
   <div class="leftBox">
     <!-- 元素卡片 -->
     <ul class="formulaBox">
-      <li class="formulaName"><slot name="formulaName"></slot></li>
+      <slot name="formulaName"></slot>
       <li class="formulaId">mp-<slot name="formulaId"></slot></li>
     </ul>
     <!-- 左侧导航栏 -->
@@ -66,9 +66,7 @@ export default {
   position: absolute;
   left: 0px;
   top: 35px;
-  margin-left: 50px;
   margin-bottom: 75px;
-  border: 3px dashed #999;
   color: #3d3d3d;
   text-align: center;
   min-width: 220px;
@@ -81,7 +79,6 @@ export default {
   font-weight: bold;
   letter-spacing: 1px;
   line-height: 75px;
-  border-bottom: 3px dashed #999;
 }
 .formulaId {
   display: inline-block;
