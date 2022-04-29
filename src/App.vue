@@ -40,7 +40,7 @@ export default {
 }
 * {
   list-style: none;
-  font-family: AlibabaPuHuiTiB;
+  font-family: AlibabaPuHuiTi;
 }
 .br-10 {
   border-radius: 10px;

@@ -22,12 +22,42 @@
     <div class="calculation-summer">
       <ul>
         <li class="title">Calculation Summar</li>
-        <li class="item">Run Type :</li>
-        <li class="item">U-values :</li>
-        <li class="item">Energy Cutoff :</li>
-        <li class="item">code :</li>
-        <li class="item">Kpoint :</li>
-        <li class="item">more details :</li>
+        <li class="item">
+          <span class="itemLeft">Run Type :</span>
+          <span class="itemRight">
+            <slot name="a"></slot>
+          </span>
+        </li>
+        <li class="item">
+          <span class="itemLeft">U-values :</span>
+          <span class="itemRight">
+            <slot name="a"></slot>
+          </span>
+        </li>
+        <li class="item">
+          <span class="itemLeft">Energy Cutoff :</span>
+          <span class="itemRight">
+            <slot name="a"></slot>
+          </span>
+        </li>
+        <li class="item">
+          <span class="itemLeft">code :</span>
+          <span class="itemRight">
+            <slot name="a"></slot>
+          </span>
+        </li>
+        <li class="item">
+          <span class="itemLeft">Kpoint :</span>
+          <span class="itemRight">
+            <slot name="a"></slot>
+          </span>
+        </li>
+        <li class="item">
+          <span class="itemLeft">more details :</span>
+          <span class="itemRight">
+            <slot name="a"></slot>
+          </span>
+        </li>
       </ul>
     </div>
   </div>
@@ -85,5 +115,12 @@ export default {
   width: 740px;
   height: 417px;
   margin: 5px 0 20px;
+}
+.itemLeft {
+  display: inline-block;
+  width: 185px;
+}
+.itemRight {
+  color: blue;
 }
 </style>

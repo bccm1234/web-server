@@ -1,7 +1,7 @@
 <template>
   <div class="navBox">
     <el-row type="flex" justify="space-between">
-      <el-col :span="6" class="left-col">CO2数据库</el-col>
+      <el-col :span="6" class="left-col" v-html="name"></el-col>
       <el-col :span="4" class="right-col"
         ><el-button type="text"
           ><el-link :underline="false" href="#/home">Home</el-link></el-button
@@ -18,7 +18,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      name: "CO<sub>2</sub>数据库"
+    };
+  }
+};
 </script>
 
 <style lang="less" scoped>
