@@ -14519,7 +14519,8 @@ export default {
               y: "tot+"
             },
             showSymbol: false,
-            itemStyle: { color: "#FF0000" }
+            itemStyle: { color: "#FF0000" },
+            lineStyle: { width: 1 }
           },
           {
             type: "line",
@@ -14530,7 +14531,8 @@ export default {
               y: "tot-"
             },
             showSymbol: false,
-            itemStyle: { color: "#FF0000" }
+            itemStyle: { color: "#FF0000" },
+            lineStyle: { width: 1 }
           },
           {
             type: "line",
@@ -14541,7 +14543,8 @@ export default {
               y: "s+"
             },
             showSymbol: false,
-            itemStyle: { color: "#FFFF00" }
+            itemStyle: { color: "#FFFF00" },
+            lineStyle: { width: 1 }
           },
           {
             type: "line",
@@ -14552,7 +14555,8 @@ export default {
               y: "s-"
             },
             showSymbol: false,
-            itemStyle: { color: "#FFFF00" }
+            itemStyle: { color: "#FFFF00" },
+            lineStyle: { width: 1 }
           },
           {
             type: "line",
@@ -14563,7 +14567,8 @@ export default {
               y: "p+"
             },
             showSymbol: false,
-            itemStyle: { color: "#0000FF" }
+            itemStyle: { color: "#0000FF" },
+            lineStyle: { width: 1 }
           },
           {
             type: "line",
@@ -14574,7 +14579,8 @@ export default {
               y: "p-"
             },
             showSymbol: false,
-            itemStyle: { color: "#0000FF" }
+            itemStyle: { color: "#0000FF" },
+            lineStyle: { width: 1 }
           },
           {
             type: "line",
@@ -14585,7 +14591,8 @@ export default {
               y: "d+"
             },
             showSymbol: false,
-            itemStyle: { color: "#00FF00" }
+            itemStyle: { color: "#00FF00" },
+            lineStyle: { width: 1 }
           },
           {
             type: "line",
@@ -14596,7 +14603,8 @@ export default {
               y: "d-"
             },
             showSymbol: false,
-            itemStyle: { color: "#00FF00" }
+            itemStyle: { color: "#00FF00" },
+            lineStyle: { width: 1 }
           }
         ]
       });
@@ -24541,9 +24549,7 @@ export default {
             itemStyle: { color: "#FF0000" },
             markLine: {
               symbol: ["none", "none"], //去掉箭头
-              itemStyle: {
-                normal: { lineStyle: { type: "solid", color: "black" } }
-              },
+              lineStyle: { type: "dashed", color: "black" },
               label: { position: "start", formatter: "{b}" },
               data: [
                 {
