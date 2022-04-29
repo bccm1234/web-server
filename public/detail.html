@@ -15,7 +15,7 @@
       let id = idNumber.substring(1, idNumber.length);
       $(function () {
         let element = $("#container-01");
-        let config = { backgroundColor: "#CCC" };
+        let config = { backgroundColor: "#EEF5FF" };
         let viewer = $3Dmol.createViewer(element, config);
         let cifUri = "../src/assets/cifFile/" + id + ".cif";
         jQuery.ajax(cifUri, {
@@ -47,7 +47,7 @@
           },
           error: function (hdr, status, err) {
             console.error("Failed to load PDB " + cifUri + ": " + err);
-          },
+          }
         });
       });
     </script>
