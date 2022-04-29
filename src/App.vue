@@ -38,7 +38,7 @@ export default {
 }
 * {
   list-style: none;
-  font-family: AlibabaPuHuiTi;
+  font-family: "PHTB";
 }
 .br-10 {
   border-radius: 10px;

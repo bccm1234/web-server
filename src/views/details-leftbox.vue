@@ -79,6 +79,7 @@ export default {
   font-weight: bold;
   letter-spacing: 1px;
   line-height: 75px;
+  font-family: "PHTB";
 }
 .formulaId {
   display: inline-block;
@@ -86,6 +87,7 @@ export default {
   font-size: 36px;
   line-height: 60px;
   text-align: center;
+  font-family: "PHTR";
 }
 .leftNav {
   position: absolute;

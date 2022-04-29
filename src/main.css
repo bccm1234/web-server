@@ -3,3 +3,11 @@ body {
     margin: 0px;
     background-color: rgb(228, 230, 232);
 }
+@font-face {
+    font-family:"PHTR";
+    src: url("./assets/font-style/Alibaba-PuHuiTi-Regular.ttf");
+}
+@font-face {
+    font-family:"PHTB";
+    src: url("./assets/font-style/Alibaba-PuHuiTi-Bold.ttf");
+}

@@ -106,10 +106,7 @@ export default {
         this.tranStr(1, spaceGroup);
         this.tranStr(0, formula);
         this.JSmolURL =
-
-
-          "http://127.0.0.1:5500/public/detail.html?" + (this.infoObj.id - 1);
-
+          "http://127.0.0.1:5500/public/detail.html?" + this.infoObj.id;
       }, 100);
     },
     tranStr(num, str) {
