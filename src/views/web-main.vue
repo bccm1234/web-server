@@ -2,13 +2,35 @@
   <div style="width: 100%">
     <el-form :inline="true" :model="formInline" size="large">
       <el-form-item label="Explore Materials">
-        <el-input
+        <el-autocomplete
+          v-focus
+          @input="beforetablehighlight"
           v-model="formInline.mater"
           placeholder="Please input"
-        ></el-input>
+          @keyup.13.native="getresult(format)"
+          :fetch-suggestions="querySearch"
+        >
+          <i
+            class="el-icon-close el-input__icon"
+            slot="suffix"
+            @click="getformat"
+          >
+          </i>
+          <template slot-scope="{ item }">
+            <div>
+              <span class="address">{{ item.address }}</span>
+              <span>{{ item.value }}</span>
+            </div>
+          </template></el-autocomplete
+        >
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="getresult">Search</el-button>
+        <el-button
+          type="primary"
+          @click="getresult(format)"
+          :disabled="!format[2] || !formInline.mater"
+          >Search</el-button
+        >
       </el-form-item>
     </el-form>
     <div class="element-top">
@@ -761,6 +783,13 @@
         <div
           class="base-element line-element color-8"
           @click="searchElement"
+          :class="{ active: isActive.Er }"
+        >
+          Er
+        </div>
+        <div
+          class="base-element line-element color-8"
+          @click="searchElement"
           :class="{ active: isActive.Tm }"
         >
           Tm
@@ -861,9 +890,16 @@
         <div
           class="base-element line-element color-9"
           @click="searchElement"
-          :class="{ active: isActive.Mc }"
+          :class="{ active: isActive.Fm }"
         >
-          Mc
+          Fm
+        </div>
+        <div
+          class="base-element line-element color-9"
+          @click="searchElement"
+          :class="{ active: isActive.Md }"
+        >
+          Md
         </div>
         <div
           class="base-element line-element color-9"
@@ -881,7 +917,11 @@
         </div>
       </div>
     </div>
-    <mysearchresult :visible="visible"></mysearchresult>
+    <mysearchresult
+      ref="searchresult"
+      :visible="visible"
+      :searchList="searchList"
+    ></mysearchresult>
   </div>
 </template>
 
@@ -891,6 +931,7 @@ import mysearchresult from "@/components/search-result.vue";
 export default {
   data() {
     return {
+      format: [false, false, false],
       isActive: {
         H: false,
         He: false,
@@ -992,6 +1033,7 @@ export default {
         Tb: false,
         Dy: false,
         Ho: false,
+        Er: false,
         Tm: false,
         Yb: false,
         Lu: false,
@@ -1005,18 +1047,214 @@ export default {
         Bk: false,
         Cf: false,
         Es: false,
-        Mc: false,
+        Fm: false,
+        Md: false,
         No: false,
         Lr: false
       },
       mater_list: [],
       visible: false,
+      constList: [],
+      searchList: [],
       formInline: {
         mater: ""
-      }
+      },
+      timer: null,
+      searchMethod: 999,
+      example: [
+        { address: "Include at least elements: ", value: "Cu,O" },
+        {
+          address: "Include only elements: ",
+          value: "Ti-O"
+        },
+        {
+          address: "Include only elements plus wildcard elements: ",
+          value: "O-*"
+        },
+        { address: "Has exact formula: ", value: "CuO" },
+        {
+          address: "Has formula with wildcard atoms: ",
+          value: "Al*"
+        }
+      ]
     };
   },
+  created() {
+    this.$axios
+      .get("/index/element")
+      .then(function (response) {
+        return response.data.data;
+      })
+      .then((data) => {
+        this.constList = data.filter(
+          (x) => (
+            (x.id = parseInt(x.id)),
+            (x.a = x.a + "Å"),
+            (x.b = x.b + "Å"),
+            (x.c = x.c + "Å"),
+            (x.α = x.α + "°"),
+            (x.β = x.β + "°"),
+            (x.γ = x.γ + "°"),
+            (x["volume"] = x["volume"] + "Å³"),
+            (x["band gap"] = x["band gap"] + "eV"),
+            (x["energy above hull"] = x["energy above hull"] + "eV"),
+            (x["predicted formation energy"] =
+              x["predicted formation energy"] + "eV")
+          )
+        );
+      });
+  },
   methods: {
+    getresultlist(method) {
+      switch (method) {
+        case 0:
+          this.searchList = this.constList.filter(
+            (x) => x.formula == this.formInline.mater
+          );
+          break;
+        case 1:
+          this.getmethodone(this.formInline.mater);
+          break;
+        case 2:
+          this.getmethodtwo(this.formInline.mater);
+          break;
+        case 3:
+          this.getmethodthree(this.formInline.mater);
+          break;
+        case 4:
+          this.getmethodfour(this.formInline.mater);
+          break;
+        case 5:
+          console.log(5);
+          break;
+        default:
+          break;
+      }
+    },
+    getmethodone(elestr) {
+      let elelist = elestr.split(",");
+      elelist = elelist.filter((x) => {
+        if (x) return x;
+      });
+      elelist = elelist.map((x) => {
+        x = x.replaceAll(/[0-9]+/g, "");
+        return this.$store.state.element_table[x];
+      });
+      this.searchList = this.constList.filter(
+        (x) =>
+          x.element.length >= elelist.length &&
+          this.judgeele_methodone(elelist, x.element)
+      );
+    },
+    judgeele_methodone(elelist, datalist) {
+      for (let i = 0; i < elelist.length; i++) {
+        if (!datalist.includes(elelist[i])) return false;
+      }
+      return true;
+    },
+    getmethodtwo(elestr) {
+      let elelist = [];
+      let index = "";
+      let startindex = "";
+      for (let i = 0; i < elestr.length; i++) {
+        if (elestr[i].match(/[A-Z]|\*/)) {
+          startindex = index;
+          index = i;
+          if (parseFloat(startindex).toString() !== "NaN")
+            elelist.push(elestr.slice(startindex, index));
+        }
+      }
+      elelist.push(elestr.slice(index, elestr.length));
+      elelist = elelist.map((x) => {
+        if (x === "*") x = "1";
+        else x = x.replace(/\*/, "");
+        return x;
+      });
+      let indexlist = [];
+      elelist.forEach((x) => {
+        if (x.match(/[A-Z]/)) {
+          indexlist.push(x.replace(/[0-9]/g, ""));
+        }
+      });
+      this.searchList = this.constList.filter(
+        (x) =>
+          x.element.length == elelist.length &&
+          this.judgeele_methodtwo(elelist, x, indexlist)
+      );
+    },
+    judgeele_methodtwo(elelist, dataobject, indexlist) {
+      for (let i = 0; i < elelist.length; i++) {
+        if (elelist[i].match(/[A-Z]/)) {
+          if (!dataobject.formula.includes(elelist[i])) return false;
+          else {
+            if (!this.judgeele_methodtwo_num(elelist[i], dataobject))
+              return false;
+          }
+        } else {
+          let num = elelist[i];
+          if (!this.judgeele_methodtwo_ele(num, dataobject, indexlist))
+            return false;
+        }
+      }
+      return true;
+    },
+    judgeele_methodtwo_num(ele, dataobject) {
+      let elechar = ele.match(/[A-Za-z]+/g);
+      let elenum = ele.match(/[0-9]+/g) ? ele.match(/[0-9]+/g) : ["1"];
+      for (let i = 1; i < dataobject.element.length + 1; i++) {
+        if (
+          dataobject["element" + i + "num"] == elenum &&
+          dataobject["element" + i] == elechar
+        )
+          return true;
+      }
+      return false;
+    },
+    judgeele_methodtwo_ele(num, dataobject, indexlist) {
+      for (let i = 1; i < dataobject.element.length + 1; i++) {
+        if (
+          dataobject["element" + i + "num"] == num &&
+          !indexlist.includes(dataobject["element" + i])
+        ) {
+          return true;
+        }
+      }
+      return false;
+    },
+    getmethodthree(elestr) {
+      let elelist = elestr.split("-");
+      elelist = elelist.filter((x) => {
+        if (x) return x;
+      });
+      elelist = elelist.map((x) => {
+        x = x.replaceAll(/[0-9]+/g, "");
+        return this.$store.state.element_table[x];
+      });
+      this.searchList = this.constList.filter(
+        (x) =>
+          x.element.length == elelist.length &&
+          this.judgeele_methodone(elelist, x.element)
+      );
+    },
+    getmethodfour(elestr) {
+      let elelist = elestr.split("-");
+      elelist = elelist.filter((x) => {
+        if (x) return x;
+      });
+      let elelistlength = elelist.length;
+      elelist = elelist.filter((x) => {
+        if (!x.match(/\*/g)) return x;
+      });
+      elelist = elelist.map((x) => {
+        x = x.replaceAll(/[0-9]+/g, "");
+        return this.$store.state.element_table[x];
+      });
+      this.searchList = this.constList.filter(
+        (x) =>
+          x.element.length == elelistlength &&
+          this.judgeele_methodone(elelist, x.element)
+      );
+    },
     searchElement(event) {
       const ele = event.currentTarget.innerHTML.trim();
       if (this.isActive[ele] === false) {
@@ -1025,10 +1263,115 @@ export default {
         this.mater_list = this.mater_list.filter((x) => x !== ele);
       }
       this.isActive[ele] = !this.isActive[ele];
-      this.formInline.mater = this.mater_list.join("");
+      this.formInline.mater = this.mater_list.join("-");
+      this.beforetablehighlight();
     },
-    getresult() {
-      this.visible = true;
+    getresult(format) {
+      if (format[2]) {
+        this.visible = true;
+        this.$refs.searchresult.reset();
+        this.searchMethod = this.judgemethod(this.formInline.mater);
+        this.getresultlist(this.searchMethod);
+        this.jumptoresult();
+      }
+    },
+    judgemethod(elestr) {
+      if (elestr.includes("mp")) {
+        console.log("使用Material ID搜索");
+        return 5;
+      } else if (elestr.includes("-") && elestr.includes("*")) {
+        console.log("使用半模糊查询");
+        return 4;
+      } else if (elestr.includes("-")) {
+        console.log("使用-查询");
+        return 3;
+      } else if (elestr.includes("*")) {
+        console.log("使用模糊查询");
+        return 2;
+      } else if (elestr.includes(",")) {
+        console.log("使用,查询");
+        return 1;
+      } else {
+        console.log("固定查询");
+        return 0;
+      }
+    },
+    jumptoresult() {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        let el = document.querySelector("#search-result");
+        window.scrollTo(0, el.offsetTop - 110);
+      }, 50);
+    },
+    beforetablehighlight() {
+      let elestr = this.formInline.mater;
+      let elechar = [];
+      if (elestr.includes("-")) {
+        elechar = elestr.split("-");
+      } else if (elestr.includes(",")) {
+        elechar = elestr.split(",");
+      } else {
+        let index = "";
+        let startindex = "";
+        for (let i = 0; i < elestr.length; i++) {
+          if (elestr[i].match(/[A-Z]/)) {
+            startindex = index;
+            index = i;
+            if (index != 0 && startindex === "") {
+              elechar.push(elestr.slice(0, index));
+            }
+            if (parseFloat(startindex).toString() !== "NaN") {
+              elechar.push(elestr.slice(startindex, index));
+            }
+          }
+        }
+        elechar.push(elestr.slice(index, elestr.length));
+      }
+      let verify1 = [];
+      elechar.forEach((x) => {
+        if (x.match(/[^A-Za-z0-9,*-]/)) {
+          verify1.push(false);
+        } else verify1.push(true);
+      });
+      if (verify1.every((x) => x == true)) this.format[0] = true;
+      else this.format[0] = false;
+      let eleChar = [];
+      let verify2 = [];
+      elechar.map((x) => {
+        x = x.replaceAll(/[^A-Za-z]/g, "");
+        if (!Object.keys(this.isActive).includes(x) && x !== "")
+          verify2.push(false);
+        else verify2.push(true);
+        if (verify2.every((x) => x == true)) this.format[1] = true;
+        else this.format[1] = false;
+        eleChar.push(x);
+      });
+      this.format[2] = this.format[1] && this.format[0];
+      eleChar.forEach((x) => this.tablehighlight(x));
+      this.mater_list.forEach((x) => this.cancelhighlight(x, eleChar));
+    },
+    tablehighlight(ele) {
+      if (Object.keys(this.isActive).includes(ele)) {
+        if (this.isActive[ele] === false) {
+          this.mater_list.push(ele);
+          this.isActive[ele] = !this.isActive[ele];
+        }
+      }
+    },
+    cancelhighlight(ele, eleChar) {
+      if (!eleChar.includes(ele)) {
+        this.mater_list = this.mater_list.filter((x) => x !== ele);
+        this.isActive[ele] = !this.isActive[ele];
+      }
+    },
+    getformat() {
+      this.formInline.mater = "";
+      this.beforetablehighlight();
+      this.format[2] = false;
+    },
+    querySearch(queryString, cb) {
+      var results = this.example;
+      cb(results);
     }
   },
   components: { mysearchresult }
@@ -1039,7 +1382,11 @@ export default {
 .el-form {
   margin-top: 15px;
 }
-.el-input {
-  width: 300px;
+.el-autocomplete {
+  width: 400px;
+}
+.address {
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 </style>
