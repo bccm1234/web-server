@@ -15,7 +15,7 @@
       let id = idNumber.substring(1, idNumber.length);
       $(function () {
         let element = $("#container-01");
-        let config = { backgroundColor: "#CCC" };
+        let config = { backgroundColor: "#eef5ff" };
         let viewer = $3Dmol.createViewer(element, config);
         let cifUri = "../src/assets/cifFile/" + id + ".cif";
         jQuery.ajax(cifUri, {

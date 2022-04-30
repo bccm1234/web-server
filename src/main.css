@@ -1,3 +1,7 @@
+@font-face {
+    font-family: PHTR;
+    src: url("./assets/font/Alibaba-PuHuiTi-Regular.ttf");
+}
 body {
     min-width: 1310px;
     margin: 0px;
