@@ -53,6 +53,10 @@ export default {
     this.Chartband();
     this.Chartdensity();
   },
+  updated() {
+    this.Chartband();
+    this.Chartdensity();
+  },
   methods: {
     changeColor(id) {
       const buttons = document.getElementsByClassName("bottonItemBand");
