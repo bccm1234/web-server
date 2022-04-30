@@ -24,10 +24,10 @@
         <component :is="comName">
           <template #a>2</template>
           <template #bandCanvas>
-            <div style="width: 740px; height: 417px" ref="chartband"></div>
+            <div style="width: 100%; height: 417px" ref="chartband"></div>
           </template>
           <template #densityCanvas>
-            <div style="width: 740px; height: 417px" ref="chartdensity"></div>
+            <div style="width: 100%; height: 417px" ref="chartdensity"></div>
           </template>
         </component>
       </div>
