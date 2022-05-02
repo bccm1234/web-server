@@ -15,5 +15,14 @@
       "dom.iterable",
       "scripthost"
     ]
-  }
+  },
+  "exclude":[
+    "node_modules",
+    ".vscode",
+    "library",
+    "local",
+    "settings",
+    "temp",
+    "build"
+  ]
 }
