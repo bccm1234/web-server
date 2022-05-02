@@ -32,7 +32,4 @@ export default {
 .articleBox {
   margin-top: 10px;
 }
-.doiBox {
-  width: 740px;
-}
 </style>

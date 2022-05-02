@@ -6,37 +6,37 @@
         <li class="item">
           <span class="itemLeft">a :</span>
           <span class="itemRight">
-            <slot name="c-lattice-a"></slot>
+            {{ infoObj.a ? infoObj.a + " Å" : "Not Found" }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">α :</span>
           <span class="itemRight">
-            <slot name="c-lattice-α"></slot>
+            {{ infoObj.α ? infoObj.α + " °" : "Not Found" }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">b :</span>
           <span class="itemRight">
-            <slot name="c-lattice-b"></slot>
+            {{ infoObj.b ? infoObj.b + " Å" : "Not Found" }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">β :</span>
           <span class="itemRight">
-            <slot name="c-lattice-β"></slot>
+            {{ infoObj.β ? infoObj.β + " °" : "Not Found" }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">c :</span>
           <span class="itemRight">
-            <slot name="c-lattice-c"></slot>
+            {{ infoObj.c ? infoObj.c + " Å" : "Not Found" }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">γ :</span>
           <span class="itemRight">
-            <slot name="c-lattice-γ"></slot>
+            {{ infoObj.γ ? infoObj.γ + " °" : "Not Found" }}
           </span>
         </li>
       </ul>
@@ -47,12 +47,21 @@
         <li class="item">
           <span class="itemLeft">Crystal System :</span>
           <span class="itemRight">
-            <slot name="c-crystalSystem"></slot>
+            {{
+              infoObj["crystal system"]
+                ? infoObj["crystal system"]
+                : "Not Found"
+            }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">Space Group :</span>
-          <slot name="c-spaceGroup"></slot>
+          <span
+            class="itemRight"
+            v-html="spaceGroup"
+            v-show="spaceGroup"
+          ></span>
+          <span class="itemRight" v-show="!spaceGroup">Not Found</span>
         </li>
       </ul>
     </div>
@@ -62,37 +71,37 @@
         <li class="item">
           <span class="itemLeft">Run Type :</span>
           <span class="itemRight">
-            <slot name="c-runType"></slot>
+            {{ infoObj.runtype ? infoObj.runtype : "Not Found" }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">U-values :</span>
           <span class="itemRight">
-            <slot name="c-Uvalues"></slot>
+            {{ infoObj.uvalue ? infoObj.uvalue : "Not Found" }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">Energy Cutoff :</span>
           <span class="itemRight">
-            <slot name="c-energyCutoff"></slot>
+            {{ infoObj.energyCutoff ? infoObj.energyCutoff : "Not Found" }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">code :</span>
           <span class="itemRight">
-            <slot name="c-code"></slot>
+            {{ infoObj.code ? infoObj.code : "Not Found" }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">Kpoint :</span>
           <span class="itemRight">
-            <slot name="c-Kpoint"></slot>
+            {{ infoObj.Kpoint ? infoObj.Kpoint : "Not Found" }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">more details :</span>
           <span class="itemRight">
-            <slot name="c-moreDetails"></slot>
+            {{ infoObj.moreDetails ? infoObj.code : "Not Found" }}
           </span>
         </li>
       </ul>
@@ -102,19 +111,18 @@
 
 <script>
 export default {
-  name: "template-calucation"
+  name: "template-calucation",
+  data() {
+    return {
+      infoObj: {},
+      spaceGroup: ""
+    };
+  }
 };
 </script>
 
 <style lang="less" scoped>
 .symmetry {
   margin: 20px 0;
-}
-.itemLeft {
-  display: inline-block;
-  width: 160px;
-}
-.itemRight {
-  color: #551a8b;
 }
 </style>

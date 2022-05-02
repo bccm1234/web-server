@@ -3,8 +3,8 @@
   <div class="leftBox">
     <!-- 元素卡片 -->
     <ul class="formulaBox">
-      <slot name="formulaName"></slot>
-      <li class="formulaId">mp-<slot name="formulaId"></slot></li>
+      <li class="formulaName" v-html="formula"></li>
+      <li class="formulaId">mp-{{ infoObj.id }}</li>
     </ul>
     <!-- 左侧导航栏 -->
     <div>
@@ -24,7 +24,8 @@
 export default {
   name: "details-leftbox",
   props: {
-    info: Object
+    infoObj: Object,
+    formula: String
   },
   data() {
     return {

@@ -1,8 +1,14 @@
+/* eslint-disable vue/no-dupe-keys */
 <template>
   <div class="abstractBox rightItem" id="0">
     <div class="modelBox">
-      <slot name="modelCanvas"></slot>
-      <slot name="colorBox"></slot>
+      <iframe :src="JSmolURL" scrolling="no" class="modelCanvas"></iframe>
+      <span class="colorBox br-10" :style="{ backgroundColor: color1 }">{{
+        infoObj.element1
+      }}</span>
+      <span class="colorBox br-10" :style="{ backgroundColor: color2 }">{{
+        infoObj.element2
+      }}</span>
       <span class="downloadBox br-10"
         ><i class="el-icon-download download"></i> DownLoad</span
       >
@@ -12,56 +18,40 @@
         <li class="abstractTitle">Abstract</li>
         <li class="abstractItem">
           <span class="abstractItemLeft">Crystal System:</span>
-          <span class="abstractItemRight"
-            ><slot name="abstractItemRight1"></slot
-          ></span>
+          <span class="abstractItemRight">{{ infoObj["crystal system"] }}</span>
         </li>
         <li class="abstractItem">
           <span class="abstractItemLeft">Space Group:</span>
-          <slot name="abstractItemRight2"></slot>
+          <span class="abstractItemRight" v-html="spaceGroup"></span>
         </li>
         <li class="abstractItem">
           <span class="abstractItemLeft">band Gap(Calutation):</span>
-          <span class="abstractItemRight"
-            ><slot name="abstractItemRight3"></slot>ev</span
-          >
+          <span class="abstractItemRight">{{ infoObj["band gap"] }}ev</span>
         </li>
         <li class="abstractTitle" style="margin-bottom: 0px">Lattice</li>
         <li class="abstractItem">
           <span class="abstractItemLeft">a:</span>
-          <span class="abstractItemRight"
-            ><slot name="abstractItemRight4"></slot
-          ></span>
+          <span class="abstractItemRight">{{ infoObj.a + " Å" }}</span>
         </li>
         <li class="abstractItem">
           <span class="abstractItemLeft">b:</span>
-          <span class="abstractItemRight"
-            ><slot name="abstractItemRight5"></slot
-          ></span>
+          <span class="abstractItemRight">{{ infoObj.b + " Å" }}</span>
         </li>
         <li class="abstractItem">
           <span class="abstractItemLeft">c:</span>
-          <span class="abstractItemRight"
-            ><slot name="abstractItemRight6"></slot
-          ></span>
+          <span class="abstractItemRight">{{ infoObj.c + " Å" }}</span>
         </li>
         <li class="abstractItem">
           <span class="abstractItemLeft">α:</span>
-          <span class="abstractItemRight"
-            ><slot name="abstractItemRight7"></slot
-          ></span>
+          <span class="abstractItemRight">{{ infoObj.α + " °" }}</span>
         </li>
         <li class="abstractItem">
           <span class="abstractItemLeft">β:</span>
-          <span class="abstractItemRight"
-            ><slot name="abstractItemRight8"></slot
-          ></span>
+          <span class="abstractItemRight">{{ infoObj.β + " °" }}</span>
         </li>
         <li class="abstractItem">
           <span class="abstractItemLeft">γ:</span>
-          <span class="abstractItemRight"
-            ><slot name="abstractItemRight9"></slot
-          ></span>
+          <span class="abstractItemRight">{{ infoObj.γ + " °" }}</span>
         </li>
       </ul>
     </div>
@@ -72,15 +62,14 @@
 export default {
   name: "details-abstract",
   data() {
-    return {
-      JSmolURL: "",
-      spaceGroup: "",
-      color1: "",
-      color2: ""
-    };
+    return {};
   },
   props: {
-    info: Object
+    infoObj: Object,
+    JSmolURL: String,
+    color1: String,
+    color2: String,
+    spaceGroup: String
   }
 };
 </script>
@@ -172,7 +161,7 @@ export default {
 }
 .abstractTitle {
   text-align: left;
-  font-style: 22px;
+  font-size: 24px;
   font-weight: 700;
   letter-spacing: 4px;
   margin: 8px 0;

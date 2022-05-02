@@ -116,11 +116,4 @@ export default {
   height: 417px;
   margin: 5px 0 20px;
 }
-.itemLeft {
-  display: inline-block;
-  width: 185px;
-}
-.itemRight {
-  color: blue;
-}
 </style>

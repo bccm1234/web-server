@@ -83,16 +83,5 @@ export default {
   width: 740px;
   height: 417px;
   margin-bottom: 10px;
-  border: 0;
-  border-radius: 10px;
-  background: #eef5ff;
-  box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
-}
-.itemLeft {
-  display: inline-block;
-  width: 185px;
-}
-.itemRight {
-  color: blue;
 }
 </style>

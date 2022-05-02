@@ -1,6 +1,6 @@
 <template>
-  <div id="3" class="totalBox rightItem">
-    <div class="navName">Charge Density</div>
+  <div id="1" class="totalBox rightItem">
+    <div class="navName">Crystal Strusture</div>
     <div class="body br-10">
       <div class="button">
         <span
@@ -8,7 +8,7 @@
             comName = 'templateCalculation';
             changeColor(0);
           "
-          class="bottonItemCharge bgc"
+          class="bottonItemCrystal bgc"
           >calculation</span
         >
         <span
@@ -16,38 +16,38 @@
             comName = 'templateExperiment';
             changeColor(1);
           "
-          class="bottonItemCharge"
+          class="bottonItemCrystal"
           >experiment</span
         >
       </div>
       <div class="mainBox">
-        <component :is="comName">
-          <template #a>3</template>
-        </component>
+        <component :is="comName" :infoObj="infoObj"></component>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import templateCalculation from "./charge-calculation.vue";
-import templateExperiment from "./charge-experiment.vue";
+import templateCalculation from "./crystal-calculation.vue";
+import templateExperiment from "./crystal-experiment.vue";
 export default {
   name: "template",
   data() {
     return {
-      comName: "templateCalculation"
+      comName: "templateCalculation",
+      crystalObj: {}
     };
   },
+  props: ["infoObj", "spaceGroup"],
   components: {
     templateCalculation,
     templateExperiment
   },
   methods: {
     changeColor(id) {
-      const buttons = document.getElementsByClassName("bottonItemCharge");
+      const buttons = document.getElementsByClassName("bottonItemCrystal");
       for (let i = 0; i < buttons.length; i++) {
-        buttons[i].className = "bottonItemCharge";
+        buttons[i].className = "bottonItemCrystal";
       }
       buttons[id].classList.add("bgc");
     }
@@ -61,20 +61,6 @@ export default {
   background: #84b1ff;
 }
 //固定样式
-.totalBox {
-  margin-top: 30px;
-}
-.navName {
-  width: 860px;
-  height: 70px;
-  font-size: 32px;
-  font-weight: bold;
-  line-height: 70px;
-  letter-spacing: 0px;
-  color: #3d3d3d;
-  text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-  text-align: left;
-}
 .body {
   background-color: #fff;
   padding: 30px;
@@ -84,7 +70,7 @@ export default {
 .button {
   border-bottom: 3px solid rgba(0, 0, 0, 0.8);
 }
-.bottonItemCharge {
+.bottonItemCrystal {
   display: inline-block;
   width: 150px;
   height: 40px;
@@ -96,6 +82,6 @@ export default {
   cursor: pointer;
 }
 .mainBox {
-  padding: 20px 30px 0;
+  padding: 20px 20px 0;
 }
 </style>
