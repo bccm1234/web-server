@@ -1,9 +1,20 @@
-@font-face {
-    font-family: PHTR;
-    src: url("./assets/font/Alibaba-PuHuiTi-Regular.ttf");
-}
+* {
+    list-style: none;
+    font-family: "PHTR";
+  }
 body {
     min-width: 1310px;
     margin: 0px;
     background-color: rgb(228, 230, 232);
 }
+@font-face {
+    font-family:"PHTR";
+    src: url("./assets/font-style/Alibaba-PuHuiTi-Regular.ttf");
+}
+@font-face {
+    font-family:"PHTB";
+    src: url("./assets/font-style/Alibaba-PuHuiTi-Bold.ttf");
+}
+.br-10 {
+    border-radius: 10px;
+  }

@@ -14,6 +14,7 @@
     <footer>
       <myWebFooter></myWebFooter>
     </footer>
+    <canvas class="qqq"></canvas>
   </div>
 </template>
 <script>
@@ -35,12 +36,5 @@ export default {
   text-align: center;
   color: #2c3e50;
   padding-top: 80px;
-}
-* {
-  list-style: none;
-  font-family: PHTR;
-}
-.br-10 {
-  border-radius: 10px;
 }
 </style>
