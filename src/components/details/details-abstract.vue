@@ -101,12 +101,10 @@ export default {
 .modelCanvas {
   position: absolute;
   left: 40px;
-  top: 40px;
-  width: 395px;
-  height: 395px;
+  top: 10px;
+  width: 390px;
+  height: 432px;
   border: none;
-  border-radius: 10px;
-  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.1);
 }
 .colorBox {
   display: inline-block;
