@@ -11,21 +11,14 @@
 
   <body>
     <center>
-      <div class="inputBox">
-        X:<input type="text" id="input0" /> 
-        Y:<input type="text" id="input1" />
-        Z:<input type="text" id="input2" />
-        <button id="btn-supercell">go!</button>
-        <button id="btn-reset">reset</button>
-      </div>
       <script>
         let idNumber = window.location.search;
         let id = idNumber.substring(1, idNumber.length);
         // setup component  new ChemDoodle.TransformCanvas3D(name, width, height);
         let crystalTransformer = new ChemDoodle.TransformCanvas3D(
           "canvasDom",
-          395,
-          395
+          420,
+          420
         );
         // set the atom/bond representation to 'Ball and Stick'
         // or 'Stick', 'Line', 'van der Waals Spheres'(ball), 'Wireframe'
@@ -45,7 +38,7 @@
         //上面照抄，除了第一行的400修改一下
 
         //下面45-49行的代码是ChemDoodle的代码，createCanvas是我自己封装的，方便回调
-        let fileUrl = "../src/assets/cifFile/" + 1 + ".cif";
+        let fileUrl = "../src/assets/cifFile/" + id + ".cif";
         function createdCanvas(fileUrl, xyz) {
           xyz = xyz || [1, 1, 1];
           //read cif file，ChemDoodle自带Ajax
@@ -57,7 +50,8 @@
         }
         createdCanvas(fileUrl);
 
-        document.getElementById("canvasDom").style = "width: 390px; height: 390px; border-radius: 10px"
+        //设置宽高，样式
+        document.getElementById("canvasDom").style = "width: 420px; height: 420px; border-radius: 10px"
         // 扩胞功能
         document
           .getElementById("btn-supercell")

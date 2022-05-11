@@ -8,7 +8,7 @@
             comName = 'templateCalculation';
             changeColor(0);
           "
-          class="bottonItemCrystal bgc"
+          class="bottonItemCrystal bgc PHTB"
           >calculation</span
         >
         <span
@@ -16,7 +16,7 @@
             comName = 'templateExperiment';
             changeColor(1);
           "
-          class="bottonItemCrystal"
+          class="bottonItemCrystal PHTB"
           >experiment</span
         >
       </div>
@@ -77,7 +77,6 @@ export default {
   line-height: 40px;
   border-radius: 10px 10px 0px 0px;
   font-size: 18px;
-  font-weight: 700;
   text-align: center;
   cursor: pointer;
 }

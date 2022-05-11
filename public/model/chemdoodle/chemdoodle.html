@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChemDoodle</title>
+    <link rel="stylesheet" href="./css/ChemDoodleWeb.css" type="text/css" />
+    <script type="text/javascript" src="./js/ChemDoodleWeb.js"></script>
+    <script type="text/javascript" src="./js/crystal.js"></script>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      .containerBox {
+        width: 420px;
+        height: 420px;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+      let idNumber = window.location.search;
+      let id = idNumber.substring(1, idNumber.length);
+    </script>
+    <center>
+      <div class="containerBox">
+        <script>
+          let config = {
+            cifUrl:"../../../src/assets/cifFile/" + id + ".cif",
+            xyz: [2,2,2],
+          };
+          crystal(config)
+          window.addEventListener(
+            "message",
+            function (e) {
+              let Data = e.data;
+              for (let i = 0; i < Data.length; i++) {
+                if (config.xyz[i] !== Data[i]) {
+                  config.xyz = Data;
+                  crystal(config)
+                  break;
+                }
+              }
+            },
+            false
+          );
+        </script>
+      </div>
+    </center>
+  </body>
+</html>

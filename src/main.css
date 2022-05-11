@@ -1,6 +1,5 @@
 * {
     list-style: none;
-    font-family: "PHTR";
   }
 body {
     min-width: 1310px;
@@ -14,6 +13,14 @@ body {
 @font-face {
     font-family:"PHTB";
     src: url("./assets/font-style/Alibaba-PuHuiTi-Bold.ttf");
+}
+@font-face {
+    font-family:"PHTH";
+    src: url("./assets/font-style/Alibaba-PuHuiTi-Heavy.ttf");
+}
+@font-face {
+    font-family:"PHTM";
+    src: url("./assets/font-style/Alibaba-PuHuiTi-Medium.ttf");
 }
 .br-10 {
     border-radius: 10px;

@@ -13,9 +13,7 @@
         >
       </div>
       <div class="mainBox">
-        <component :is="comName">
-          <template #a>3</template>
-        </component>
+        <component :is="comName" :chargeURL="chargeURL"></component>
       </div>
     </div>
     <div class="bottomBox"></div>
@@ -26,17 +24,29 @@
 import templateCalculation from "./charge-calculation.vue";
 import templateExperiment from "./charge-experiment.vue";
 export default {
-  name: "template",
+  name: "DetailsCharge",
   data() {
     return {
-      comName: "templateCalculation"
+      comName: "templateCalculation",
+      chargeURL: ""
     };
   },
   components: {
     templateCalculation,
     templateExperiment
   },
+  created() {
+    this.fetchData();
+  },
   methods: {
+    fetchData() {
+      let idNumber = window.location.hash;
+      let hashId = idNumber.substring(12, idNumber.length);
+      this.chargeURL =
+        "http://127.0.0.1:5501/web-server/public/model/3dmol/3dmol.html?" +
+        hashId;
+      // console.log("infoObj", this.infoObj);
+    },
     changeColor(id) {
       const buttons = document.getElementsByClassName("bottonItemCharge");
       for (let i = 0; i < buttons.length; i++) {
