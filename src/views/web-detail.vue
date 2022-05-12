@@ -75,10 +75,7 @@ export default {
       this.infoObj = res.data[hashId - 1];
       this.hashNum = hashId;
       this.crystalURL =
-        "http://127.0.0.1:5501/web-server/public/model/chemdoodle/chemdoodle.html?" +
-        hashId;
-      this.chargeURL =
-        "http://127.0.0.1:5501/web-server/public/model/3dmol/3dmol.html" +
+        "http://127.0.0.1:5501/web-server/public/chemdoodle/chemdoodle.html?" +
         hashId;
       // console.log("infoObj", this.infoObj);
     },

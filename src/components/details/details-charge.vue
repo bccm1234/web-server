@@ -43,8 +43,7 @@ export default {
       let idNumber = window.location.hash;
       let hashId = idNumber.substring(12, idNumber.length);
       this.chargeURL =
-        "http://127.0.0.1:5501/web-server/public/model/3dmol/3dmol.html?" +
-        hashId;
+        "http://127.0.0.1:5501/web-server/public/3dmol/3Dmol.html?" + hashId;
       // console.log("infoObj", this.infoObj);
     },
     changeColor(id) {

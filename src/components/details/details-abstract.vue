@@ -18,6 +18,7 @@
                 type="text"
                 placeholder="eg:2"
                 id="input1"
+                autocomplete="off"
               />
             </div>
             <div style="width: 200px">
@@ -27,6 +28,7 @@
                 type="text"
                 placeholder="eg:2"
                 id="input2"
+                autocomplete="off"
               />
             </div>
             <div style="width: 200px">
@@ -36,6 +38,7 @@
                 type="text"
                 placeholder="eg:2"
                 id="input3"
+                autocomplete="off"
               />
             </div>
             <div style="width: 230px">

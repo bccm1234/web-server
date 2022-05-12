@@ -23,7 +23,7 @@
           class="el-menu-vertical-demo"
           :collapse="isCollapse"
         >
-          <form action="" v-show="!isCollapse">
+          <form action="" v-show="!isCollapse" ref="chargeForm">
             <div class="setTitle">SETTING</div>
             <div class="nextTitle">Isosurface</div>
             <table class="isoSetTable">
@@ -37,16 +37,17 @@
                 <td>
                   <el-checkbox
                     v-model="isPositive"
-                    class="chemCheck"
+                    class="chargeCheck"
                   ></el-checkbox>
                 </td>
                 <td>Positive</td>
                 <td>
                   <input
                     type="text"
-                    id="input1"
+                    id="inputP"
                     class="isoInput"
                     placeholder="eg:0.05"
+                    autocomplete="off"
                   />
                 </td>
                 <td class="colorBox">
@@ -57,16 +58,17 @@
                 <td>
                   <el-checkbox
                     v-model="isNegative"
-                    class="chemCheck"
+                    class="chargeCheck"
                   ></el-checkbox>
                 </td>
                 <td>Negative</td>
                 <td>
                   <input
                     type="text"
-                    id="input2"
+                    id="inputN"
                     class="isoInput"
                     placeholder="eg:-0.05"
+                    autocomplete="off"
                   />
                 </td>
                 <td class="colorBox">
@@ -81,16 +83,17 @@
                 <td>
                   <el-checkbox
                     v-model="isMoveX"
-                    class="chemCheck"
+                    class="chargeCheck"
                   ></el-checkbox>
                 </td>
                 <td>X Axis</td>
                 <td>
                   <input
                     type="text"
-                    id="input3"
+                    id="inputX"
                     class="isoInput"
-                    placeholder="eg:20px"
+                    placeholder="eg:20"
+                    autocomplete="off"
                   />
                 </td>
               </tr>
@@ -98,55 +101,52 @@
                 <td>
                   <el-checkbox
                     v-model="isMoveY"
-                    class="chemCheck"
+                    class="chargeCheck"
                   ></el-checkbox>
                 </td>
                 <td>Y Axis</td>
                 <td>
                   <input
-                    id="input3"
+                    id="inputY"
                     type="text"
                     class="isoInput"
-                    placeholder="eg:20px"
+                    placeholder="eg:20"
+                    autocomplete="off"
                   />
                 </td>
               </tr>
               <tr style="font-size: 22px">
                 <td>Spin</td>
               </tr>
-              <tr>
-                <td>
-                  <el-checkbox v-model="isSpin" class="chemCheck"></el-checkbox>
-                </td>
-                <td class="spinSelect">
-                  <el-select v-model="value">
-                    <el-option
-                      key="选项1"
-                      label="X Axis"
-                      value="x"
-                      name="select1"
-                    ></el-option>
-                    <el-option
-                      key="选项2"
-                      label="Y Axis"
-                      value="y"
-                      name="select2"
-                    ></el-option>
-                    <el-option
-                      key="选项3"
-                      label="Z Axis"
-                      value="z"
-                      name="select3"
-                    ></el-option>
-                  </el-select>
-                </td>
-              </tr>
             </table>
             <div style="width: 340px">
-              <button class="settingButton">Go!</button>
-              <button class="settingButton">Clean</button>
+              <button class="settingButton" @click="sentToChargeIframe">
+                Go!
+              </button>
+              <button class="settingButton" @click="resetChargeForm">
+                Clean
+              </button>
             </div>
           </form>
+          <table v-show="!isCollapse">
+            <tr>
+              <td style="width: 64px; text-align: center">
+                <el-checkbox v-model="isSpin" class="chargeCheck"></el-checkbox>
+              </td>
+              <td class="spinSelect" style="width: 80px; text-align: center">
+                <el-select v-model="spinAxis" :popper-append-to-body="isbody">
+                  <el-option key="选项1" label="X Axis" value="x"></el-option>
+                  <el-option key="选项2" label="Y Axis" value="y"></el-option>
+                  <el-option
+                    key="选项3"
+                    label="Z Axis"
+                    value="z"
+                    selected
+                  ></el-option>
+                </el-select>
+              </td>
+            </tr>
+          </table>
         </el-menu>
         <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
           <div class="setButton el-icon-setting" @click="changeState()"></div>
@@ -208,7 +208,7 @@ export default {
   name: "template-calucation",
   data() {
     return {
-      isCollapse: false,
+      isCollapse: true,
       isPositive: false,
       isNegative: false,
       isMoveX: false,
@@ -216,12 +216,17 @@ export default {
       isSpin: false,
       colorPositive: "#ffff56",
       colorNegative: "#78fbfd",
-      value: "x"
+      spinAxis: "z",
+      isbody: false,
+      xLength: 0,
+      yLength: 0,
+      chargeConfig: {}
     };
   },
   props: {
     chargeURL: String
   },
+  mounted() {},
   methods: {
     // checkNum() {
     //   let value = document.getElementById("txtInput").value;
@@ -248,34 +253,68 @@ export default {
     sentToChargeIframe() {
       let chargeIframe = document.getElementById("chargeIframe");
       let isovalPositive = this.isPositive
-        ? document.getElementById("input1").value
-          ? document.getElementById("input1").value
-          : 0.0015
-        : 0.0015;
+        ? document.getElementById("inputP").value
+          ? document.getElementById("inputP").value - 0
+          : 0.01
+        : 0.01;
+      let isoPositiveColor = this.isPositive ? this.colorPositive : "#ffff56";
+      let isoNegativeColor = this.isNegative ? this.colorNegative : "#78fbfd";
       let isovalNegative = this.isNegative
-        ? document.getElementById("input2").value
-          ? document.getElementById("input2").value
-          : -0.0015
-        : -0.0015;
+        ? document.getElementById("inputN").value
+          ? document.getElementById("inputN").value - 0
+          : -0.01
+        : -0.01;
       let moveX = this.isMoveX
-        ? document.getElementById("input3").value
-          ? document.getElementById("input3").value
-          : -0.0015
-        : -0.0015;
-      let moveY = this.isMoveX
-        ? document.getElementById("input4").value
-          ? document.getElementById("input4").value
-          : -0.0015
-        : -0.0015;
+        ? document.getElementById("inputX").value
+          ? document.getElementById("inputX").value - 0
+          : 0
+        : 0;
+      let moveY = this.isMoveY
+        ? document.getElementById("inputY").value
+          ? document.getElementById("inputY").value - 0
+          : 0
+        : 0;
       let translate = [moveX, moveY];
       let spinSpeed = this.isSpin ? 1 : 0;
-      let chargeConfig = {
+      this.chargeConfig = {
+        isClean: false,
         isovalPositive,
         isovalNegative,
+        isoPositiveColor,
+        isoNegativeColor,
         translate,
+        spinAxis: this.spinAxis,
         spinSpeed
       };
-      chargeIframe.contentWindow.postMessage(chargeConfig, this.chargeURL);
+      this.xLength += moveX;
+      this.yLength += moveY;
+      chargeIframe.contentWindow.postMessage(this.chargeConfig, this.chargeURL);
+    },
+    resetChargeForm() {
+      let chargeIframe = document.getElementById("chargeIframe");
+      this.$refs.chargeForm.reset();
+      (this.isPositive = false),
+        (this.isNegative = false),
+        (this.isMoveX = false),
+        (this.isMoveY = false),
+        (this.isSpin = false),
+        (this.colorPositive = "#ffff56"),
+        (this.colorNegative = "#78fbfd"),
+        (this.spinAxis = "z"),
+        (this.chargeConfig = {
+          isClean: true,
+          isovalPositive: 0.01,
+          isovalNegative: -0.01,
+          isoPositiveColor: "#ffff56",
+          isoNegativeColor: "#24292e",
+          translate: [-this.xLength, -this.yLength], //translate:[x,y]
+          spinAxis: "z",
+          spinSpeed: 0 //0,1,2,3
+        });
+      chargeIframe.contentWindow.postMessage(this.chargeConfig, this.chargeURL);
+      // this.xLength = 0;
+      // this.yLength = 0;
+      this.chargeConfig.isClean = false;
     }
   }
 };
@@ -318,6 +357,7 @@ export default {
   height: 0;
   z-index: 2;
 }
+//伸缩框设置
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   float: left;
   width: 370px;
@@ -371,6 +411,13 @@ export default {
   height: 30px;
   line-height: 29px;
 }
+//选择框
+.chargeCheck /deep/.el-checkbox__input > .el-checkbox__inner {
+  background-color: rgba(0, 0, 0, 0);
+  border: 2px solid #fff;
+  width: 18px;
+  height: 18px;
+}
 .isoInput {
   width: 108px;
   background: none;
@@ -380,14 +427,24 @@ export default {
   box-sizing: border-box;
   border: 1px solid #ffffff;
   text-indent: 1rem;
+  font-size: 18px;
   font-weight: 500;
+  padding-top: 3px;
   color: #fff;
 }
+input::-webkit-input-placeholder {
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: lowercase;
+  letter-spacing: 0px;
+  color: #464646;
+}
+//颜色选择器
 .colorBox {
   height: 30px;
   line-height: 30px;
 }
-.colorBox > .el-color-picker {
+.el-color-picker {
   display: block;
   height: 22px;
   /deep/ .el-color-picker__trigger {
@@ -396,17 +453,78 @@ export default {
     width: 22px;
     height: 22px;
     border-radius: 11px;
+    .el-color-picker__color {
+      border: none;
+      .el-color-picker__color-inner {
+        border: 1px solid #fff;
+        border-radius: 11px;
+      }
+    }
+    .el-color-picker__icon {
+      font-size: 0;
+    }
   }
 }
-.demonstration {
-  display: block;
-  color: #8492a6;
-  font-size: 14px;
-  margin-bottom: 20px;
+//模型旋转xyz下拉选框
+.spinSelect /deep/ .el-select {
+  .el-input {
+    .el-input__inner {
+      width: 64px;
+      height: 30px;
+      padding: 0 5px;
+      font-size: 18px;
+      background: #d8d8d8;
+      border-radius: 0;
+      font-family: PHTM;
+      font-size: 18px;
+      line-height: 30px;
+      text-transform: capitalize;
+      letter-spacing: 0px;
+      color: #5f6266;
+      border: 1px solid #fff;
+    }
+    .el-input__suffix > .el-input__suffix-inner > .el-select__caret {
+      display: none;
+    }
+  }
+  .el-popper {
+    margin-top: 0;
+    width: 64px;
+    margin: 0 !important;
+    .el-scrollbar > .el-scrollbar__wrap > .el-select-dropdown__list {
+      padding: 0;
+      border-bottom: 1px solid #fff;
+      .el-select-dropdown__item {
+        padding: 0;
+        width: 64px;
+        height: 30px;
+        background: rgba(0, 0, 0, 0.6);
+        box-sizing: border-box;
+        font-size: 18px;
+        font-family: PHTM;
+        line-height: 30px;
+        text-transform: capitalize;
+        letter-spacing: 0px;
+        text-align: center;
+        color: #fff;
+        border-left: 1px solid #fff;
+        border-right: 1px solid #fff;
+      }
+    }
+  }
+  .el-select-dropdown {
+    margin: 0;
+    border: none;
+    border-radius: 0 !important;
+    .popper__arrow {
+      display: none !important;
+    }
+  }
 }
+//go 和 clean 按钮
 .settingButton {
   float: right;
-  margin-top: 85px;
+  margin-top: 105px;
   width: 55px;
   height: 25px;
   border-radius: 10px;
@@ -447,65 +565,5 @@ export default {
   background: #eef5ff;
   box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
   border: none;
-}
-.chemCheck /deep/.el-checkbox__input > .el-checkbox__inner {
-  background-color: rgba(0, 0, 0, 0);
-  border: 2px solid #fff;
-  width: 18px;
-  height: 18px;
-}
-</style>
-<style>
-/* element ui需要样式穿透 */
-.colorBox
-  > .el-color-picker
-  > .el-color-picker__trigger
-  > .el-color-picker__color {
-  border: none;
-}
-.colorBox
-  > .el-color-picker
-  > .el-color-picker__trigger
-  > .el-color-picker__color
-  > .el-color-picker__color-inner {
-  border: 1px solid #fff;
-  border-radius: 11px;
-}
-.colorBox
-  > .el-color-picker
-  > .el-color-picker__trigger
-  > .el-color-picker__icon {
-  font-size: 0;
-}
-.spinSelect > .el-select > .el-input > .el-input__inner {
-  width: 64px;
-  height: 30px;
-  padding: 0 5px !important;
-  font-size: 18px;
-  background: #d8d8d8;
-}
-.spinSelect
-  > .el-select
-  > .el-input
-  > .el-input__suffix
-  > .el-input__suffix-inner
-  > .el-select__caret {
-  display: none;
-}
-.el-popper > .popper__arrow::after {
-  display: none;
-}
-.el-popper {
-  margin-top: 0;
-  width: 64px;
-  margin: 0 !important;
-}
-.popper__arrow {
-  display: none !important;
-}
-.el-select-dropdown {
-  margin: 0;
-  border: none;
-  border-radius: 0 !important;
 }
 </style>

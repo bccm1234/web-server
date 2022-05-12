@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>3Dmol-Cube</title>
+    <title>Document</title>
     <script src="./js/3Dmol-min.js"></script>
     <script src="./js/isosurface.js"></script>
     <style>
@@ -37,51 +37,57 @@
       </div>
     </center>
     <script>
-      let idNumber = window.location.search;
-      let id = idNumber.substring(1, idNumber.length);
-    </script>
-    <script>
-      let config1 = {
+      //默认配置
+      let config0 = {
         divId: "container",
-        cifUrl: "../../../src/assets/chargeFile/" + id + ".cif",
-        cubeUrl: "../../../src/assets/chargeFile/" + id + ".cube",
-      };
-      let config2 = {
-        isovalPositive: 0.0015,
-        isovalNegative: -0.0015,
+        cifUrl: "./cif/CHGCAR-diff.cif",
+        cubeUrl: "./cube/CHGCAR-diff.cube",
+        isovalPositive: 0.01,
+        isovalNegative: -0.01,
         isoPositiveColor: "#ffff56",
         isoNegativeColor: "#78fbfd",
         translate: [0, 0], //translate:[x,y]
         spinAxis: "z",
-        spinSpeed: 0,
+        spinSpeed: 0, //0,1,2,3
       };
-
-      isoSurface(config1, config2);
+      let configFix = {
+        divId: "container",
+        cifUrl: "./cif/CHGCAR-diff.cif",
+        cubeUrl: "./cube/CHGCAR-diff.cube",
+      };
+      let configSet = {
+        isClean: false,
+        isovalPositive: 0.01,
+        isovalNegative: -0.01,
+        isoPositiveColor: "#ffff56",
+        isoNegativeColor: "#78fbfd",
+        translate: [0, 0], //translate:[x,y]
+        spinAxis: "z",
+        spinSpeed: 0, //0,1,2,3
+      };
+      isoPrepare(configFix);
+      modelCreate();
       window.addEventListener(
         "message",
         function (e) {
           let Data = e.data;
           console.log(Data);
-          let arr1 = JSON.stringify(Data);
-          let arr2 = JSON.stringify(config2);
-          if (arr1 !== arr2) {
-            console.log("ok");
-            config2 = Data;
-            getCancas();
-            isoSurface(config1, config2);
+          if (Data.isClean) {
+            resetting(config0);
+          } else {
+            let arr1 = JSON.stringify(Data);
+            let arr2 = JSON.stringify(configSet);
+            let xLength = 0;
+            xLength += Data.translate[0];
+            if (arr1 !== arr2) {
+              console.log("ok");
+              configSet = Data;
+              resetting(configSet);
+            }
           }
         },
         false
       );
-      function getCancas() {
-        let canvasBox = document.getElementsByClassName("containerBox")[0];
-        let canvas = canvasBox.children;
-        console.log(canvasBox);
-        console.log(canvas);
-        for (var i = 0; i < canvas.length; i++) {
-          canvasBox.removeChild(canvas[i]);
-        }
-      }
     </script>
   </body>
 </html>
