@@ -37,11 +37,13 @@
       </div>
     </center>
     <script>
+      let idNumber = window.location.search;
+      let id = idNumber.substring(1, idNumber.length);
       //默认配置
       let config0 = {
         divId: "container",
-        cifUrl: "./cif/CHGCAR-diff.cif",
-        cubeUrl: "./cube/CHGCAR-diff.cube",
+        cifUrl: "../../src/assets/chargeFile/" + id + ".cif",
+        cubeUrl: "../../src/assets/chargeFile/" + id + ".cube",
         isovalPositive: 0.01,
         isovalNegative: -0.01,
         isoPositiveColor: "#ffff56",
@@ -52,8 +54,8 @@
       };
       let configFix = {
         divId: "container",
-        cifUrl: "./cif/CHGCAR-diff.cif",
-        cubeUrl: "./cube/CHGCAR-diff.cube",
+        cifUrl: "../../src/assets/chargeFile/" + id + ".cif",
+        cubeUrl: "../../src/assets/chargeFile/" + id + ".cube",
       };
       let configSet = {
         isClean: false,
@@ -67,27 +69,6 @@
       };
       isoPrepare(configFix);
       modelCreate();
-      window.addEventListener(
-        "message",
-        function (e) {
-          let Data = e.data;
-          console.log(Data);
-          if (Data.isClean) {
-            resetting(config0);
-          } else {
-            let arr1 = JSON.stringify(Data);
-            let arr2 = JSON.stringify(configSet);
-            let xLength = 0;
-            xLength += Data.translate[0];
-            if (arr1 !== arr2) {
-              console.log("ok");
-              configSet = Data;
-              resetting(configSet);
-            }
-          }
-        },
-        false
-      );
     </script>
   </body>
 </html>

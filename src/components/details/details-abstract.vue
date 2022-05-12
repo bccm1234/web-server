@@ -45,8 +45,11 @@
               <button class="settingButton" @click="sentToChemIframe()">
                 Go!
               </button>
-              <button class="settingButton" @click="resetSupecell">
+              <button class="settingButton" @click="resetSupecell()">
                 Clean
+              </button>
+              <button class="settingButton" @click="refreshSupecell()">
+                Refresh
               </button>
             </div>
           </form>
@@ -157,6 +160,9 @@ export default {
     },
     resetSupecell() {
       this.$refs.chemForm.reset();
+    },
+    refreshSupecell() {
+      this.resetSupecell();
       this.sentToChemIframe();
     }
   }

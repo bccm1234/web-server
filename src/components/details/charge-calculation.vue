@@ -119,16 +119,19 @@
                 <td>Spin</td>
               </tr>
             </table>
-            <div style="width: 340px">
+            <div class="settingButtons">
               <button class="settingButton" @click="sentToChargeIframe">
                 Go!
               </button>
               <button class="settingButton" @click="resetChargeForm">
                 Clean
               </button>
+              <button class="settingButton" @click="refreshModel">
+                Refresh
+              </button>
             </div>
           </form>
-          <table v-show="!isCollapse">
+          <table v-show="!isCollapse" class="spinSelectTable">
             <tr>
               <td style="width: 64px; text-align: center">
                 <el-checkbox v-model="isSpin" class="chargeCheck"></el-checkbox>
@@ -291,7 +294,6 @@ export default {
       chargeIframe.contentWindow.postMessage(this.chargeConfig, this.chargeURL);
     },
     resetChargeForm() {
-      let chargeIframe = document.getElementById("chargeIframe");
       this.$refs.chargeForm.reset();
       (this.isPositive = false),
         (this.isNegative = false),
@@ -300,21 +302,13 @@ export default {
         (this.isSpin = false),
         (this.colorPositive = "#ffff56"),
         (this.colorNegative = "#78fbfd"),
-        (this.spinAxis = "z"),
-        (this.chargeConfig = {
-          isClean: true,
-          isovalPositive: 0.01,
-          isovalNegative: -0.01,
-          isoPositiveColor: "#ffff56",
-          isoNegativeColor: "#24292e",
-          translate: [-this.xLength, -this.yLength], //translate:[x,y]
-          spinAxis: "z",
-          spinSpeed: 0 //0,1,2,3
-        });
+        (this.spinAxis = "z");
+    },
+    refreshModel() {
+      this.resetChargeForm();
+      this.chargeConfig.isClean = true;
+      let chargeIframe = document.getElementById("chargeIframe");
       chargeIframe.contentWindow.postMessage(this.chargeConfig, this.chargeURL);
-      // this.xLength = 0;
-      // this.yLength = 0;
-      this.chargeConfig.isClean = false;
     }
   }
 };
@@ -465,6 +459,10 @@ input::-webkit-input-placeholder {
     }
   }
 }
+.spinSelectTable {
+  position: relative;
+  top: -30px;
+}
 //模型旋转xyz下拉选框
 .spinSelect /deep/ .el-select {
   .el-input {
@@ -521,10 +519,15 @@ input::-webkit-input-placeholder {
     }
   }
 }
-//go 和 clean 按钮
+//go/clean/refresh 按钮
+.settingButtons {
+  width: 340px;
+  height: 30px;
+  position: relative;
+  top: 105px;
+}
 .settingButton {
   float: right;
-  margin-top: 105px;
   width: 55px;
   height: 25px;
   border-radius: 10px;

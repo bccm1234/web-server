@@ -99,3 +99,35 @@ function resetting(config) {
   viewer.spin(config.spinAxis, config.spinSpeed);
   viewer.render(); /* render scene */
 }
+function getCanvas() {
+  let canvasBox = document.getElementsByClassName("containerBox")[0];
+  let canvas = canvasBox.children;
+  console.log(canvasBox);
+  console.log(canvas);
+  for (var i = 0; i < canvas.length; i++) {
+    canvasBox.removeChild(canvas[i]);
+  }
+}
+window.addEventListener(
+  "message",
+  function (e) {
+    let Data = e.data;
+    console.log(Data);
+    if (Data.isClean) {
+      getCanvas();
+      isoPrepare(configFix);
+      modelCreate();
+    } else {
+      let arr1 = JSON.stringify(Data);
+      let arr2 = JSON.stringify(configSet);
+      let xLength = 0;
+      xLength += Data.translate[0];
+      if (arr1 !== arr2) {
+        console.log("ok");
+        configSet = Data;
+        resetting(configSet);
+      }
+    }
+  },
+  false
+);
