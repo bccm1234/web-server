@@ -1,6 +1,6 @@
 /* eslint-disable vue/no-dupe-keys */
 <template>
-  <div class="abstractBox PHTM" id="0">
+  <div class="abstractBox PHTM rightItem" id="0">
     <div class="modelBox">
       <div class="supercellBox">
         <el-menu
