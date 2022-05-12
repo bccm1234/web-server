@@ -163,7 +163,8 @@ export default {
     },
     refreshSupecell() {
       this.resetSupecell();
-      this.sentToChemIframe();
+      let iFrame1 = document.getElementById("chemIframe");
+      iFrame1.contentWindow.postMessage("refresh", this.crystalURL);
     }
   }
 };

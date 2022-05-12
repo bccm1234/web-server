@@ -41,3 +41,33 @@ function resetting(xyz) {
   let cif = ChemDoodle.readCIF(cifData, xyz[0], xyz[1], xyz[2]);
   viewer.loadContent([cif.molecule], [cif.unitCell]);
 }
+window.addEventListener(
+  "message",
+  function (e) {
+    let Data = e.data;
+    console.log(Data);
+    if (Data == "refresh") {
+      getCanvas();
+      crystalPrepare(cifUrl);
+      modelCreate();
+    } else {
+      for (let i = 0; i < Data.length; i++) {
+        if (xyz[i] !== Data[i]) {
+          xyz = Data;
+          resetting(xyz);
+          break;
+        }
+      }
+    }
+  },
+  false
+);
+function getCanvas() {
+  let canvasBox = document.getElementsByClassName("containerBox")[0];
+  let canvas = canvasBox.children;
+  console.log(canvasBox);
+  console.log(canvas);
+  for (var i = 0; i < canvas.length; i++) {
+    canvasBox.removeChild(canvas[i]);
+  }
+}

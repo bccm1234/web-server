@@ -95,7 +95,7 @@ function resetting(config) {
   //---draw unitcell---//
   viewer.addUnitCell();
   //---setting part---//
-  viewer.translate(config.translate[0], config.translate[1], 1000, true);
+  viewer.translate(config.translate[0], config.translate[1], 1000);
   viewer.spin(config.spinAxis, config.spinSpeed);
   viewer.render(); /* render scene */
 }
