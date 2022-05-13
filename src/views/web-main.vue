@@ -17,8 +17,8 @@
           >
           </i>
           <template slot-scope="{ item }">
-            <div>
-              <span class="address">{{ item.address }}</span>
+            <div class="address">
+              <span>{{ item.address }}</span>
               <span>{{ item.value }}</span>
             </div>
           </template></el-autocomplete
@@ -1381,12 +1381,23 @@ export default {
 <style lang="less" scoped>
 .el-form {
   margin-top: 15px;
+  /deep/ .el-form-item__label {
+    font-size: 0.1rem;
+    margin-right: 0.2rem;
+  }
+  .el-button {
+    font-size: 0.1rem;
+  }
 }
 .el-autocomplete {
   width: 400px;
+  /deep/ .el-input__inner {
+    font-size: 0.1rem;
+  }
 }
 .address {
   text-overflow: ellipsis;
   overflow: hidden;
+  font-size: 0.084rem;
 }
 </style>

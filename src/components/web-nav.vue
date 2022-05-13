@@ -37,7 +37,7 @@ export default {
   background-color: #003153;
 }
 .left-col {
-  font-size: 42px;
+  font-size: 0.28rem;
   font-weight: 700;
   line-height: 80px;
   color: #fff8f8;
@@ -53,6 +53,7 @@ export default {
   height: 100%;
   .el-link {
     color: white;
+    font-size: 0.1rem;
   }
 }
 </style>

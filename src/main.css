@@ -1,8 +1,16 @@
 body {
-    min-width: 1310px;
+    /* min-width: 666px; */
     margin: 0px;
     background-color: rgb(228, 230, 232);
 }
+* {
+    list-style: none;
+    font-family: "PHTB";
+}
+.br-10 {
+    border-radius: 10px;
+}
+
 @font-face {
     font-family:"PHTR";
     src: url("./assets/font-style/Alibaba-PuHuiTi-Regular.ttf");

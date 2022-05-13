@@ -1,7 +1,7 @@
 <template>
   <div v-show="visible" id="search-result">
     <el-container>
-      <el-aside width="450px">
+      <el-aside width="2.6rem" style="min-width: 280px">
         <div class="filter-header">
           <span class="filter-header-title">Filters</span>
           <el-button @click="reset">Reset</el-button>
@@ -12,18 +12,22 @@
           class="filter-form"
           ref="form"
         >
-          <i
-            v-if="!toggle.Symmetry"
-            class="el-icon-caret-right"
-            @click="changetoggle(true, $event)"
-            >Symmetry
-          </i>
-          <i
-            v-else
-            class="el-icon-caret-bottom"
-            @click="changetoggle(false, $event)"
-            >Symmetry</i
-          >
+          <div>
+            <div v-if="!toggle.Symmetry" class="icon-symmetry">
+              <i
+                class="el-icon-caret-right"
+                @click="changetoggle(true, $event)"
+              ></i>
+              <span>Symmetry</span>
+            </div>
+            <div v-else class="icon-symmetry">
+              <i
+                class="el-icon-caret-bottom"
+                @click="changetoggle(false, $event)"
+              ></i>
+              <span>Symmetry</span>
+            </div>
+          </div>
           <div v-show="toggle.Symmetry" class="clear">
             <el-form-item label="Spacegroup Symbol" prop="space group">
               <el-select
@@ -34,7 +38,11 @@
                 <template slot="prefix">
                   <div
                     v-html="form['space group']"
-                    style="margin-left: 45px; color: rgb(44, 62, 80)"
+                    style="
+                      margin-left: 45px;
+                      color: rgb(96, 102, 113);
+                      font-size: 0.06rem;
+                    "
                   ></div>
                 </template>
                 <el-option
@@ -43,10 +51,14 @@
                   :label="item.value"
                   :value="item.label"
                 >
-                  <span style="float: left" v-html="item.label"></span>
-                  <span style="float: right; color: #8492a6; font-size: 13px">{{
-                    item.value
-                  }}</span>
+                  <span
+                    style="float: left; font-size: 0.06rem"
+                    v-html="item.label"
+                  ></span>
+                  <span
+                    style="float: right; color: #8492a6; font-size: 0.06rem"
+                    >{{ item.value }}</span
+                  >
                 </el-option>
               </el-select>
             </el-form-item>
@@ -1464,44 +1476,58 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.el-aside {
-  background-color: #fff;
-  margin: 10px;
-  .filter-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgb(187, 187, 187);
-    height: 70px;
-    .filter-header-title {
-      font-weight: 700;
-      font-size: 20px;
-      margin-left: 25px;
-    }
-    .el-button {
-      margin-right: 25px;
-    }
-  }
-  .filter-form /deep/ .el-form-item {
-    text-align: left;
-    margin-left: 21px;
-    margin-bottom: 7px;
-  }
-  i {
-    float: left;
-    font-size: 18px;
-    font-weight: 600;
-    margin: 10px 3px 0;
-  }
-  .clear {
-    clear: both;
-    padding-top: 7px;
-    /deep/ .el-input--prefix .el-input__inner {
-      padding-left: 15px;
-    }
-  }
-}
 .el-container {
+  .el-aside {
+    background-color: #fff;
+    margin: 0.06rem;
+    .filter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgb(187, 187, 187);
+      height: 70px;
+      .filter-header-title {
+        font-weight: 700;
+        font-size: 0.12rem;
+        margin-left: 0.125rem;
+      }
+      .el-button {
+        margin-right: 0.125rem;
+        font-size: 0.1rem;
+      }
+    }
+    .filter-form /deep/ .el-form-item {
+      text-align: left;
+      margin-left: 21px;
+      margin-bottom: 7px;
+    }
+    .icon-symmetry {
+      display: flex;
+      align-items: center;
+      margin: 3px 0;
+      i {
+        font-size: 18px;
+      }
+      span {
+        font-size: 0.1rem;
+        font-weight: 600;
+        margin-left: 3px;
+      }
+    }
+    .clear {
+      padding-top: 7px;
+      /deep/ .el-form-item__label {
+        font-size: 0.084rem;
+      }
+      /deep/ .el-input--prefix .el-input__inner {
+        padding-left: 15px;
+      }
+      /deep/ .el-input__inner {
+        font-size: 0.084rem;
+      }
+    }
+  }
+
   .el-header {
     display: flex;
     background-color: #fff;

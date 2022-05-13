@@ -10,6 +10,7 @@ import "./mock/elementcolor";
 import "./mock/childpage.js";
 import axios from "axios";
 import * as echarts from "echarts";
+import "lib-flexible/flexible.js";
 Vue.directive("focus", {
   inserted: function (el) {
     el.querySelector(".el-input").children[0].focus();
