@@ -48,6 +48,8 @@
                     class="isoInput"
                     placeholder="eg:0.05"
                     autocomplete="off"
+                    @input="checkNumP()"
+                    value=""
                   />
                 </td>
                 <td class="colorBox">
@@ -69,6 +71,9 @@
                     class="isoInput"
                     placeholder="eg:-0.05"
                     autocomplete="off"
+                    @propertychange="checkNumN()"
+                    @input="checkNumN()"
+                    @keypress="checkNumN()"
                   />
                 </td>
                 <td class="colorBox">
@@ -94,6 +99,7 @@
                     class="isoInput"
                     placeholder="eg:20"
                     autocomplete="off"
+                    oninput="value=value.replace(/[^\d]/g,'').replace(/^0{1,}/g,'');lessNum(this)"
                   />
                 </td>
               </tr>
@@ -112,6 +118,7 @@
                     class="isoInput"
                     placeholder="eg:20"
                     autocomplete="off"
+                    oninput="value=value.replace(/[^\d]/g,'').replace(/^0{1,}/g,'');lessNum(this)"
                   />
                 </td>
               </tr>
@@ -120,13 +127,21 @@
               </tr>
             </table>
             <div class="settingButtons">
-              <button class="settingButton" @click="sentToChargeIframe">
+              <button
+                class="settingButton"
+                @click="sentToChargeIframe"
+                type="button"
+              >
                 Go!
               </button>
-              <button class="settingButton" @click="resetChargeForm">
+              <button
+                class="settingButton"
+                @click="resetChargeForm"
+                type="button"
+              >
                 Clean
               </button>
-              <button class="settingButton" @click="refreshModel">
+              <button class="settingButton" @click="refreshModel" type="button">
                 Refresh
               </button>
             </div>
@@ -211,7 +226,7 @@ export default {
   name: "template-calucation",
   data() {
     return {
-      isCollapse: true,
+      isCollapse: false,
       isPositive: false,
       isNegative: false,
       isMoveX: false,
@@ -231,24 +246,50 @@ export default {
   },
   mounted() {},
   methods: {
-    // checkNum() {
-    //   let value = document.getElementById("txtInput").value;
-    //   let num = "" + value;
-    //   num = num
-    //     .replace(/[^\d.]/g, "")
-    //     .replace(/\.{2,}/g, ".")
-    //     .replace(".", "$#$")
-    //     .replace(/\./g, "")
-    //     .replace("$#$", ".")
-    //     .replace(/^(\.-)*(\d+)\.(\d\d).*$/, "$1$2.$3");
-    //   if (num.indexOf(".") < 0 && num !== "") {
-    //     num = parseFloat(num);
-    //   }
-    //   if (num >= 1) {
-    //     num = 1;
-    //   }
-    //   document.getElementById("txtInput").value = num;
-    // }
+    checkNum(value) {
+      let num = "" + value;
+      num = num
+        .replace(/[^\d.]/g, "")
+        .replace(".", "$#$")
+        .replace(/\./g, "")
+        .replace("$#$", ".")
+        .replace(/^(\.-)*(\d+)\.(\d\d\d\d).*$/, "$1$2.$3");
+      if (num.indexOf(".") < 0 && num !== "") {
+        num = parseFloat(num);
+      }
+      if (num >= 1) {
+        num = 1;
+      }
+      value = num;
+      return value;
+    },
+    checkNumP() {
+      let value = document.getElementById("inputP").value;
+      value = this.checkNum(value);
+      document.getElementById("inputP").value = value;
+    },
+    checkNumN() {
+      let value = document.getElementById("inputN").value;
+      let numStr = "" + value;
+      let num = numStr.replace("-", "");
+      num = num
+        .replace(/[^\d.]/g, "")
+        .replace(".", "$#$")
+        .replace(/\./g, "")
+        .replace("$#$", ".")
+        .replace(/^(\.-)*(\d+)\.(\d\d\d\d).*$/, "$1$2.$3");
+      if (num.indexOf(".") < 0 && num !== "") {
+        num = parseFloat(num);
+      }
+      if (num >= 1) {
+        num = 1;
+      }
+      console.log("numafter", num);
+      numStr = "-" + num;
+      console.log("numStrafter", numStr);
+      value = numStr;
+      document.getElementById("inputN").value = value;
+    },
     //改变设置侧边栏开关状态
     changeState() {
       this.isCollapse = !this.isCollapse;
@@ -423,8 +464,9 @@ export default {
   text-indent: 1rem;
   font-size: 18px;
   font-weight: 500;
-  padding-top: 3px;
+  // padding-top: 2px;
   color: #fff;
+  font-family: PHTM;
 }
 input::-webkit-input-placeholder {
   font-size: 18px;
@@ -432,6 +474,7 @@ input::-webkit-input-placeholder {
   text-transform: lowercase;
   letter-spacing: 0px;
   color: #464646;
+  // line-height: 22px;
 }
 //颜色选择器
 .colorBox {
@@ -528,7 +571,7 @@ input::-webkit-input-placeholder {
 }
 .settingButton {
   float: right;
-  width: 55px;
+  min-width: 55px;
   height: 25px;
   border-radius: 10px;
   background: #d8d8d8;
@@ -536,7 +579,11 @@ input::-webkit-input-placeholder {
   border: 1px solid #ffffff;
   margin-left: 15px;
   cursor: pointer;
+  font-size: 18px;
+  font-family: PHTM;
+  padding: 0 3px;
 }
+//设置（抽屉开关按钮）
 .setButton {
   float: left;
   margin-top: 30px;
@@ -556,6 +603,7 @@ input::-webkit-input-placeholder {
   line-height: 40px;
   cursor: pointer;
 }
+//侧边设置栏end
 //charge渲染画布
 .chargeCanvas {
   position: absolute;

@@ -47,13 +47,14 @@ window.addEventListener(
     let Data = e.data;
     console.log(Data);
     if (Data == "refresh") {
-      getCanvas();
+      console.log("refreshpppppppppp")
       crystalPrepare(cifUrl);
       modelCreate();
     } else {
       for (let i = 0; i < Data.length; i++) {
         if (xyz[i] !== Data[i]) {
           xyz = Data;
+          // crystalPrepare(cifUrl)
           resetting(xyz);
           break;
         }
@@ -62,12 +63,3 @@ window.addEventListener(
   },
   false
 );
-function getCanvas() {
-  let canvasBox = document.getElementsByClassName("containerBox")[0];
-  let canvas = canvasBox.children;
-  console.log(canvasBox);
-  console.log(canvas);
-  for (var i = 0; i < canvas.length; i++) {
-    canvasBox.removeChild(canvas[i]);
-  }
-}

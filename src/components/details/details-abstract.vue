@@ -19,6 +19,9 @@
                 placeholder="eg:2"
                 id="input1"
                 autocomplete="off"
+                @propertychange="checkNumX()"
+                @input="checkNumX()"
+                @keypress="checkNumX()"
               />
             </div>
             <div style="width: 200px">
@@ -29,6 +32,9 @@
                 placeholder="eg:2"
                 id="input2"
                 autocomplete="off"
+                @propertychange="checkNumY()"
+                @input="checkNumY()"
+                @keypress="checkNumY()"
               />
             </div>
             <div style="width: 200px">
@@ -39,16 +45,32 @@
                 placeholder="eg:2"
                 id="input3"
                 autocomplete="off"
+                @propertychange="checkNumZ()"
+                @input="checkNumZ()"
+                @keypress="checkNumZ()"
               />
             </div>
             <div style="width: 230px">
-              <button class="settingButton" @click="sentToChemIframe()">
+              <button
+                class="settingButton"
+                @click="sentToChemIframe()"
+                type="button"
+              >
                 Go!
               </button>
-              <button class="settingButton" @click="resetSupecell()">
+              <button
+                class="settingButton"
+                @click="resetSupecell()"
+                type="button"
+              >
                 Clean
               </button>
-              <button class="settingButton" @click="refreshSupecell()">
+              <button
+                class="settingButton"
+                @click="refreshSupecell()"
+                style="margin-left: 0"
+                type="button"
+              >
                 Refresh
               </button>
             </div>
@@ -136,7 +158,6 @@ export default {
       isCollapse: true
     };
   },
-  mounted() {},
   methods: {
     //设置扩胞侧边栏开关
     changeState() {
@@ -165,6 +186,35 @@ export default {
       this.resetSupecell();
       let iFrame1 = document.getElementById("chemIframe");
       iFrame1.contentWindow.postMessage("refresh", this.crystalURL);
+    },
+    checkNum(value) {
+      let num = "" + value;
+      // console.log(value);
+      num = num.replace(/[^0-9]/g, "");
+      // console.log(num);
+      if (num === "0") {
+        num = 1;
+      }
+      if (num >= 5) {
+        num = 5;
+      }
+      value = num;
+      return value;
+    },
+    checkNumX() {
+      let value = document.getElementById("input1").value;
+      value = this.checkNum(value);
+      document.getElementById("input1").value = value;
+    },
+    checkNumY() {
+      let value = document.getElementById("input2").value;
+      value = this.checkNum(value);
+      document.getElementById("input2").value = value;
+    },
+    checkNumZ() {
+      let value = document.getElementById("input3").value;
+      value = this.checkNum(value);
+      document.getElementById("input3").value = value;
     }
   }
 };
@@ -263,11 +313,17 @@ export default {
   background: rgba(0, 0, 0, 0);
   text-indent: 1rem;
   color: #fff;
+  font-family: PHTM;
+  font-size: 18px;
 }
+.inputRight::-webkit-input-placeholder {
+  color: #464646;
+}
+//refresh/clean/go按钮
 .settingButton {
   float: right;
   margin-top: 165px;
-  width: 55px;
+  min-width: 55px;
   height: 25px;
   border-radius: 10px;
   background: #d8d8d8;
@@ -275,7 +331,11 @@ export default {
   border: 1px solid #ffffff;
   margin-left: 15px;
   cursor: pointer;
+  font-size: 18px;
+  font-family: PHTM;
+  padding: 0 3px;
 }
+//侧边设置栏伸缩按钮
 .setButton {
   float: left;
   margin-top: 30px;
