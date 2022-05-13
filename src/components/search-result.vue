@@ -18,14 +18,14 @@
                 class="el-icon-caret-right"
                 @click="changetoggle(true, $event)"
               ></i>
-              <span>Symmetry</span>
+              <span @click="changetoggle(true, $event)">Symmetry</span>
             </div>
             <div v-else class="icon-symmetry">
               <i
                 class="el-icon-caret-bottom"
                 @click="changetoggle(false, $event)"
               ></i>
-              <span>Symmetry</span>
+              <span @click="changetoggle(false, $event)">Symmetry</span>
             </div>
           </div>
           <div v-show="toggle.Symmetry" class="clear">
@@ -1461,7 +1461,9 @@ export default {
       this.$router.push({ name: "detail", query: { id: row.id } });
     },
     changetoggle(isdisplay, event) {
-      let formkey = event.target.innerHTML.trim();
+      let formkey =
+        event.target.innerHTML || event.target.nextSibling.innerHTML;
+      console.log(formkey);
       for (let key in this.toggle) {
         if (key == formkey) {
           this.toggle[key] = isdisplay;
