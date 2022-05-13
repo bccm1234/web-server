@@ -1387,7 +1387,7 @@ export default {
       const arr = this.List.map((x) => x[prop]);
       arr.push(label); // 把每列的表头也加进去算
       // 2.计算每列内容最大的宽度 + 表格的内间距（依据实际情况而定）
-      return this.getMaxLength(arr) + 40 + "px";
+      return this.getMaxLength(arr) + 47 + "px";
     },
     getMaxLength(arr) {
       return arr.reduce((acc, item) => {
@@ -1405,6 +1405,7 @@ export default {
       let width = 0;
       const html = document.createElement("span");
       html.innerHTML = str;
+      html.style.fontSize = "0.09rem";
       html.className = "getTextWidth";
       document.querySelector("body").appendChild(html);
       width = document.querySelector(".getTextWidth").offsetWidth;
@@ -1529,29 +1530,34 @@ export default {
       }
     }
   }
-
-  .el-header {
-    display: flex;
-    background-color: #fff;
-    padding: 0px;
-    margin: 10px 20px 0;
-    justify-content: space-between;
-    .searchresult-header {
-      margin-top: 10px;
-      padding-left: 10px;
-      span {
-        font-size: 16px;
-        b {
-          font-size: 20px;
+  .el-container {
+    min-width: 540px;
+    .el-header {
+      display: flex;
+      background-color: #fff;
+      padding: 0px;
+      margin: 10px 20px 0;
+      justify-content: space-between;
+      .searchresult-header {
+        margin-top: 10px;
+        padding-left: 10px;
+        span {
+          font-size: 0.09rem;
+          b {
+            font-size: 0.12rem;
+          }
+        }
+        div {
+          font-size: 0.084rem;
+          text-align: left;
         }
       }
-      div {
-        font-size: 14px;
-        text-align: left;
+      span {
+        align-self: center;
       }
     }
-    span {
-      align-self: center;
+    .el-table {
+      font-size: 0.09rem;
     }
   }
 }
