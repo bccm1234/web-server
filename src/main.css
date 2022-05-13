@@ -1,12 +1,9 @@
 body {
-    /* min-width: 888px; */
+    min-width: 666px;
     margin: 0px;
     background-color: rgb(228, 230, 232);
 }
-* {
-    list-style: none;
-    font-family: "PHTB";
-}
+
 .br-10 {
     border-radius: 10px;
 }
