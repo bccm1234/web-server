@@ -1,22 +1,6 @@
 <template>
   <div class="chargeBox">
     <div class="chargeTop PHTM">
-      <!-- <div>
-        <form>
-          <span>ISO :</span>
-          <input
-            type="text"
-            id="txtInput"
-            @propertychange="checkNum()"
-            @input="checkNum()"
-            @keypress="checkNum()"
-            value=""
-            placeholder="0-1"
-            class="br-10"
-          />
-          <span class="goBox br-10">Go!</span>
-        </form>
-      </div> -->
       <div class="chargeSetBox">
         <el-menu
           default-active="1-4-1"
@@ -226,7 +210,7 @@ export default {
   name: "template-calucation",
   data() {
     return {
-      isCollapse: false,
+      isCollapse: true,
       isPositive: false,
       isNegative: false,
       isMoveX: false,
@@ -246,7 +230,9 @@ export default {
   },
   mounted() {},
   methods: {
-    checkNum(value) {
+    //限制positive输入0-1内的四位小数
+    checkNumP() {
+      let value = document.getElementById("inputP").value;
       let num = "" + value;
       num = num
         .replace(/[^\d.]/g, "")
@@ -261,13 +247,9 @@ export default {
         num = 1;
       }
       value = num;
-      return value;
-    },
-    checkNumP() {
-      let value = document.getElementById("inputP").value;
-      value = this.checkNum(value);
       document.getElementById("inputP").value = value;
     },
+    //限制negative输入-1-0内的四位小数
     checkNumN() {
       let value = document.getElementById("inputN").value;
       let numStr = "" + value;
@@ -285,7 +267,9 @@ export default {
         num = 1;
       }
       console.log("numafter", num);
-      numStr = "-" + num;
+      if (numStr !== "") {
+        numStr = "-" + num;
+      }
       console.log("numStrafter", numStr);
       value = numStr;
       document.getElementById("inputN").value = value;
@@ -294,6 +278,7 @@ export default {
     changeState() {
       this.isCollapse = !this.isCollapse;
     },
+    //发送表单内容到html页面
     sentToChargeIframe() {
       let chargeIframe = document.getElementById("chargeIframe");
       let isovalPositive = this.isPositive
@@ -321,7 +306,7 @@ export default {
       let translate = [moveX, moveY];
       let spinSpeed = this.isSpin ? 1 : 0;
       this.chargeConfig = {
-        isClean: false,
+        isRefresh: false,
         isovalPositive,
         isovalNegative,
         isoPositiveColor,
@@ -334,6 +319,7 @@ export default {
       this.yLength += moveY;
       chargeIframe.contentWindow.postMessage(this.chargeConfig, this.chargeURL);
     },
+    //表单内容重置
     resetChargeForm() {
       this.$refs.chargeForm.reset();
       (this.isPositive = false),
@@ -345,9 +331,10 @@ export default {
         (this.colorNegative = "#78fbfd"),
         (this.spinAxis = "z");
     },
+    //销毁画布重新渲染模型
     refreshModel() {
       this.resetChargeForm();
-      this.chargeConfig.isClean = true;
+      this.chargeConfig.isRefresh = true;
       let chargeIframe = document.getElementById("chargeIframe");
       chargeIframe.contentWindow.postMessage(this.chargeConfig, this.chargeURL);
     }
@@ -366,23 +353,6 @@ export default {
   text-align: right;
   margin: 10px 0;
 }
-// #txtInput {
-//   width: 100px;
-//   height: 29px;
-//   margin: 0 10px;
-//   text-align: center;
-// }
-// .goBox {
-//   display: inline-block;
-//   width: 37px;
-//   height: 29px;
-//   font-size: 18px;
-//   line-height: 29px;
-//   background: #404756;
-//   color: #fff;
-//   text-align: center;
-//   cursor: pointer;
-// }
 //charge伸缩设置框，start
 .chargeSetBox {
   position: absolute;

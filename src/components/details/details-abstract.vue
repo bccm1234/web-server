@@ -187,6 +187,7 @@ export default {
       let iFrame1 = document.getElementById("chemIframe");
       iFrame1.contentWindow.postMessage("refresh", this.crystalURL);
     },
+    //限制输入框0-5之内
     checkNum(value) {
       let num = "" + value;
       // console.log(value);

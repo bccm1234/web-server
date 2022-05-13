@@ -113,7 +113,7 @@ window.addEventListener(
   function (e) {
     let Data = e.data;
     console.log(Data);
-    if (Data.isClean) {
+    if (Data.isRefresh) {
       getCanvas();
       isoPrepare(configFix);
       modelCreate();
