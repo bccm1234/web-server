@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./js/3Dmol-min.js"></script>
+    <script src="./js/isosurface.js"></script>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      .outBox {
+        width: 740px;
+        height: 500px;
+        border-radius: 10px;
+        background: #eef5ff;
+        box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+      }
+
+      .containerBox {
+        position: relative;
+        left: 0px;
+        top: 10px;
+        width: 720px;
+        height: 480px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <center>
+      <div class="outBox">
+        <div id="container" class="containerBox"></div>
+      </div>
+    </center>
+    <script>
+      let idNumber = window.location.search;
+      let id = idNumber.substring(1, idNumber.length);
+      //默认配置
+      let config0 = {
+        divId: "container",
+        cifUrl: "../../src/assets/chargeFile/" + id + ".cif",
+        cubeUrl: "../../src/assets/chargeFile/" + id + ".cube",
+        isovalPositive: 0.01,
+        isovalNegative: -0.01,
+        isoPositiveColor: "#ffff56",
+        isoNegativeColor: "#78fbfd",
+        translate: [0, 0], //translate:[x,y]
+        spinAxis: "z",
+        spinSpeed: 0, //0,1,2,3
+      };
+      let configFix = {
+        divId: "container",
+        cifUrl: "../../src/assets/chargeFile/" + id + ".cif",
+        cubeUrl: "../../src/assets/chargeFile/" + id + ".cube",
+      };
+      let configSet = {
+        isClean: false,
+        isovalPositive: 0.01,
+        isovalNegative: -0.01,
+        isoPositiveColor: "#ffff56",
+        isoNegativeColor: "#78fbfd",
+        translate: [0, 0], //translate:[x,y]
+        spinAxis: "z",
+        spinSpeed: 0, //0,1,2,3
+      };
+      isoPrepare(configFix);
+      modelCreate();
+    </script>
+  </body>
+</html>

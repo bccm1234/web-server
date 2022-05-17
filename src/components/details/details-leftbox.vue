@@ -8,7 +8,7 @@
     </ul>
     <!-- 左侧导航栏 -->
     <div>
-      <ul class="leftNav">
+      <ul class="leftNav PHTM">
         <li class="navTitle">CONTENTS</li>
         <li></li>
         <li class="navItem activeItem" @click="jump(0)">Abstract</li>
@@ -77,6 +77,7 @@ export default {
   height: 75px;
   width: 100%;
   font-size: 64px;
+  font-family: PHTB;
   font-weight: bold;
   letter-spacing: 1px;
   line-height: 75px;
@@ -108,12 +109,10 @@ export default {
 .navTitle {
   text-transform: uppercase;
   letter-spacing: 6px;
-  font-weight: 600;
 }
 .navItem {
   display: block;
   border-radius: 8px;
-  font-weight: 500;
 }
 .activeItem {
   background: #002fa7;

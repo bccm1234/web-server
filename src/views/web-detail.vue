@@ -6,7 +6,7 @@
     <div class="rightBox">
       <!-- Box1 -->
       <details-abstract
-        :JSmolURL="JSmolURL"
+        :crystalURL="crystalURL"
         :infoObj="infoObj"
         :spaceGroup="spaceGroup"
         :color1="color1"
@@ -44,11 +44,13 @@ export default {
   data() {
     return {
       infoObj: {},
-      color1: "blue",
+      color1: "",
       color2: "",
       spaceGroup: "",
-      JSmolURL: "",
-      formula: ""
+      crystalURL: "",
+      chargeURL: "",
+      formula: "",
+      hashNum: null
     };
   },
   created() {
@@ -68,9 +70,13 @@ export default {
   methods: {
     async fetchData() {
       let idNumber = window.location.hash;
-      let id = idNumber.substring(12, idNumber.length);
+      let hashId = idNumber.substring(12, idNumber.length);
       const { data: res } = await axios.get("/index/element");
-      this.infoObj = res.data[id - 1];
+      this.infoObj = res.data[hashId - 1];
+      this.hashNum = hashId;
+      this.crystalURL =
+        "http://127.0.0.1:5501/web-server/public/chemdoodle/chemdoodle.html?" +
+        hashId;
       // console.log("infoObj", this.infoObj);
     },
     async handleInfo() {
@@ -82,10 +88,7 @@ export default {
         const formula = this.infoObj["formula"];
         this.tranStr(1, spaceGroup);
         this.tranStr(0, formula);
-        this.JSmolURL =
-          "http://127.0.0.1:5501/web-server/public/detail.html?" +
-          this.infoObj.id;
-      }, 100);
+      }, 50);
     },
     tranStr(num, str) {
       // 0 means formula
@@ -172,7 +175,7 @@ export default {
   width: 740px;
   height: 40px;
   font-size: 24px;
-  font-weight: bold;
+  font-family: PHTB;
   line-height: 40px;
   letter-spacing: 1px;
   color: #3d3d3d;
@@ -183,7 +186,7 @@ export default {
   width: 370px;
   height: 40px;
   font-size: 18px;
-  font-weight: 600;
+  font-family: PHTB;
   line-height: 40px;
   color: #3d3d3d;
 }
@@ -194,23 +197,29 @@ export default {
 }
 ::v-deep .itemLeft {
   display: inline-block;
-  width: 160px;
+  margin-right: 30px;
 }
 ::v-deep .itemRight {
   color: #551a8b;
-}
-::v-deep .doiBox {
-  width: 740px;
 }
 ::v-deep .navName {
   width: 860px;
   height: 70px;
   font-size: 32px;
-  font-weight: bold;
   line-height: 70px;
   letter-spacing: 0px;
   color: #3d3d3d;
   text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
   text-align: left;
+  font-family: PHTM;
+}
+::v-deep .PHTR {
+  font-family: PHTR;
+}
+::v-deep .PHTB {
+  font-family: PHTB;
+}
+::v-deep .PHTM {
+  font-family: PHTM;
 }
 </style>

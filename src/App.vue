@@ -37,4 +37,8 @@ export default {
   color: #2c3e50;
   padding-top: 80px;
 }
+* {
+  list-style: none;
+  font-family: "PHTB";
+}
 </style>

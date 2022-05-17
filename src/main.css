@@ -1,12 +1,16 @@
 * {
     list-style: none;
-    font-family: "PHTR";
   }
 body {
-    min-width: 1310px;
+    min-width: 666px;
     margin: 0px;
     background-color: rgb(228, 230, 232);
 }
+
+.br-10 {
+    border-radius: 10px;
+}
+
 @font-face {
     font-family:"PHTR";
     src: url("./assets/font-style/Alibaba-PuHuiTi-Regular.ttf");
@@ -15,6 +19,11 @@ body {
     font-family:"PHTB";
     src: url("./assets/font-style/Alibaba-PuHuiTi-Bold.ttf");
 }
-.br-10 {
-    border-radius: 10px;
-  }
+@font-face {
+    font-family:"PHTH";
+    src: url("./assets/font-style/Alibaba-PuHuiTi-Heavy.ttf");
+}
+@font-face {
+    font-family:"PHTM";
+    src: url("./assets/font-style/Alibaba-PuHuiTi-Medium.ttf");
+}

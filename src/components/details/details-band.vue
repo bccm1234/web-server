@@ -24664,17 +24664,6 @@ export default {
 .totalBox {
   margin-top: 30px;
 }
-.navName {
-  width: 860px;
-  height: 70px;
-  font-size: 32px;
-  font-weight: bold;
-  line-height: 70px;
-  letter-spacing: 0px;
-  color: #3d3d3d;
-  text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-  text-align: left;
-}
 .body {
   background-color: #fff;
   padding: 30px;
@@ -24691,7 +24680,6 @@ export default {
   line-height: 40px;
   border-radius: 10px 10px 0px 0px;
   font-size: 18px;
-  font-weight: 700;
   text-align: center;
   cursor: pointer;
 }
