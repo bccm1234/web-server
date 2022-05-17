@@ -154,6 +154,7 @@ export default {
   top: 50px;
   margin-left: -650px;
   width: 1300px;
+  user-select: none;
 }
 .topBox {
   position: fixed;
@@ -201,6 +202,7 @@ export default {
 }
 ::v-deep .itemRight {
   color: #551a8b;
+  user-select: text;
 }
 ::v-deep .navName {
   width: 860px;

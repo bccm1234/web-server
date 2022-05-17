@@ -71,6 +71,7 @@ export default {
   color: #3d3d3d;
   text-align: center;
   min-width: 220px;
+  user-select: none;
 }
 .formulaName {
   display: inline-block;
@@ -113,6 +114,7 @@ export default {
 .navItem {
   display: block;
   border-radius: 8px;
+  cursor: pointer;
 }
 .activeItem {
   background: #002fa7;
