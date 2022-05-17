@@ -222,14 +222,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-//圆角
-.br-10 {
-  border-radius: 10px;
-}
-//字体加粗
-.fw-600 {
-  font-weight: 600;
-}
 .abstractBox {
   width: 860px;
   height: 550px;
@@ -375,6 +367,7 @@ export default {
   text-align: center;
   margin-right: 10px;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
+  font-size: 18px;
 }
 .downloadBox {
   float: right;
@@ -386,6 +379,7 @@ export default {
   margin-left: 130px;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
   background: #84b1ff;
+  font-size: 18px;
   cursor: pointer;
 }
 .download {
@@ -423,6 +417,7 @@ export default {
 }
 .abstractItem {
   text-align: left;
+  font-size: 18px;
 }
 .abstractItemLeft {
   display: inline-block;

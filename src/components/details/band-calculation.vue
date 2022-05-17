@@ -68,20 +68,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.resetButton {
-  position: relative;
-  left: 285px;
-  bottom: 5px;
-  width: 83px;
-  height: 40px;
-  border-radius: 10px;
-  background: #404756;
-  color: #fff;
-  cursor: pointer;
-}
 .bandCanvas {
   width: 740px;
   height: 417px;
   margin-bottom: 10px;
+}
+.density {
+  margin-top: 30px;
 }
 </style>

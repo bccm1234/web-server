@@ -99,7 +99,7 @@ export default {
   height: 735px;
   margin-top: 10px;
   color: #202535;
-  text-indent: 2rem;
+  text-indent: 30px;
 }
 .leftNav > li {
   width: 320px;

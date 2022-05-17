@@ -215,6 +215,9 @@ export default {
   text-align: left;
   font-family: PHTM;
 }
+::v-deep .br-10 {
+  border-radius: 10px;
+}
 ::v-deep .PHTR {
   font-family: PHTR;
 }

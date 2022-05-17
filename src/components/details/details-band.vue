@@ -24672,6 +24672,7 @@ export default {
 }
 .button {
   border-bottom: 3px solid rgba(0, 0, 0, 0.8);
+  font-family: PHTB;
 }
 .bottonItemBand {
   display: inline-block;
