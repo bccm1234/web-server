@@ -1,40 +1,17 @@
 <template>
   <div class="totalbox">
     <!-- 左 -->
-    <details-leftbox v-bind:info="infoObj">
-      <template #formulaName
-        ><li class="formulaName" v-html="formula"></li
-      ></template>
-      <template #formulaId>{{ infoObj.id }}</template>
-    </details-leftbox>
+    <details-leftbox :infoObj="infoObj" :formula="formula"></details-leftbox>
     <!-- 右 -->
     <div class="rightBox">
       <!-- Box1 -->
-      <details-abstract>
-        <!-- 模型渲染框 -->
-        <template #modelCanvas>
-          <iframe :src="JSmolURL" scrolling="no" class="modelCanvas"></iframe>
-        </template>
-        <template #colorBox>
-          <span class="colorBox br-10" :style="{ backgroundColor: color1 }">{{
-            infoObj.element1
-          }}</span>
-          <span class="colorBox br-10" :style="{ backgroundColor: color2 }">{{
-            infoObj.element2
-          }}</span>
-        </template>
-        <!-- 右侧信息栏 -->
-        <template #abstractItemRight1>{{ infoObj["crystal system"] }}</template>
-        <template #abstractItemRight2>
-          <span class="abstractItemRight" v-html="spaceGroup"></span>
-        </template>
-        <template #abstractItemRight3>{{ infoObj["band gap"] }}</template>
-        <template #abstractItemRight4>{{ infoObj.a }}</template>
-        <template #abstractItemRight5>{{ infoObj.b }}</template>
-        <template #abstractItemRight6>{{ infoObj.c }}</template>
-        <template #abstractItemRight7>{{ infoObj.α }}</template>
-        <template #abstractItemRight8>{{ infoObj.β }}</template>
-        <template #abstractItemRight9>{{ infoObj.γ }}</template>
+      <details-abstract
+        :crystalURL="crystalURL"
+        :infoObj="infoObj"
+        :spaceGroup="spaceGroup"
+        :color1="color1"
+        :color2="color2"
+      >
       </details-abstract>
       <!-- Box2 -->
       <details-crystal
@@ -50,11 +27,11 @@
 </template>
 <script>
 import axios from "axios";
-import detailsLeftbox from "./details-leftbox.vue";
-import detailsAbstract from "./details-abstract.vue";
-import detailsCrystal from "./details-crystal.vue";
-import detailsBand from "./details-band.vue";
-import detailsCharge from "./details-charge.vue";
+import detailsLeftbox from "../components/details/details-leftbox.vue";
+import detailsAbstract from "../components/details/details-abstract.vue";
+import detailsCrystal from "../components/details/details-crystal.vue";
+import detailsBand from "../components/details/details-band.vue";
+import detailsCharge from "../components/details/details-charge.vue";
 export default {
   name: "web-detail",
   components: {
@@ -67,11 +44,13 @@ export default {
   data() {
     return {
       infoObj: {},
-      color1: "blue",
+      color1: "",
       color2: "",
       spaceGroup: "",
-      JSmolURL: "",
-      formula: ""
+      crystalURL: "",
+      chargeURL: "",
+      formula: "",
+      hashNum: null
     };
   },
   created() {
@@ -91,9 +70,13 @@ export default {
   methods: {
     async fetchData() {
       let idNumber = window.location.hash;
-      let id = idNumber.substring(12, idNumber.length);
+      let hashId = idNumber.substring(12, idNumber.length);
       const { data: res } = await axios.get("/index/element");
-      this.infoObj = res.data[id - 1];
+      this.infoObj = res.data[hashId - 1];
+      this.hashNum = hashId;
+      this.crystalURL =
+        "http://127.0.0.1:5501/web-server/public/chemdoodle/chemdoodle.html?" +
+        hashId;
       // console.log("infoObj", this.infoObj);
     },
     async handleInfo() {
@@ -105,9 +88,7 @@ export default {
         const formula = this.infoObj["formula"];
         this.tranStr(1, spaceGroup);
         this.tranStr(0, formula);
-        this.JSmolURL =
-          "http://127.0.0.1:5500/public/detail.html?" + this.infoObj.id;
-      }, 100);
+      }, 50);
     },
     tranStr(num, str) {
       // 0 means formula
@@ -173,7 +154,6 @@ export default {
   top: 50px;
   margin-left: -650px;
   width: 1300px;
-  height: 200px;
 }
 .topBox {
   position: fixed;
@@ -189,32 +169,57 @@ export default {
   width: 860px;
   height: 300px;
 }
-</style>
-<style lang="less">
-//detail穿透样式
+//子组件样式穿透
 //标题
-.title {
+::v-deep .title {
   width: 740px;
   height: 40px;
   font-size: 24px;
-  font-weight: bold;
+  font-family: PHTB;
   line-height: 40px;
   letter-spacing: 1px;
   color: #3d3d3d;
 }
 //小项
-.item {
+::v-deep .item {
   display: inline-block;
   width: 370px;
   height: 40px;
   font-size: 18px;
-  font-weight: 600;
+  font-family: PHTB;
   line-height: 40px;
   color: #3d3d3d;
 }
-canvas {
+::v-deep canvas {
   border-radius: 10px;
   background: #eef5ff;
   box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+}
+::v-deep .itemLeft {
+  display: inline-block;
+  margin-right: 30px;
+}
+::v-deep .itemRight {
+  color: #551a8b;
+}
+::v-deep .navName {
+  width: 860px;
+  height: 70px;
+  font-size: 32px;
+  line-height: 70px;
+  letter-spacing: 0px;
+  color: #3d3d3d;
+  text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: left;
+  font-family: PHTM;
+}
+::v-deep .PHTR {
+  font-family: PHTR;
+}
+::v-deep .PHTB {
+  font-family: PHTB;
+}
+::v-deep .PHTM {
+  font-family: PHTM;
 }
 </style>

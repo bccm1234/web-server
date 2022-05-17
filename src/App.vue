@@ -14,6 +14,7 @@
     <footer>
       <myWebFooter></myWebFooter>
     </footer>
+    <canvas class="qqq"></canvas>
   </div>
 </template>
 <script>
