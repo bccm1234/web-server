@@ -17,15 +17,21 @@
               <i
                 class="el-icon-caret-right"
                 @click="changetoggle(true, $event)"
+                style="cursor: pointer"
               ></i>
-              <span @click="changetoggle(true, $event)">Symmetry</span>
+              <span @click="changetoggle(true, $event)" style="cursor: pointer"
+                >Symmetry</span
+              >
             </div>
             <div v-else class="icon-symmetry">
               <i
                 class="el-icon-caret-bottom"
                 @click="changetoggle(false, $event)"
+                style="cursor: pointer"
               ></i>
-              <span @click="changetoggle(false, $event)">Symmetry</span>
+              <span @click="changetoggle(false, $event)" style="cursor: pointer"
+                >Symmetry</span
+              >
             </div>
           </div>
           <div v-show="toggle.Symmetry" class="clear">
