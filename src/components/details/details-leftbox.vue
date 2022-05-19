@@ -3,7 +3,7 @@
   <div class="leftBox">
     <!-- 元素卡片 -->
     <ul class="formulaBox">
-      <li class="formulaName" v-html="formula"></li>
+      <li class="formulaName" v-html="infoObj.formula"></li>
       <li class="formulaId">mp-{{ infoObj.id }}</li>
     </ul>
     <!-- 左侧导航栏 -->
@@ -71,6 +71,7 @@ export default {
   color: #3d3d3d;
   text-align: center;
   min-width: 220px;
+  user-select: none;
 }
 .formulaName {
   display: inline-block;
@@ -98,7 +99,7 @@ export default {
   height: 735px;
   margin-top: 10px;
   color: #202535;
-  text-indent: 2rem;
+  text-indent: 30px;
 }
 .leftNav > li {
   width: 320px;
@@ -113,6 +114,7 @@ export default {
 .navItem {
   display: block;
   border-radius: 8px;
+  cursor: pointer;
 }
 .activeItem {
   background: #002fa7;

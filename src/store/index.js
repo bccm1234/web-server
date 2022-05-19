@@ -1,9 +1,14 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import getters from "./getters";
+import system from "./modules/system";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
+  modules: {
+    system
+  },
   state: {
     element_table: {
       H: 1,
@@ -126,8 +131,7 @@ export default new Vuex.Store({
       Uuo: 118
     }
   },
-  getters: {},
-  mutations: {},
-  actions: {},
-  modules: {}
+  getters
 });
+
+export default store;

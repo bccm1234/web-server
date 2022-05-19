@@ -8,7 +8,7 @@
             comName = 'templateCalculation';
             changeColor(0);
           "
-          class="bottonItemCrystal bgc PHTB"
+          class="bottonItemCrystal bgc"
           >calculation</span
         >
         <span
@@ -16,12 +16,14 @@
             comName = 'templateExperiment';
             changeColor(1);
           "
-          class="bottonItemCrystal PHTB"
+          class="bottonItemCrystal"
           >experiment</span
         >
       </div>
       <div class="mainBox">
-        <component :is="comName" :infoObj="infoObj"></component>
+        <keep-alive
+          ><component :is="comName" :infoObj="infoObj"></component
+        ></keep-alive>
       </div>
     </div>
   </div>
@@ -34,11 +36,13 @@ export default {
   name: "template",
   data() {
     return {
-      comName: "templateCalculation",
-      crystalObj: {}
+      comName: "templateCalculation"
+      // crystalCal: this.crystal["crystalInfo"]["cal"]
+      // crystalExp: this.crystalInfo.exp
     };
   },
   props: ["infoObj", "spaceGroup"],
+  // inject: ["crystal"],
   components: {
     templateCalculation,
     templateExperiment
@@ -79,6 +83,7 @@ export default {
   font-size: 18px;
   text-align: center;
   cursor: pointer;
+  font-family: PHTB;
 }
 .mainBox {
   padding: 20px 20px 0;

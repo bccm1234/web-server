@@ -13,7 +13,7 @@
         >
       </div>
       <div class="mainBox">
-        <component :is="comName" :chargeURL="chargeURL"></component>
+        <component :is="comName"></component>
       </div>
     </div>
     <div class="bottomBox"></div>
@@ -34,25 +34,6 @@ export default {
   components: {
     templateCalculation,
     templateExperiment
-  },
-  created() {
-    this.fetchData();
-  },
-  methods: {
-    fetchData() {
-      let idNumber = window.location.hash;
-      let hashId = idNumber.substring(12, idNumber.length);
-      this.chargeURL =
-        "http://127.0.0.1:5501/web-server/public/3dmol/3Dmol.html?" + hashId;
-      // console.log("infoObj", this.infoObj);
-    },
-    changeColor(id) {
-      const buttons = document.getElementsByClassName("bottonItemCharge");
-      for (let i = 0; i < buttons.length; i++) {
-        buttons[i].className = "bottonItemCharge";
-      }
-      buttons[id].classList.add("bgc");
-    }
   }
 };
 </script>

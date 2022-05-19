@@ -6,11 +6,6 @@ body {
     margin: 0px;
     background-color: rgb(228, 230, 232);
 }
-
-.br-10 {
-    border-radius: 10px;
-}
-
 @font-face {
     font-family:"PHTR";
     src: url("./assets/font-style/Alibaba-PuHuiTi-Regular.ttf");

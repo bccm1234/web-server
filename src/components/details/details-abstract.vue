@@ -86,12 +86,16 @@
         class="modelCanvas"
         id="chemIframe"
       ></iframe>
-      <span class="colorBox br-10 PHTB" :style="{ backgroundColor: color1 }">{{
-        infoObj.element1
-      }}</span>
-      <span class="colorBox br-10 PHTB" :style="{ backgroundColor: color2 }">{{
-        infoObj.element2
-      }}</span>
+      <span
+        class="colorBox br-10 PHTB"
+        :style="{ backgroundColor: infoObj.color1 }"
+        >{{ infoObj.element1 }}</span
+      >
+      <span
+        class="colorBox br-10 PHTB"
+        :style="{ backgroundColor: infoObj.color2 }"
+        >{{ infoObj.element2 }}</span
+      >
       <span class="downloadBox br-10"
         ><i class="el-icon-download download"></i> DownLoad</span
       >
@@ -105,7 +109,10 @@
         </li>
         <li class="abstractItem">
           <span class="abstractItemLeft">Space Group:</span>
-          <span class="abstractItemRight" v-html="spaceGroup"></span>
+          <span
+            class="abstractItemRight"
+            v-html="infoObj['space group']"
+          ></span>
         </li>
         <li class="abstractItem">
           <span class="abstractItemLeft">band Gap(Calutation):</span>
@@ -147,9 +154,6 @@ export default {
   props: {
     infoObj: Object,
     crystalURL: String,
-    color1: String,
-    color2: String,
-    spaceGroup: String,
     hashNum: Number
   },
   data() {
@@ -222,14 +226,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-//圆角
-.br-10 {
-  border-radius: 10px;
-}
-//字体加粗
-.fw-600 {
-  font-weight: 600;
-}
 .abstractBox {
   width: 860px;
   height: 550px;
@@ -375,6 +371,7 @@ export default {
   text-align: center;
   margin-right: 10px;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
+  font-size: 18px;
 }
 .downloadBox {
   float: right;
@@ -386,6 +383,7 @@ export default {
   margin-left: 130px;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
   background: #84b1ff;
+  font-size: 18px;
   cursor: pointer;
 }
 .download {
@@ -423,6 +421,7 @@ export default {
 }
 .abstractItem {
   text-align: left;
+  font-size: 18px;
 }
 .abstractItemLeft {
   display: inline-block;

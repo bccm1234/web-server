@@ -112,6 +112,7 @@ Mock.mock("/index/element", "get", () => {
         β: 90,
         γ: 90,
         volume: 343.53,
+        cifUrl: "",
         "band gap": 0,
         "crystal system": "tetragonal",
         "space group": "I4_1/amd",

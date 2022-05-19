@@ -45,6 +45,6 @@ export default {
 
 * {
   list-style: none;
-  font-family: "PHTB";
+  // font-family: "PHTB";
 }
 </style>

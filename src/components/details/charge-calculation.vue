@@ -167,37 +167,37 @@
         <li class="item">
           <span class="itemLeft">Run Type :</span>
           <span class="itemRight">
-            <slot name="a"></slot>
+            {{ assessData(charge.summary.runtype) }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">U-values :</span>
           <span class="itemRight">
-            <slot name="a"></slot>
+            {{ assessData(charge.summary.u) }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">Energy Cutoff :</span>
           <span class="itemRight">
-            <slot name="a"></slot>
+            {{ assessData(charge.summary.encut) }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">code :</span>
           <span class="itemRight">
-            <slot name="a"></slot>
+            {{ assessData(charge.summary.code) }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">Kpoint :</span>
           <span class="itemRight">
-            <slot name="a"></slot>
+            {{ assessData(charge.summary.kpoint) }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">more details :</span>
           <span class="itemRight">
-            <slot name="a"></slot>
+            {{ assessData(charge.summary.details) }}
           </span>
         </li>
       </ul>
@@ -222,14 +222,29 @@ export default {
       isbody: false,
       xLength: 0,
       yLength: 0,
-      chargeConfig: {}
+      chargeConfig: {},
+      chargeURL: "",
+      charge: {}
     };
   },
-  props: {
-    chargeURL: String
+  watch: {
+    "$store.getters.allInfo"() {
+      this.dealInfo();
+    }
   },
-  mounted() {},
+  created() {
+    this.fetchData();
+  },
   methods: {
+    fetchData() {
+      let idNumber = window.location.hash;
+      let hashId = idNumber.substring(12, idNumber.length);
+      this.chargeURL =
+        "http://127.0.0.1:5501/web-server/public/3dmol/3Dmol.html?" + hashId;
+    },
+    dealInfo() {
+      this.charge = this.$store.getters.allInfo["charge-density"];
+    },
     //限制positive输入0-1内的四位小数
     checkNumP() {
       let value = document.getElementById("inputP").value;
