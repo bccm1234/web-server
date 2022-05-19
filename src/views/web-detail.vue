@@ -1,23 +1,14 @@
 <template>
   <div class="totalbox">
     <!-- 左 -->
-    <details-leftbox :infoObj="infoObj" :formula="formula"></details-leftbox>
+    <details-leftbox :infoObj="infoObj"></details-leftbox>
     <!-- 右 -->
     <div class="rightBox">
       <!-- Box1 -->
-      <details-abstract
-        :crystalURL="crystalURL"
-        :infoObj="infoObj"
-        :spaceGroup="spaceGroup"
-        :color1="color1"
-        :color2="color2"
-      >
+      <details-abstract :crystalURL="crystalURL" :infoObj="infoObj">
       </details-abstract>
       <!-- Box2 -->
-      <details-crystal
-        :infoObj="infoObj"
-        :spaceGroup="spaceGroup"
-      ></details-crystal>
+      <details-crystal :infoObj="infoObj"></details-crystal>
       <!-- box3 -->
       <details-band></details-band>
       <!-- box4 -->
@@ -44,13 +35,11 @@ export default {
   data() {
     return {
       infoObj: {},
-      color1: "",
-      color2: "",
-      spaceGroup: "",
       crystalURL: "",
       chargeURL: "",
-      formula: "",
-      hashNum: null
+      hashNum: null,
+      // vuex
+      allInfo: {}
     };
   },
   created() {
@@ -61,7 +50,6 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", this.scrollColor);
-    this.tranStr(0, "CO2");
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
@@ -78,53 +66,23 @@ export default {
         "http://127.0.0.1:5501/web-server/public/chemdoodle/chemdoodle.html?" +
         hashId;
       // console.log("infoObj", this.infoObj);
+      const { data: result } = await axios.get("/childpage/spacegroup");
+      this.allInfo = result.data;
+      //vuex
+      this.$store.commit("system/SET_AllInfo", this.allInfo);
     },
     async handleInfo() {
       const { data: res } = await axios.get("/childpage/elementcolor");
       setTimeout(() => {
-        this.color2 = res.data[this.infoObj.element[0] - 1]["color"];
-        this.color1 = res.data[this.infoObj.element[1] - 1]["color"];
-        const spaceGroup = this.infoObj["space group"];
-        const formula = this.infoObj["formula"];
-        this.tranStr(1, spaceGroup);
-        this.tranStr(0, formula);
-      }, 50);
-    },
-    tranStr(num, str) {
-      // 0 means formula
-      // 1 means space group symbol
-      let a = "";
-      let b = "";
-      let newStr = "";
-      if (num == 0) {
-        for (let i of str) {
-          if (i.match(/\d+/)) {
-            newStr += "<sub>" + i + "</sub>";
-          } else {
-            newStr += i;
-          }
-        }
-        console.log(newStr);
-        this.formula = newStr;
-      } else if (num == 1) {
-        for (let i = 0; i < str.length; i++) {
-          if (str[i] === "-") {
-            a = str[i] + str[i + 1];
-            b =
-              "<span span style='text-decoration: overline'>" +
-              str[i + 1] +
-              "</span>";
-            i += 50;
-            str = str.replace(new RegExp(a), b);
-          } else if (str[i] === "_") {
-            a = str[i] + str[i + 1];
-            b = "<sub>" + str[i + 1] + "</sub>";
-            i += 10;
-            str = str.replace(new RegExp(a), b);
-          }
-        }
-        this.spaceGroup = str;
-      }
+        this.infoObj.color2 = res.data[this.infoObj.element[0] - 1]["color"];
+        this.infoObj.color1 = res.data[this.infoObj.element[1] - 1]["color"];
+        this.infoObj["space group"] = this.tranStr(
+          1,
+          this.infoObj["space group"]
+        );
+        this.infoObj.formula = this.tranStr(0, this.infoObj["formula"]);
+        console.log(this.infoObj);
+      }, 100);
     },
     //滑动相应导航单改变
     scrollColor() {

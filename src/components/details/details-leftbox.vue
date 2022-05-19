@@ -3,7 +3,7 @@
   <div class="leftBox">
     <!-- 元素卡片 -->
     <ul class="formulaBox">
-      <li class="formulaName" v-html="formula"></li>
+      <li class="formulaName" v-html="infoObj.formula"></li>
       <li class="formulaId">mp-{{ infoObj.id }}</li>
     </ul>
     <!-- 左侧导航栏 -->

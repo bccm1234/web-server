@@ -1,43 +1,43 @@
 <template>
   <div>
-    <div v-if="infoObj.experiment">
+    <div v-if="crystalExp">
       <div class="lattice">
         <ul>
           <li class="title">Lattice</li>
           <li class="item">
             <span class="itemLeft">a :</span>
             <span class="itemRight">
-              {{ infoObj.a ? infoObj.a : "Not Found" }}
+              {{ crystalExp.lattice[0] + " Å" }}
             </span>
           </li>
           <li class="item">
             <span class="itemLeft">α :</span>
             <span class="itemRight">
-              {{ infoObj.α ? infoObj.α : "Not Found" }}
+              {{ crystalExp.lattice[3] + " °" }}
             </span>
           </li>
           <li class="item">
             <span class="itemLeft">b :</span>
             <span class="itemRight">
-              {{ infoObj.b ? infoObj.b : "Not Found" }}
+              {{ crystalExp.lattice[1] + " Å" }}
             </span>
           </li>
           <li class="item">
             <span class="itemLeft">β :</span>
             <span class="itemRight">
-              {{ infoObj.β ? infoObj.β : "Not Found" }}
+              {{ crystalExp.lattice[4] + " °" }}
             </span>
           </li>
           <li class="item">
             <span class="itemLeft">c :</span>
             <span class="itemRight">
-              {{ infoObj.c ? infoObj.c : "Not Found" }}
+              {{ crystalExp.lattice[2] + " Å" }}
             </span>
           </li>
           <li class="item">
             <span class="itemLeft">γ :</span>
             <span class="itemRight">
-              {{ infoObj.γ ? infoObj.γ : "Not Found" }}
+              {{ crystalExp.lattice[5] + " °" }}
             </span>
           </li>
         </ul>
@@ -48,21 +48,19 @@
           <li class="item">
             <span class="itemLeft">Crystal System :</span>
             <span class="itemRight">
-              {{
-                infoObj["crystal system"]
-                  ? infoObj["crystal system"]
-                  : "Not Found"
-              }}
+              {{ assessData(crystalExp.crystalsystem) }}
             </span>
           </li>
           <li class="item">
             <span class="itemLeft">Space Group :</span>
             <span
               class="itemRight"
-              v-html="spaceGroup"
-              v-show="spaceGroup"
+              v-html="crystalExp.spacegroup"
+              v-show="crystalExp.spacegroup"
             ></span>
-            <span class="itemRight" v-show="!spaceGroup">Not Found</span>
+            <span class="itemRight" v-show="!crystalExp.spacegroup"
+              >Not Found</span
+            >
           </li>
         </ul>
       </div>
@@ -72,15 +70,15 @@
           <li class="item doiBox">
             <span style="margin-right: 10px">Doi :</span>
             <span>
-              <a :href="infoObj.experiment.doi" target="blank">{{
-                infoObj.experiment.doi
+              <a :href="crystalExp.doi" target="blank">{{
+                assessData(crystalExp.doi)
               }}</a>
             </span>
           </li>
         </ul>
       </div>
     </div>
-    <div v-show="!infoObj.experiment">
+    <div v-show="!crystalExp">
       <span class="chargeExperiment">Not Found</span>
     </div>
   </div>
@@ -92,8 +90,28 @@ export default {
   props: ["infoObj"],
   data() {
     return {
-      state: false
+      state: false,
+      crystalExp: {}
     };
+  },
+  mounted() {
+    this.crystalExpInfo();
+  },
+  watch: {
+    "$store.getters.allInfo"() {
+      this.crystalExpInfo();
+    }
+  },
+  methods: {
+    crystalExpInfo() {
+      this.crystalExp = this.$store.getters.allInfo["crystal-strusture"].exp;
+      if (this.crystalExp.spacegroup.length < 10) {
+        this.crystalExp.spacegroup = this.tranStr(
+          1,
+          this.$store.getters.allInfo["crystal-strusture"].exp.spacegroup
+        );
+      }
+    }
   }
 };
 </script>

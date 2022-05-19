@@ -86,12 +86,16 @@
         class="modelCanvas"
         id="chemIframe"
       ></iframe>
-      <span class="colorBox br-10 PHTB" :style="{ backgroundColor: color1 }">{{
-        infoObj.element1
-      }}</span>
-      <span class="colorBox br-10 PHTB" :style="{ backgroundColor: color2 }">{{
-        infoObj.element2
-      }}</span>
+      <span
+        class="colorBox br-10 PHTB"
+        :style="{ backgroundColor: infoObj.color1 }"
+        >{{ infoObj.element1 }}</span
+      >
+      <span
+        class="colorBox br-10 PHTB"
+        :style="{ backgroundColor: infoObj.color2 }"
+        >{{ infoObj.element2 }}</span
+      >
       <span class="downloadBox br-10"
         ><i class="el-icon-download download"></i> DownLoad</span
       >
@@ -105,7 +109,10 @@
         </li>
         <li class="abstractItem">
           <span class="abstractItemLeft">Space Group:</span>
-          <span class="abstractItemRight" v-html="spaceGroup"></span>
+          <span
+            class="abstractItemRight"
+            v-html="infoObj['space group']"
+          ></span>
         </li>
         <li class="abstractItem">
           <span class="abstractItemLeft">band Gap(Calutation):</span>
@@ -147,9 +154,6 @@ export default {
   props: {
     infoObj: Object,
     crystalURL: String,
-    color1: String,
-    color2: String,
-    spaceGroup: String,
     hashNum: Number
   },
   data() {

@@ -6,37 +6,37 @@
         <li class="item">
           <span class="itemLeft">a :</span>
           <span class="itemRight">
-            {{ infoObj.a ? infoObj.a + " Å" : "Not Found" }}
+            {{ crystalCal.lattice[0] + " Å" }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">α :</span>
           <span class="itemRight">
-            {{ infoObj.α ? infoObj.α + " °" : "Not Found" }}
+            {{ crystalCal.lattice[3] + " °" }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">b :</span>
           <span class="itemRight">
-            {{ infoObj.b ? infoObj.b + " Å" : "Not Found" }}
+            {{ crystalCal.lattice[1] + " Å" }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">β :</span>
           <span class="itemRight">
-            {{ infoObj.β ? infoObj.β + " °" : "Not Found" }}
+            {{ crystalCal.lattice[4] + " °" }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">c :</span>
           <span class="itemRight">
-            {{ infoObj.c ? infoObj.c + " Å" : "Not Found" }}
+            {{ crystalCal.lattice[2] + " Å" }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">γ :</span>
           <span class="itemRight">
-            {{ infoObj.γ ? infoObj.γ + " °" : "Not Found" }}
+            {{ crystalCal.lattice[5] + " °" }}
           </span>
         </li>
       </ul>
@@ -47,21 +47,19 @@
         <li class="item">
           <span class="itemLeft">Crystal System :</span>
           <span class="itemRight">
-            {{
-              infoObj["crystal system"]
-                ? infoObj["crystal system"]
-                : "Not Found"
-            }}
+            {{ this.assessData(crystalCal.crystalsystem) }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">Space Group :</span>
           <span
             class="itemRight"
-            v-html="spaceGroup"
-            v-show="spaceGroup"
+            v-html="this.crystalCal.spacegroup"
+            v-show="this.crystalCal.spacegroup"
           ></span>
-          <span class="itemRight" v-show="!spaceGroup">Not Found</span>
+          <span class="itemRight" v-show="!this.crystalCal.spacegroup"
+            >Not Found</span
+          >
         </li>
       </ul>
     </div>
@@ -71,37 +69,41 @@
         <li class="item">
           <span class="itemLeft">Run Type :</span>
           <span class="itemRight">
-            {{ infoObj.runtype ? infoObj.runtype : "Not Found" }}
+            {{ this.assessData(crystalCal.summary.runtype) }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">U-values :</span>
           <span class="itemRight">
-            {{ infoObj.uvalue ? infoObj.uvalue : "Not Found" }}
+            {{ this.assessData(crystalCal.summary.u) }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">Energy Cutoff :</span>
           <span class="itemRight">
-            {{ infoObj.energyCutoff ? infoObj.energyCutoff : "Not Found" }}
+            {{
+              crystalCal.summary.encut
+                ? crystalCal.summary.encut + " ev"
+                : "Not Found"
+            }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">code :</span>
           <span class="itemRight">
-            {{ infoObj.code ? infoObj.code : "Not Found" }}
+            {{ this.assessData(crystalCal.summary.code) }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">Kpoint :</span>
           <span class="itemRight">
-            {{ infoObj.Kpoint ? infoObj.Kpoint : "Not Found" }}
+            {{ this.assessData(crystalCal.summary.kpoint) }}
           </span>
         </li>
         <li class="item">
           <span class="itemLeft">more details :</span>
           <span class="itemRight">
-            {{ infoObj.moreDetails ? infoObj.code : "Not Found" }}
+            {{ this.assessData(crystalCal.summary.details) }}
           </span>
         </li>
       </ul>
@@ -114,9 +116,24 @@ export default {
   name: "template-calucation",
   data() {
     return {
-      infoObj: {},
-      spaceGroup: ""
+      crystalCal: {}
     };
+  },
+  watch: {
+    "$store.getters.allInfo"() {
+      this.dealInfo();
+    }
+  },
+  methods: {
+    dealInfo() {
+      this.crystalCal = this.$store.getters.allInfo["crystal-strusture"].cal;
+      if (this.crystalCal.spacegroup.length < 10) {
+        this.crystalCal.spacegroup = this.tranStr(
+          1,
+          this.$store.getters.allInfo["crystal-strusture"].cal.spacegroup
+        );
+      }
+    }
   }
 };
 </script>
@@ -124,5 +141,13 @@ export default {
 <style lang="less" scoped>
 .symmetry {
   margin: 20px 0;
+}
+.lattice {
+  position: relative;
+}
+.rightUl {
+  position: absolute;
+  left: 50px;
+  top: 0;
 }
 </style>
