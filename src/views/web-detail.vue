@@ -63,8 +63,7 @@ export default {
       this.infoObj = res.data[hashId - 1];
       this.hashNum = hashId;
       this.crystalURL =
-        "http://127.0.0.1:5501/web-server/public/chemdoodle/chemdoodle.html?" +
-        hashId;
+        "http://127.0.0.1:5500/public/chemdoodle/chemdoodle.html?" + hashId;
       // console.log("infoObj", this.infoObj);
       const { data: result } = await axios.get("/childpage/spacegroup");
       this.allInfo = result.data;

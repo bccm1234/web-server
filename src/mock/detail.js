@@ -1,5 +1,5 @@
 import Mock from "mockjs";
-Mock.mock("/childpage/detail", "get", () => {
+Mock.mock("/childpage/spacegroup", "get", () => {
   return {
     status: 200,
     message: "get data successfully!",
