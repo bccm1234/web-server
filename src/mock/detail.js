@@ -1,5 +1,5 @@
 import Mock from "mockjs";
-Mock.mock("/childpage/spacegroup", "get", () => {
+Mock.mock("/childpage/detail", "get", () => {
   return {
     status: 200,
     message: "get data successfully!",
@@ -36,8 +36,8 @@ Mock.mock("/childpage/spacegroup", "get", () => {
         }
       },
       "band-dos": {
-        bandUrl: "Unknown",
-        dosUrl: "Unknown",
+        bandUrl: "@/mock/band.js",
+        dosUrl: "@/mock/dos.js",
         cal: {
           bandgap: "2.10",
           summary: {
