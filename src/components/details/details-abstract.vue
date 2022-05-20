@@ -97,7 +97,9 @@
         >{{ infoObj.element2 }}</span
       >
       <span class="downloadBox br-10"
-        ><i class="el-icon-download download"></i> DownLoad</span
+        ><a class="el-icon-download download" :href="downLoadUrl"
+          >DownLoad</a
+        ></span
       >
     </div>
     <div class="list">
@@ -159,10 +161,15 @@ export default {
   data() {
     return {
       //默认扩胞侧边栏关闭
-      isCollapse: true
+      isCollapse: true,
+      downLoadUrl: ""
     };
   },
   methods: {
+    downLoad() {
+      this.downLoadUrl =
+        "http://localhost:3000/public/cif/" + this.infoObj.id + ".cif";
+    },
     //设置扩胞侧边栏开关
     changeState() {
       this.isCollapse = !this.isCollapse;
@@ -308,7 +315,7 @@ export default {
   box-sizing: border-box;
   border: 1px solid #ffffff;
   background: rgba(0, 0, 0, 0);
-  text-indent: 1rem;
+  text-indent: 20px;
   color: #fff;
   font-family: PHTM;
   font-size: 18px;
@@ -388,6 +395,9 @@ export default {
 }
 .download {
   font-weight: 700;
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
 }
 .list {
   /* list */

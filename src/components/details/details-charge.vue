@@ -24,7 +24,7 @@
 import templateCalculation from "./charge-calculation.vue";
 import templateExperiment from "./charge-experiment.vue";
 export default {
-  name: "DetailsCharge",
+  name: "details-charge",
   data() {
     return {
       comName: "templateCalculation",

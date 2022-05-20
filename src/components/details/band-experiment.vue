@@ -10,7 +10,7 @@
         <li class="item" style="width: 700px">
           <span>Doi :</span>
           <span>
-            <a href="bandExp.doi" target="blank">
+            <a :href="bandExp.doi" target="blank" class="doiLink">
               {{ assessData(bandExp.doi) }}
             </a>
           </span>
@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: "template-experiment",
+  name: "band-experiment",
   data() {
     return {
       bandExp: {}
@@ -48,5 +48,9 @@ export default {
 <style lang="less" scoped>
 .articleBox {
   margin-top: 10px;
+}
+.doiLink {
+  text-decoration: none;
+  color: #000;
 }
 </style>

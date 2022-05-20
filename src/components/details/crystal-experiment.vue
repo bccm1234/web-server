@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="crystalExp">
+    <div v-if="crystalExp.lattice">
       <div class="lattice">
         <ul>
           <li class="title">Lattice</li>
@@ -70,7 +70,7 @@
           <li class="item doiBox">
             <span style="margin-right: 10px">Doi :</span>
             <span>
-              <a :href="crystalExp.doi" target="blank">{{
+              <a :href="crystalExp.doi" target="blank" class="doiLink">{{
                 assessData(crystalExp.doi)
               }}</a>
             </span>
@@ -86,7 +86,7 @@
 
 <script>
 export default {
-  name: "template-experiment",
+  name: "crystal-experiment",
   props: ["infoObj"],
   data() {
     return {
@@ -96,6 +96,7 @@ export default {
   },
   mounted() {
     this.crystalExpInfo();
+    console.log("exp");
   },
   watch: {
     "$store.getters.allInfo"() {
@@ -104,7 +105,11 @@ export default {
   },
   methods: {
     crystalExpInfo() {
-      this.crystalExp = this.$store.getters.allInfo["crystal-strusture"].exp;
+      this.crystalExp = Object.assign(
+        {},
+        this.$store.getters.allInfo["crystal-strusture"].exp
+      );
+      console.log("crystalexp", this.crystalExp);
       if (this.crystalExp.spacegroup.length < 10) {
         this.crystalExp.spacegroup = this.tranStr(
           1,
@@ -123,5 +128,12 @@ export default {
 .chargeExperiment {
   font-size: 24px;
   font-weight: 700;
+}
+.article .doiBox {
+  width: 700px;
+}
+.doiLink {
+  text-decoration: none;
+  color: #000;
 }
 </style>

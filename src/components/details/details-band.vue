@@ -31,7 +31,7 @@
 import templateCalculation from "./band-calculation.vue";
 import templateExperiment from "./band-experiment.vue";
 export default {
-  name: "template",
+  name: "details-band",
   data() {
     return {
       comName: "templateCalculation"

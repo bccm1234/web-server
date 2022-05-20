@@ -32,7 +32,7 @@ Mock.mock("/childpage/spacegroup", "get", () => {
           lattice: ["4.27", "4.27", "4.27", "90", "90", "90"],
           crystalsystem: "cubic",
           spacegroup: "pn-3m",
-          doi: "doi.org/10.1103/PhysRevB.25.5929"
+          doi: "http://doi.org/10.1103/PhysRevB.25.5929"
         }
       },
       "band-dos": {
@@ -51,7 +51,7 @@ Mock.mock("/childpage/spacegroup", "get", () => {
         },
         exp: {
           bandgap: "2.17",
-          doi: "doi.org/10.1016/0031-9163(66)90044-8"
+          doi: "http://doi.org/10.1016/0031-9163(66)90044-8"
         }
       },
       "charge-density": {

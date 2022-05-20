@@ -1,5 +1,5 @@
 <template>
-  <div class="chargeBox">
+  <div class="chargeBox" v-if="charge.cifUrl">
     <div class="chargeTop PHTM">
       <div class="chargeSetBox">
         <el-menu
@@ -207,7 +207,7 @@
 
 <script>
 export default {
-  name: "template-calucation",
+  name: "charge-calucation",
   data() {
     return {
       isCollapse: true,
@@ -240,10 +240,13 @@ export default {
       let idNumber = window.location.hash;
       let hashId = idNumber.substring(12, idNumber.length);
       this.chargeURL =
-        "http://127.0.0.1:5501/web-server/public/3dmol/3Dmol.html?" + hashId;
+        "http://localhost:3000/public/html/3dmol/3Dmol.html?" + hashId;
     },
     dealInfo() {
-      this.charge = this.$store.getters.allInfo["charge-density"];
+      this.charge = Object.assign(
+        { a: 1 },
+        this.$store.getters.allInfo["charge-density"]
+      );
     },
     //限制positive输入0-1内的四位小数
     checkNumP() {
@@ -446,7 +449,7 @@ export default {
   border-radius: 10px;
   box-sizing: border-box;
   border: 1px solid #ffffff;
-  text-indent: 1rem;
+  text-indent: 15px;
   font-size: 18px;
   font-weight: 500;
   // padding-top: 2px;
