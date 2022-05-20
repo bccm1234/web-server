@@ -67,13 +67,19 @@ export default {
   name: "band-calucation",
   data() {
     return {
-      bandCal: {}
+      bandCal: {},
+      banddata: {}
     };
   },
   watch: {
     "$store.getters.allInfo"() {
       this.dealInfo();
     }
+  },
+  created() {
+    this.$axios.get("/public/echart/band/band.json").then(function (response) {
+      this.banddata = response.data;
+    });
   },
   updated() {
     this.Chartband();
@@ -14705,6 +14711,8 @@ export default {
     },
     Chartband() {
       let myChart = this.$echarts.init(this.$refs.chartband);
+      let xdata = this.banddata.source.x;
+      console.log(xdata);
       myChart.setOption({
         title: {},
         tooltip: {},

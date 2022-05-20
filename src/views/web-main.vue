@@ -1081,9 +1081,9 @@ export default {
   },
   created() {
     this.$axios
-      .get("/index/element")
+      .get("/materials/index")
       .then(function (response) {
-        return response.data.data;
+        return response.data;
       })
       .then((data) => {
         this.constList = data.filter(

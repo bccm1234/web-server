@@ -59,23 +59,21 @@ export default {
     async fetchData() {
       let idNumber = window.location.hash;
       let hashId = idNumber.substring(12, idNumber.length);
-      const { data: res } = await axios.get("/index/element");
-      this.infoObj = res.data[hashId - 1];
+      const { data: res } = await axios.get("/materials/index");
+      this.infoObj = res[hashId - 1];
       this.hashNum = hashId;
-      this.crystalURL =
-        "http://localhost:3000/public/html/chemdoodle/chemdoodle.html?" +
-        hashId;
+      this.crystalURL = "/public/html/chemdoodle/chemdoodle.html?" + hashId;
       // console.log("infoObj", this.infoObj);
-      const { data: result } = await axios.get("/childpage/spacegroup");
-      this.allInfo = result.data;
+      const { data: result } = await axios.get("/materials/detail/Cu2O");
+      this.allInfo = result;
       //vuex
       this.$store.commit("system/SET_AllInfo", this.allInfo);
     },
     async handleInfo() {
-      const { data: res } = await axios.get("/childpage/elementcolor");
+      const { data: res } = await axios.get("/materials/detail/atomcolor");
       setTimeout(() => {
-        this.infoObj.color2 = res.data[this.infoObj.element[0] - 1]["color"];
-        this.infoObj.color1 = res.data[this.infoObj.element[1] - 1]["color"];
+        this.infoObj.color2 = res[this.infoObj.element[0] - 1]["color"];
+        this.infoObj.color1 = res[this.infoObj.element[1] - 1]["color"];
         this.infoObj["space group"] = this.tranStr(
           1,
           this.infoObj["space group"]
