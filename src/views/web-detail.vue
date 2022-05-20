@@ -62,7 +62,9 @@ export default {
       const { data: res } = await axios.get("/materials/index");
       this.infoObj = res[hashId - 1];
       this.hashNum = hashId;
-      this.crystalURL = "/public/html/chemdoodle/chemdoodle.html?" + hashId;
+      this.crystalURL =
+        "http://localhost:3000/public/html/chemdoodle/chemdoodle.html?" +
+        hashId;
       // console.log("infoObj", this.infoObj);
       const { data: result } = await axios.get("/materials/detail/Cu2O");
       this.allInfo = result;
