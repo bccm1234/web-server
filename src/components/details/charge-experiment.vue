@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "template-experiment"
+  name: "charge-experiment"
 };
 </script>
 

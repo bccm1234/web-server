@@ -1,68 +1,70 @@
 <template>
   <div>
-    <div class="band">
-      <ul>
-        <li class="title">Band Structure</li>
-        <li class="item">
-          <span>Band Gap : </span>
-          <span class="itemRight">
-            {{ assessData(bandCal.bandgap, " ev") }}
-          </span>
-        </li>
-      </ul>
-      <div style="width: 100%; height: 417px" ref="chartband"></div>
-    </div>
-    <div class="density">
-      <div class="title">Density Of States</div>
-      <div style="width: 100%; height: 417px" ref="chartdensity"></div>
-    </div>
-    <div class="calculation-summer">
-      <ul>
-        <li class="title">Calculation Summar</li>
-        <li class="item">
-          <span class="itemLeft">Run Type :</span>
-          <span class="itemRight">
-            {{ assessData(bandCal.summary.runtype) }}
-          </span>
-        </li>
-        <li class="item">
-          <span class="itemLeft">U-values :</span>
-          <span class="itemRight">
-            {{ assessData(bandCal.summary.u) }}
-          </span>
-        </li>
-        <li class="item">
-          <span class="itemLeft">Energy Cutoff :</span>
-          <span class="itemRight">
-            {{ assessData(bandCal.summary.encut) }}
-          </span>
-        </li>
-        <li class="item">
-          <span class="itemLeft">code :</span>
-          <span class="itemRight">
-            {{ assessData(bandCal.summary.code) }}
-          </span>
-        </li>
-        <li class="item">
-          <span class="itemLeft">Kpoint :</span>
-          <span class="itemRight">
-            {{ assessData(bandCal.summary.kpoint) }}
-          </span>
-        </li>
-        <li class="item">
-          <span class="itemLeft">more details :</span>
-          <span class="itemRight">
-            {{ assessData(bandCal.summary.details) }}
-          </span>
-        </li>
-      </ul>
+    <div v-if="bandCal.bandgap">
+      <div class="band">
+        <ul>
+          <li class="title">Band Structure</li>
+          <li class="item">
+            <span>Band Gap : </span>
+            <span class="itemRight">
+              {{ this.assessData(bandCal.bandgap, " ev") }}
+            </span>
+          </li>
+        </ul>
+        <div style="width: 100%; height: 417px" ref="chartband"></div>
+      </div>
+      <div class="density">
+        <div class="title">Density Of States</div>
+        <div style="width: 100%; height: 417px" ref="chartdensity"></div>
+      </div>
+      <div class="calculation-summer">
+        <ul>
+          <li class="title">Calculation Summar</li>
+          <li class="item">
+            <span class="itemLeft">Run Type :</span>
+            <span class="itemRight">
+              {{ this.assessData(bandCal.summary.runtype) }}
+            </span>
+          </li>
+          <li class="item">
+            <span class="itemLeft">U-values :</span>
+            <span class="itemRight">
+              {{ this.assessData(bandCal.summary.u) }}
+            </span>
+          </li>
+          <li class="item">
+            <span class="itemLeft">Energy Cutoff :</span>
+            <span class="itemRight">
+              {{ assessData(bandCal.summary.encut) }}
+            </span>
+          </li>
+          <li class="item">
+            <span class="itemLeft">code :</span>
+            <span class="itemRight">
+              {{ this.assessData(bandCal.summary.code) }}
+            </span>
+          </li>
+          <li class="item">
+            <span class="itemLeft">Kpoint :</span>
+            <span class="itemRight">
+              {{ this.assessData(bandCal.summary.kpoint) }}
+            </span>
+          </li>
+          <li class="item">
+            <span class="itemLeft">more details :</span>
+            <span class="itemRight">
+              {{ this.assessData(bandCal.summary.details) }}
+            </span>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "template-calucation",
+  name: "band-calucation",
   data() {
     return {
       bandCal: {}
@@ -73,17 +75,16 @@ export default {
       this.dealInfo();
     }
   },
-  mounted() {
-    this.Chartband();
-    this.Chartdensity();
-  },
   updated() {
     this.Chartband();
     this.Chartdensity();
   },
   methods: {
     dealInfo() {
-      this.bandCal = this.$store.getters.allInfo["band-dos"].cal;
+      this.bandCal = Object.assign(
+        { a: 1 },
+        this.$store.getters.allInfo["band-dos"].cal
+      );
     },
     Chartdensity() {
       let myChart = this.$echarts.init(this.$refs.chartdensity);

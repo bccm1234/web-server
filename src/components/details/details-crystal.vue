@@ -33,7 +33,7 @@
 import templateCalculation from "./crystal-calculation.vue";
 import templateExperiment from "./crystal-experiment.vue";
 export default {
-  name: "template",
+  name: "details-crystal",
   data() {
     return {
       comName: "templateCalculation"

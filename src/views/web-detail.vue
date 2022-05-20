@@ -63,7 +63,7 @@ export default {
       this.infoObj = res.data[hashId - 1];
       this.hashNum = hashId;
       this.crystalURL =
-        "http://127.0.0.1:5501/web-server/public/chemdoodle/chemdoodle.html?" +
+        "http://localhost:3000/public/html/chemdoodle/chemdoodle.html?" +
         hashId;
       // console.log("infoObj", this.infoObj);
       const { data: result } = await axios.get("/childpage/spacegroup");
@@ -81,7 +81,6 @@ export default {
           this.infoObj["space group"]
         );
         this.infoObj.formula = this.tranStr(0, this.infoObj["formula"]);
-        console.log(this.infoObj);
       }, 100);
     },
     //滑动相应导航单改变
@@ -159,7 +158,6 @@ export default {
   margin-right: 30px;
 }
 ::v-deep .itemRight {
-  color: #551a8b;
   user-select: text;
 }
 ::v-deep .navName {
