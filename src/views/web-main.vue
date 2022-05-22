@@ -929,6 +929,9 @@
 import "@/assets/table.css";
 import mysearchresult from "@/components/search-result.vue";
 export default {
+  components: {
+    mysearchresult
+  },
   data() {
     return {
       format: [false, false, false],
@@ -1373,8 +1376,7 @@ export default {
       var results = this.example;
       cb(results);
     }
-  },
-  components: { mysearchresult }
+  }
 };
 </script>
 

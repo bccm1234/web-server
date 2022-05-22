@@ -129,7 +129,7 @@ export default {
     dealInfo() {
       this.crystalCal = this.$store.getters.allInfo["crystal-strusture"].cal;
       // delete this.crystalCal.a;
-      console.log("crystal", this.crystalCal);
+      // console.log("crystal", this.crystalCal);
       if (this.crystalCal) {
         if (this.crystalCal.spacegroup.length < 10) {
           this.crystalCal.spacegroup = this.tranStr(
