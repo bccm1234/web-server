@@ -1,5 +1,6 @@
 <template>
   <div style="width: 100%">
+    <mysearchinput></mysearchinput>
     <el-form :inline="true" :model="formInline" size="large">
       <el-form-item label="Explore Materials">
         <el-autocomplete
@@ -927,10 +928,12 @@
 
 <script>
 import "@/assets/table.css";
+import mysearchinput from "@/components/search-input.vue";
 import mysearchresult from "@/components/search-result.vue";
 export default {
   components: {
-    mysearchresult
+    mysearchresult,
+    mysearchinput
   },
   data() {
     return {
@@ -1390,16 +1393,18 @@ export default {
   .el-button {
     font-size: 0.1rem;
   }
-}
-.el-autocomplete {
-  width: 400px;
-  /deep/ .el-input__inner {
-    font-size: 0.1rem;
+
+  .el-autocomplete {
+    width: 400px;
+    /deep/ .el-input__inner {
+      font-size: 0.1rem;
+    }
+
+    .address {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      font-size: 0.084rem;
+    }
   }
-}
-.address {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  font-size: 0.084rem;
 }
 </style>
