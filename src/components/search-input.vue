@@ -158,6 +158,7 @@ export default {
     },
     //应该是点击element-table设置该事件
     changeinput(inputlist) {
+      inputlist.length > 0 ? (this.isabled = true) : (this.isabled = false);
       switch (this.searchMethod) {
         case 0:
         case 2:
@@ -173,7 +174,6 @@ export default {
         case 5:
           break;
       }
-      this.isabled = true;
     }
   }
 };
