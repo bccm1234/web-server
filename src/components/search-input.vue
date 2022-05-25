@@ -42,6 +42,7 @@ export default {
       form: {
         input: ""
       },
+      searchMethod: 3,
       example: [
         { intro: "Include at least elements: ", value: "Cu,O" },
         {
@@ -71,11 +72,21 @@ export default {
       this.judgeinput();
     },
     getresult() {
-      let searchMethod = this.judgesearchMethod();
-      this.getresultlist(searchMethod);
+      this.getresultlist(this.searchMethod);
     },
-    judgesearchMethod() {
+    getresultlist(i) {
+      console.log(i);
+    },
+    //判断input输入内容是否合法
+    judgeinput() {
+      let ElementList = [];
       let forminput = this.form.input;
+      this.searchMethod = this.judgesearchMethod(forminput);
+      let inputeleList = this.sliceinput(forminput);
+      [this.isabled, ElementList] = this.judgeinputeleList(inputeleList);
+      this.$emit("inputList", ElementList);
+    },
+    judgesearchMethod(forminput) {
       if (forminput.includes("mp")) {
         // 使用Material ID搜索
         return 5;
@@ -96,17 +107,6 @@ export default {
         return 0;
       }
     },
-    getresultlist(i) {
-      console.log(i);
-    },
-    //判断input输入内容是否合法
-    judgeinput() {
-      let ElementList = [];
-      let forminput = this.form.input;
-      let inputeleList = this.sliceinput(forminput);
-      [this.isabled, ElementList] = this.judgeinputeleList(inputeleList);
-      console.log(this.isabled, ElementList);
-    },
     //切分input内容
     sliceinput(forminput) {
       let elelist = [];
@@ -118,7 +118,7 @@ export default {
         let startindex = "";
         let endindex = "";
         for (let i = 0; i < forminput.length; i++) {
-          if (forminput[i].match(/[A-Z]/)) {
+          if (forminput[i].match(/[A-Z*]/)) {
             startindex = endindex;
             endindex = i;
             if (endindex != 0 && startindex === "") {
@@ -142,10 +142,11 @@ export default {
         List = [];
       list.forEach((x) => {
         x.match(/[^A-Za-z0-9,*-]/) ? state.push(false) : state.push(true); //判断是否含非法字符
-        let newx = x.replaceAll(/[^A-Za-z]/g, "");
+        let newx = x.replaceAll(/[^A-Za-z*]/g, "");
         if (
           !Object.keys(this.$store.state.isActive).includes(newx) && //判断是否含非法元素
-          newx !== ""
+          newx !== "" &&
+          newx !== "*"
         )
           state.push(false);
         else {
@@ -154,6 +155,25 @@ export default {
         }
       });
       return [List.length > 0 ? state.every((x) => x == true) : false, List];
+    },
+    //应该是点击element-table设置该事件
+    changeinput(inputlist) {
+      switch (this.searchMethod) {
+        case 0:
+        case 2:
+          this.form.input = inputlist.join("");
+          break;
+        case 1:
+          this.form.input = inputlist.join(",");
+          break;
+        case 3:
+        case 4:
+          this.form.input = inputlist.join("-");
+          break;
+        case 5:
+          break;
+      }
+      this.isabled = true;
     }
   }
 };

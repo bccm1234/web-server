@@ -1,48 +1,5 @@
 <template>
-  <div style="width: 100%">
-    <mysearchinput
-      :inputList="inputList"
-      @inputList="updateET"
-      ref="input"
-    ></mysearchinput>
-    <el-form :inline="true" :model="formInline" size="large">
-      <el-form-item label="Explore Materials">
-        <el-autocomplete
-          v-focus
-          @input="beforetablehighlight"
-          v-model="formInline.mater"
-          placeholder="Please input"
-          @keyup.13.native="getresult(format)"
-          :fetch-suggestions="querySearch"
-        >
-          <i
-            class="el-icon-close el-input__icon"
-            slot="suffix"
-            @click="getformat"
-          >
-          </i>
-          <template slot-scope="{ item }">
-            <div class="address">
-              <span>{{ item.address }}</span>
-              <span>{{ item.value }}</span>
-            </div>
-          </template></el-autocomplete
-        >
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          type="primary"
-          @click="getresult(format)"
-          :disabled="!format[2] || !formInline.mater"
-          >Search</el-button
-        >
-      </el-form-item>
-    </el-form>
-    <elementtable
-      :light="inputList"
-      @addelement="pushele"
-      @delelement="delele"
-    ></elementtable>
+  <div>
     <div class="element-top">
       <div class="column">
         <div
@@ -96,6 +53,13 @@
         </div>
       </div>
       <div class="column">
+        <div
+          class="base-element column-element color-*"
+          @click="searchElement"
+          :class="{ active: isActive['*'] }"
+        >
+          *
+        </div>
         <div
           class="base-element column-element color-2"
           @click="searchElement"
@@ -927,505 +891,181 @@
         </div>
       </div>
     </div>
-    <mysearchresult
-      ref="searchresult"
-      :visible="visible"
-      :searchList="searchList"
-    ></mysearchresult>
   </div>
 </template>
 
 <script>
-import "@/assets/table.css";
-import mysearchinput from "@/components/search-input.vue";
-import elementtable from "@/components/element-table.vue";
-import mysearchresult from "@/components/search-result.vue";
 export default {
-  components: {
-    mysearchresult,
-    mysearchinput,
-    elementtable
+  props: {
+    light: { type: Array, require: true }
   },
-  data() {
-    return {
-      inputList: [],
-      format: [false, false, false],
-      isActive: {
-        H: false,
-        He: false,
-        Li: false,
-        Be: false,
-        B: false,
-        C: false,
-        N: false,
-        O: false,
-        F: false,
-        Ne: false,
-        Na: false,
-        Mg: false,
-        Al: false,
-        Si: false,
-        P: false,
-        S: false,
-        Cl: false,
-        Ar: false,
-        K: false,
-        Ca: false,
-        Sc: false,
-        Ti: false,
-        V: false,
-        Cr: false,
-        Mn: false,
-        Fe: false,
-        Co: false,
-        Ni: false,
-        Cu: false,
-        Zn: false,
-        Ga: false,
-        Ge: false,
-        As: false,
-        Se: false,
-        Br: false,
-        Kr: false,
-        Rb: false,
-        Sr: false,
-        Y: false,
-        Zr: false,
-        Nb: false,
-        Mo: false,
-        Tc: false,
-        Ru: false,
-        Rh: false,
-        Pd: false,
-        Ag: false,
-        Cd: false,
-        Ln: false,
-        Sn: false,
-        Sb: false,
-        Te: false,
-        I: false,
-        Xe: false,
-        Cs: false,
-        Ba: false,
-        La: false,
-        Hf: false,
-        Ta: false,
-        W: false,
-        Re: false,
-        Os: false,
-        Ir: false,
-        Pt: false,
-        Au: false,
-        Hg: false,
-        Tl: false,
-        Pb: false,
-        Bi: false,
-        Po: false,
-        At: false,
-        Rn: false,
-        Fr: false,
-        Ra: false,
-        Ac: false,
-        Rf: false,
-        Db: false,
-        Sg: false,
-        Bh: false,
-        Hs: false,
-        Mt: false,
-        Ds: false,
-        Rg: false,
-        Uub: false,
-        Uut: false,
-        Uuq: false,
-        Uup: false,
-        Uuh: false,
-        Uus: false,
-        Uuo: false,
-        Ce: false,
-        Pr: false,
-        Nd: false,
-        Pm: false,
-        Sm: false,
-        Eu: false,
-        Gd: false,
-        Tb: false,
-        Dy: false,
-        Ho: false,
-        Er: false,
-        Tm: false,
-        Yb: false,
-        Lu: false,
-        Th: false,
-        Pa: false,
-        U: false,
-        Np: false,
-        Pu: false,
-        Am: false,
-        Cm: false,
-        Bk: false,
-        Cf: false,
-        Es: false,
-        Fm: false,
-        Md: false,
-        No: false,
-        Lr: false
-      },
-      mater_list: [],
-      visible: false,
-      constList: [],
-      searchList: [],
-      formInline: {
-        mater: ""
-      },
-      timer: null,
-      searchMethod: 999,
-      example: [
-        { address: "Include at least elements: ", value: "Cu,O" },
-        {
-          address: "Include only elements: ",
-          value: "Ti-O"
-        },
-        {
-          address: "Include only elements plus wildcard elements: ",
-          value: "O-*"
-        },
-        { address: "Has exact formula: ", value: "CuO" },
-        {
-          address: "Has formula with wildcard atoms: ",
-          value: "Al*"
-        }
-      ]
-    };
+  computed: {
+    isActive() {
+      return this.$store.state.isActive;
+    },
+    light_deepcopy() {
+      return JSON.parse(JSON.stringify(this.light));
+    }
   },
-  created() {
-    this.$axios
-      .get("/materials/index")
-      .then(function (response) {
-        return response.data;
-      })
-      .then((data) => {
-        this.constList = data.filter(
-          (x) => (
-            (x.id = parseInt(x.id)),
-            (x.a = x.a + "Å"),
-            (x.b = x.b + "Å"),
-            (x.c = x.c + "Å"),
-            (x.α = x.α + "°"),
-            (x.β = x.β + "°"),
-            (x.γ = x.γ + "°"),
-            (x["volume"] = x["volume"] + "Å³"),
-            (x["band gap"] = x["band gap"] + "eV"),
-            (x["energy above hull"] = x["energy above hull"] + "eV"),
-            (x["predicted formation energy"] =
-              x["predicted formation energy"] + "eV")
-          )
-        );
+  watch: {
+    light_deepcopy(newVal) {
+      this.$store.commit("clearlight");
+      newVal.forEach((ele) => {
+        this.$store.commit("lightElement", ele);
       });
+    }
   },
   methods: {
-    updateET(list) {
-      this.inputList = list;
-    },
-    pushele(ele) {
-      this.inputList.push(ele);
-      this.$refs.input.changeinput(this.inputList);
-    },
-    delele(ele) {
-      this.inputList = this.inputList.filter((x) => x !== ele);
-      this.$refs.input.changeinput(this.inputList);
-    },
-    getresultlist(method) {
-      switch (method) {
-        case 0:
-          this.searchList = this.constList.filter(
-            (x) => x.formula == this.formInline.mater
-          );
-          break;
-        case 1:
-          this.getmethodone(this.formInline.mater);
-          break;
-        case 2:
-          this.getmethodtwo(this.formInline.mater);
-          break;
-        case 3:
-          this.getmethodthree(this.formInline.mater);
-          break;
-        case 4:
-          this.getmethodfour(this.formInline.mater);
-          break;
-        case 5:
-          console.log(5);
-          break;
-      }
-    },
-    getmethodone(elestr) {
-      let elelist = elestr.split(",");
-      elelist = elelist.filter((x) => {
-        if (x) return x;
-      });
-      elelist = elelist.map((x) => {
-        x = x.replaceAll(/[0-9]+/g, "");
-        return this.$store.state.element_table[x];
-      });
-      this.searchList = this.constList.filter(
-        (x) =>
-          x.element.length >= elelist.length &&
-          this.judgeele_methodone(elelist, x.element)
-      );
-    },
-    judgeele_methodone(elelist, datalist) {
-      for (let i = 0; i < elelist.length; i++) {
-        if (!datalist.includes(elelist[i])) return false;
-      }
-      return true;
-    },
-    getmethodtwo(elestr) {
-      let elelist = [];
-      let index = "";
-      let startindex = "";
-      for (let i = 0; i < elestr.length; i++) {
-        if (elestr[i].match(/[A-Z]|\*/)) {
-          startindex = index;
-          index = i;
-          if (parseFloat(startindex).toString() !== "NaN")
-            elelist.push(elestr.slice(startindex, index));
-        }
-      }
-      elelist.push(elestr.slice(index, elestr.length));
-      elelist = elelist.map((x) => {
-        if (x === "*") x = "1";
-        else x = x.replace(/\*/, "");
-        return x;
-      });
-      let indexlist = [];
-      elelist.forEach((x) => {
-        if (x.match(/[A-Z]/)) {
-          indexlist.push(x.replace(/[0-9]/g, ""));
-        }
-      });
-      this.searchList = this.constList.filter(
-        (x) =>
-          x.element.length == elelist.length &&
-          this.judgeele_methodtwo(elelist, x, indexlist)
-      );
-    },
-    judgeele_methodtwo(elelist, dataobject, indexlist) {
-      for (let i = 0; i < elelist.length; i++) {
-        if (elelist[i].match(/[A-Z]/)) {
-          if (!dataobject.formula.includes(elelist[i])) return false;
-          else {
-            if (!this.judgeele_methodtwo_num(elelist[i], dataobject))
-              return false;
-          }
-        } else {
-          let num = elelist[i];
-          if (!this.judgeele_methodtwo_ele(num, dataobject, indexlist))
-            return false;
-        }
-      }
-      return true;
-    },
-    judgeele_methodtwo_num(ele, dataobject) {
-      let elechar = ele.match(/[A-Za-z]+/g);
-      let elenum = ele.match(/[0-9]+/g) ? ele.match(/[0-9]+/g) : ["1"];
-      for (let i = 1; i < dataobject.element.length + 1; i++) {
-        if (
-          dataobject["element" + i + "num"] == elenum &&
-          dataobject["element" + i] == elechar
-        )
-          return true;
-      }
-      return false;
-    },
-    judgeele_methodtwo_ele(num, dataobject, indexlist) {
-      for (let i = 1; i < dataobject.element.length + 1; i++) {
-        if (
-          dataobject["element" + i + "num"] == num &&
-          !indexlist.includes(dataobject["element" + i])
-        ) {
-          return true;
-        }
-      }
-      return false;
-    },
-    getmethodthree(elestr) {
-      let elelist = elestr.split("-");
-      elelist = elelist.filter((x) => {
-        if (x) return x;
-      });
-      elelist = elelist.map((x) => {
-        x = x.replaceAll(/[0-9]+/g, "");
-        return this.$store.state.element_table[x];
-      });
-      this.searchList = this.constList.filter(
-        (x) =>
-          x.element.length == elelist.length &&
-          this.judgeele_methodone(elelist, x.element)
-      );
-    },
-    getmethodfour(elestr) {
-      let elelist = elestr.split("-");
-      elelist = elelist.filter((x) => {
-        if (x) return x;
-      });
-      let elelistlength = elelist.length;
-      elelist = elelist.filter((x) => {
-        if (!x.match(/\*/g)) return x;
-      });
-      elelist = elelist.map((x) => {
-        x = x.replaceAll(/[0-9]+/g, "");
-        return this.$store.state.element_table[x];
-      });
-      this.searchList = this.constList.filter(
-        (x) =>
-          x.element.length == elelistlength &&
-          this.judgeele_methodone(elelist, x.element)
-      );
-    },
     searchElement(event) {
       const ele = event.currentTarget.innerHTML.trim();
-      if (this.isActive[ele] === false) {
-        this.mater_list.push(ele);
+      if (this.$store.state.isActive[ele] === false) {
+        this.$emit("addelement", ele);
       } else {
-        this.mater_list = this.mater_list.filter((x) => x !== ele);
+        this.$emit("delelement", ele);
       }
-      this.isActive[ele] = !this.isActive[ele];
-      this.formInline.mater = this.mater_list.join("-");
-      this.beforetablehighlight();
-    },
-    getresult(format) {
-      if (format[2]) {
-        this.visible = true;
-        this.$refs.searchresult.reset();
-        this.searchMethod = this.judgemethod(this.formInline.mater);
-        this.getresultlist(this.searchMethod);
-        this.jumptoresult();
-      }
-    },
-    judgemethod(elestr) {
-      if (elestr.includes("mp")) {
-        console.log("使用Material ID搜索");
-        return 5;
-      } else if (elestr.includes("-") && elestr.includes("*")) {
-        console.log("使用半模糊查询");
-        return 4;
-      } else if (elestr.includes("-")) {
-        console.log("使用-查询");
-        return 3;
-      } else if (elestr.includes("*")) {
-        console.log("使用模糊查询");
-        return 2;
-      } else if (elestr.includes(",")) {
-        console.log("使用,查询");
-        return 1;
-      } else {
-        console.log("固定查询");
-        return 0;
-      }
-    },
-    jumptoresult() {
-      clearTimeout(this.timer);
-      this.timer = setTimeout(() => {
-        let el = document.querySelector("#search-result");
-        window.scrollTo(0, el.offsetTop - 110);
-      }, 50);
-    },
-    beforetablehighlight() {
-      let elestr = this.formInline.mater;
-      let elechar = [];
-      if (elestr.includes("-")) {
-        elechar = elestr.split("-");
-      } else if (elestr.includes(",")) {
-        elechar = elestr.split(",");
-      } else {
-        let index = "";
-        let startindex = "";
-        for (let i = 0; i < elestr.length; i++) {
-          if (elestr[i].match(/[A-Z]/)) {
-            startindex = index;
-            index = i;
-            if (index != 0 && startindex === "") {
-              elechar.push(elestr.slice(0, index));
-            }
-            if (parseFloat(startindex).toString() !== "NaN") {
-              elechar.push(elestr.slice(startindex, index));
-            }
-          }
-        }
-        elechar.push(elestr.slice(index, elestr.length));
-      }
-      let verify1 = [];
-      elechar.forEach((x) => {
-        if (x.match(/[^A-Za-z0-9,*-]/)) {
-          verify1.push(false);
-        } else verify1.push(true);
-      });
-      if (verify1.every((x) => x == true)) this.format[0] = true;
-      else this.format[0] = false;
-      let eleChar = [];
-      let verify2 = [];
-      elechar.map((x) => {
-        x = x.replaceAll(/[^A-Za-z]/g, "");
-        if (!Object.keys(this.isActive).includes(x) && x !== "")
-          verify2.push(false);
-        else verify2.push(true);
-        if (verify2.every((x) => x == true)) this.format[1] = true;
-        else this.format[1] = false;
-        eleChar.push(x);
-      });
-      this.format[2] = this.format[1] && this.format[0];
-      eleChar.forEach((x) => this.tablehighlight(x));
-      this.mater_list.forEach((x) => this.cancelhighlight(x, eleChar));
-    },
-    tablehighlight(ele) {
-      if (Object.keys(this.isActive).includes(ele)) {
-        if (this.isActive[ele] === false) {
-          this.mater_list.push(ele);
-          this.isActive[ele] = !this.isActive[ele];
-        }
-      }
-    },
-    cancelhighlight(ele, eleChar) {
-      if (!eleChar.includes(ele)) {
-        this.mater_list = this.mater_list.filter((x) => x !== ele);
-        this.isActive[ele] = !this.isActive[ele];
-      }
-    },
-    getformat() {
-      this.formInline.mater = "";
-      this.beforetablehighlight();
-      this.format[2] = false;
-    },
-    querySearch(queryString, cb) {
-      var results = this.example;
-      cb(results);
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
-.el-form {
-  margin-top: 15px;
-  /deep/ .el-form-item__label {
-    font-size: 0.1rem;
-    margin-right: 0.2rem;
-  }
-  .el-button {
-    font-size: 0.1rem;
+.element-top {
+  width: 8rem;
+  margin: 0.2rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.element-bottom {
+  width: 8rem;
+  margin: 0.1rem auto;
+}
+
+.column {
+  width: 0.4rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin: 0rem 0.02rem;
+}
+
+.base-element {
+  width: 0.4rem;
+  height: 0.4rem;
+  font-size: 0.15rem;
+  font-weight: bolder;
+  line-height: 0.35rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.column-element {
+  margin-top: 0.02rem;
+}
+
+.line {
+  width: 100%;
+  height: 0.4rem;
+  margin: 0.1rem auto;
+  display: flex;
+  justify-content: center;
+}
+
+.line-element {
+  margin: 0rem 0.02rem;
+}
+
+.base-color {
+  background: rgb(0, 43, 52);
+  color: rgb(119, 232, 255);
+  border: 0.025rem solid rgb(119, 232, 255);
+}
+
+.color-1 {
+  background: rgb(52, 0, 9);
+  color: rgb(255, 119, 142);
+  border: 0.025rem solid rgb(255, 119, 142);
+}
+
+.color-2 {
+  background: rgb(52, 16, 0);
+  color: rgb(255, 161, 119);
+  border: 0.025rem solid rgb(255, 161, 119);
+}
+
+.color-3 {
+  background: rgb(45, 52, 0);
+  color: rgb(236, 255, 119);
+  border: 0.025rem solid rgb(236, 255, 119);
+}
+
+.color-4 {
+  background: rgb(0, 52, 14);
+  color: rgb(119, 255, 155);
+  border: 0.025rem solid rgb(119, 255, 155);
+}
+
+.color-5 {
+  background: rgb(0, 37, 52);
+  color: rgb(140, 119, 255);
+  border: 0.025rem solid rgb(140, 119, 255);
+}
+
+.color-6 {
+  background: rgb(42, 0, 52);
+  color: rgb(235, 120, 255);
+  border: 0.025rem solid rgb(235, 120, 255);
+}
+
+.color-7 {
+  background: rgb(73, 73, 73);
+  color: rgb(198, 198, 198);
+  border: 0.025rem solid rgb(198, 198, 198);
+}
+
+.color-8 {
+  background: rgb(52, 25, 0);
+  color: rgb(255, 184, 119);
+  border: 0.025rem solid rgb(255, 184, 119);
+}
+
+.color-9 {
+  background: rgb(52, 37, 0);
+  color: rgb(255, 216, 119);
+  border: 0.025rem solid rgb(255, 216, 119);
+}
+
+.color-\* {
+  background: rgb(25, 25, 25);
+  color: rgb(196, 255, 58);
+  border: 0.025rem solid rgb(196, 255, 58);
+}
+
+.font-sm {
+  font-size: 0.125rem;
+}
+/* // 动画效果总时间为s,延时s启动。 */
+.base-element:hover {
+  animation: element-hover 0.5s 0.1s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes element-hover {
+  0% {
+    transform: scale(1);
   }
 
-  .el-autocomplete {
-    width: 400px;
-    /deep/ .el-input__inner {
-      font-size: 0.1rem;
-    }
+  /* 50% {
+      transform: scale(0.8) rotateX(270deg) skewX(90deg);
+    } */
 
-    .address {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      font-size: 0.084rem;
-    }
+  100% {
+    transform: scale(1.3);
   }
+}
+.active {
+  background-color: #fff;
 }
 </style>
