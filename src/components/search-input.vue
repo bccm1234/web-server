@@ -8,7 +8,7 @@
           placeholder="Please input"
           v-model="form.input"
           @input="judgeinput"
-          @keyup.13.native="getresult"
+          @keyup.13.native="getresult(isabled)"
           :fetch-suggestions="querySearch"
         >
           <i
@@ -71,17 +71,184 @@ export default {
       this.form.input = "";
       this.judgeinput();
     },
-    getresult() {
-      this.getresultlist(this.searchMethod);
+    async getresult(isabled) {
+      if (isabled) {
+        let { data: rawlist } = await this.$axios.get("/materials/index");
+        rawlist = rawlist.map((x) => {
+          x.id = parseInt(x.id);
+          x.a = x.a + "Å";
+          x.b = x.b + "Å";
+          x.c = x.c + "Å";
+          x.α = x.α + "°";
+          x.β = x.β + "°";
+          x.γ = x.γ + "°";
+          x["volume"] = x["volume"] + "Å³";
+          x["band gap"] = x["band gap"] + "eV";
+          x["energy above hull"] = x["energy above hull"] + "eV";
+          x["predicted formation energy"] =
+            x["predicted formation energy"] + "eV";
+          return x;
+        });
+        let resultList = this.getresultlist(rawlist, this.searchMethod);
+        this.$emit("resultList", resultList);
+      }
     },
-    getresultlist(i) {
-      console.log(i);
+    getresultlist(rawlist, method) {
+      switch (method) {
+        case 0:
+          return rawlist.filter((x) => x.formula == this.form.input);
+        case 1:
+          return this.getresultMethodOne(rawlist);
+        case 2:
+          return this.getresultMethodTwo(rawlist);
+        case 3:
+          return this.getresultMethodThree(rawlist);
+        case 4:
+          return this.getresultMethodFour(rawlist);
+        case 5:
+          break;
+      }
+    },
+    getresultMethodOne(rawlist) {
+      let inputelelist = this.form.input.split(",");
+      //去除空元素
+      inputelelist = inputelelist.filter((x) => {
+        if (x) return x;
+      });
+      //得到元素对应编号列表
+      inputelelist = inputelelist.map((x) => {
+        x = x.replaceAll(/[0-9]+/g, "");
+        return this.$store.state.element_table[x];
+      });
+      return rawlist.filter(
+        (x) =>
+          x.element.length >= inputelelist.length &&
+          this.judgeList(inputelelist, x.element)
+      );
+    },
+    getresultMethodTwo(rawlist) {
+      let elelist = [],
+        startindex = "",
+        endindex = "";
+      for (let i = 0; i < this.form.input.length; i++) {
+        if (this.form.input[i].match(/[A-Z*]/)) {
+          startindex = endindex;
+          endindex = i;
+          // 相比之前的切片函数，少捕捉前面第一部分(因为之前已经捕捉过了，之前的捕捉是为了检查非法字符)
+          // 此时必然没有非法字符，只需对比元素即可
+          if (parseFloat(startindex).toString() !== "NaN")
+            elelist.push(this.form.input.slice(startindex, endindex));
+        }
+      }
+      elelist.push(this.form.input.slice(endindex, this.form.input.length));
+      // 将*转化为1，*2转化为2
+      elelist = elelist.map((x) => {
+        if (x === "*") x = "1";
+        else x = x.replace(/\*/, "");
+        return x;
+      });
+      let inputelelist = [];
+      // 提取元素信息
+      elelist.forEach((x) => {
+        if (x.match(/[A-Z]/)) {
+          inputelelist.push(x.replace(/[0-9]/g, ""));
+        }
+      });
+      return rawlist.filter(
+        (x) =>
+          x.element.length == elelist.length &&
+          this.judgecharList(inputelelist, x, elelist)
+      );
+    },
+    getresultMethodThree(rawlist) {
+      let inputelelist = this.form.input.split("-");
+      // 去除空元素
+      inputelelist = inputelelist.filter((x) => {
+        if (x) return x;
+      });
+      //得到元素对应编号列表
+      inputelelist = inputelelist.map((x) => {
+        x = x.replaceAll(/[0-9]+/g, "");
+        return this.$store.state.element_table[x];
+      });
+      return rawlist.filter(
+        (x) =>
+          x.element.length == inputelelist.length &&
+          this.judgeList(inputelelist, x.element)
+      );
+    },
+    getresultMethodFour(rawlist) {
+      let inputelelist = this.form.input.split("-");
+      inputelelist = inputelelist.filter((x) => {
+        if (x) return x;
+      });
+      // 后面把*号除去，此时需记录length
+      let elelistlength = inputelelist.length;
+      inputelelist = inputelelist.filter((x) => {
+        if (!x.match(/\*/g)) return x;
+      });
+      inputelelist = inputelelist.map((x) => {
+        x = x.replaceAll(/[0-9]+/g, "");
+        return this.$store.state.element_table[x];
+      });
+      return rawlist.filter(
+        (x) =>
+          x.element.length == elelistlength &&
+          this.judgeList(inputelelist, x.element)
+      );
+    },
+    judgeList(inputelelist, elelist) {
+      for (let i = 0; i < inputelelist.length; i++) {
+        if (!elelist.includes(inputelelist[i])) return false;
+      }
+      return true;
+    },
+    judgecharList(inputelelist, data, elelist) {
+      for (let i = 0; i < elelist.length; i++) {
+        if (elelist[i].match(/[A-Z]/)) {
+          // 捕捉元素种类
+          if (!data.formula.includes(elelist[i])) return false;
+          // 捕捉原子数量(只捕捉种类会出现Cu match Cu3的现象)
+          else {
+            if (!this.judgeelenum(elelist[i], data)) return false;
+          }
+        } else {
+          let num = elelist[i];
+          // *号匹配元素
+          if (!this.judgecharele(num, data, inputelelist)) return false;
+        }
+      }
+      return true;
+    },
+    judgeelenum(ele, data) {
+      let elechar = ele.match(/[A-Za-z]+/g);
+      let elenum = ele.match(/[0-9]+/g) ? ele.match(/[0-9]+/g) : ["1"];
+      for (let i = 1; i < data.element.length + 1; i++) {
+        if (
+          data["element" + i + "num"] == elenum &&
+          data["element" + i] == elechar
+        )
+          return true;
+      }
+      return false;
+    },
+    judgecharele(num, data, inputelelist) {
+      for (let i = 1; i < data.element.length + 1; i++) {
+        if (
+          data["element" + i + "num"] == num &&
+          !inputelelist.includes(data["element" + i])
+        ) {
+          return true;
+        }
+      }
+      return false;
     },
     //判断input输入内容是否合法
     judgeinput() {
       let ElementList = [];
       let forminput = this.form.input;
-      this.searchMethod = this.judgesearchMethod(forminput);
+      this.searchMethod =
+        forminput.length > 0 ? this.judgesearchMethod(forminput) : 3;
       let inputeleList = this.sliceinput(forminput);
       [this.isabled, ElementList] = this.judgeinputeleList(inputeleList);
       this.$emit("inputList", ElementList);
@@ -156,9 +323,11 @@ export default {
       });
       return [List.length > 0 ? state.every((x) => x == true) : false, List];
     },
-    //应该是点击element-table设置该事件
+    //点击element-table设置该事件
     changeinput(inputlist) {
-      inputlist.length > 0 ? (this.isabled = true) : (this.isabled = false);
+      inputlist.length > 0
+        ? (this.isabled = true)
+        : ((this.isabled = false), (this.searchMethod = 3));
       switch (this.searchMethod) {
         case 0:
         case 2:
