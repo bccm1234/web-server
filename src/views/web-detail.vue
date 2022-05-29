@@ -17,7 +17,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 import detailsLeftbox from "../components/details/details-leftbox.vue";
 import detailsAbstract from "../components/details/details-abstract.vue";
 import detailsCrystal from "../components/details/details-crystal.vue";
@@ -59,20 +58,22 @@ export default {
     async fetchData() {
       let idNumber = window.location.hash;
       let hashId = idNumber.substring(12, idNumber.length);
-      const { data: res } = await axios.get("/materials/index");
+      const { data: res } = await this.$axios.get("/materials/index");
       this.infoObj = res[hashId - 1];
       this.hashNum = hashId;
       this.crystalURL =
         "http://localhost:3000/public/html/chemdoodle/chemdoodle.html?" +
         hashId;
       // console.log("infoObj", this.infoObj);
-      const { data: result } = await axios.get("/materials/detail/Cu2O");
+      const { data: result } = await this.$axios.get("/materials/detail/Cu2O");
       this.allInfo = result;
       //vuex
       this.$store.commit("system/SET_AllInfo", this.allInfo);
     },
     async handleInfo() {
-      const { data: res } = await axios.get("/materials/detail/atomcolor");
+      const { data: res } = await this.$axios.get(
+        "/materials/detail/atomcolor"
+      );
       setTimeout(() => {
         this.infoObj.color2 = res[this.infoObj.element[0] - 1]["color"];
         this.infoObj.color1 = res[this.infoObj.element[1] - 1]["color"];

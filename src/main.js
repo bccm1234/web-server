@@ -22,10 +22,10 @@ Vue.prototype.$axios = axios;
 axios.defaults.baseURL = "http://127.0.0.1:3000/";
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+Vue.use(details);
 new Vue({
   el: "#app",
   router,
   store,
   render: (h) => h(App)
 }).$mount("#app");
-Vue.use(details);
