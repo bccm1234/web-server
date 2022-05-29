@@ -33,12 +33,12 @@ exports.install = function (Vue) {
             "<span span style='text-decoration: overline'>" +
             str[i + 1] +
             "</span>";
-          i += 50;
+          i += b.length - 1;
           str = str.replace(new RegExp(a), b);
         } else if (str[i] === "_") {
           a = str[i] + str[i + 1];
           b = "<sub>" + str[i + 1] + "</sub>";
-          i += 10;
+          i += b.length - 1;
           str = str.replace(new RegExp(a), b);
         }
       }

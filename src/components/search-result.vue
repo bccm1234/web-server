@@ -86,15 +86,12 @@
         <el-header>
           <div class="searchresult-header">
             <div>
-              <b>{{ this.total + " materials" }}</b>
+              <b>{{ total + " materials" }}</b>
               match your search
             </div>
             <div>
               {{
-                "Showing " +
-                (this.upper ? this.floor + 1 : 0) +
-                "-" +
-                this.upper
+                "Showing " + (upper ? floor + 1 : 0) + "-" + (upper ? upper : 0)
               }}
             </div>
           </div>
@@ -102,11 +99,11 @@
             placement="left"
             title="列筛选"
             trigger="click"
-            width="340"
+            width="320"
           >
-            <el-checkbox-group v-model="checkedColumns" size="mini">
+            <el-checkbox-group v-model="selectedColumns" size="mini">
               <el-checkbox
-                v-for="item in checkBoxGroup"
+                v-for="item in selectColumns"
                 :key="item"
                 :label="item"
                 :value="item"
@@ -127,150 +124,25 @@
             @row-click="detailedinformation"
           >
             <el-table-column
-              v-if="colData[0].istrue"
-              prop="id"
-              label="ID"
-              sortable="custom"
-              :width="flexColumnWidth('ID', 'id')"
-            >
-            </el-table-column>
-            <el-table-column
-              v-if="colData[1].istrue"
-              prop="a"
-              label="a"
-              sortable="custom"
-              :width="flexColumnWidth('a', 'a')"
-            ></el-table-column>
-            <el-table-column
-              v-if="colData[2].istrue"
-              prop="b"
-              label="b"
-              sortable="custom"
-              :width="flexColumnWidth('b', 'b')"
-            ></el-table-column>
-            <el-table-column
-              v-if="colData[3].istrue"
-              prop="c"
-              label="c"
-              sortable="custom"
-              :width="flexColumnWidth('c', 'c')"
-            ></el-table-column>
-            <el-table-column
-              v-if="colData[4].istrue"
-              prop="α"
-              label="α"
-              sortable="custom"
-              :width="flexColumnWidth('α', 'α')"
-            ></el-table-column>
-            <el-table-column
-              v-if="colData[5].istrue"
-              prop="β"
-              label="β"
-              sortable="custom"
-              :width="flexColumnWidth('β', 'β')"
-            ></el-table-column>
-            <el-table-column
-              v-if="colData[6].istrue"
-              prop="γ"
-              label="γ"
-              sortable="custom"
-              :width="flexColumnWidth('γ', 'γ')"
-            ></el-table-column>
-            <el-table-column
-              v-if="colData[7].istrue"
-              prop="volume"
-              label="volume"
-              sortable="custom"
-              :width="flexColumnWidth('volume', 'volume')"
-            ></el-table-column>
-            <el-table-column
-              v-if="colData[8].istrue"
-              prop="formula"
-              label="formula"
-              :width="flexColumnWidth('formula', 'formula')"
-            >
-              <template slot-scope="scope"
-                ><div v-html="scope.row.formula"></div
+              v-for="item in selectedColumns"
+              :prop="item"
+              :key="item"
+              :label="item"
+              :width="flexColumnWidth(item, item)"
+              ><template slot-scope="scope"
+                ><div v-html="scope.row[item]"></div
               ></template>
             </el-table-column>
-            <el-table-column
-              v-if="colData[9].istrue"
-              prop="band gap"
-              label="band gap"
-              sortable="custom"
-              :width="flexColumnWidth('band gap', 'band gap')"
-            ></el-table-column>
-            <el-table-column
-              v-if="colData[10].istrue"
-              prop="crystal system"
-              label="crystal system"
-              :width="flexColumnWidth('crystal system', 'crystal')"
-            ></el-table-column>
-            <el-table-column
-              v-if="colData[11].istrue"
-              prop="space group"
-              label="space group"
-              :width="flexColumnWidth('space group', 'space group')"
-            >
-              <template slot-scope="scope"
-                ><div v-html="scope.row['space group']"></div
-              ></template>
-            </el-table-column>
-            <el-table-column
-              v-if="colData[12].istrue"
-              prop="energy above hull"
-              label="energy above hull"
-              sortable="custom"
-              :width="flexColumnWidth('energy above hull', 'energy above hull')"
-            ></el-table-column>
-            <el-table-column
-              v-if="colData[13].istrue"
-              prop="predicted formation energy"
-              label="predicted formation energy"
-              sortable="custom"
-              :width="
-                flexColumnWidth(
-                  'predicted formation energy',
-                  'predicted formation energy'
-                )
-              "
-            ></el-table-column>
-            <el-table-column
-              v-if="colData[14].istrue"
-              prop="magnetic ordering"
-              label="magnetic ordering"
-              :width="flexColumnWidth('magnetic ordering', 'magnetic ordering')"
-            ></el-table-column>
-            <el-table-column
-              v-if="colData[15].istrue"
-              prop="total magnetization"
-              label="total magnetization"
-              sortable="custom"
-              :width="
-                flexColumnWidth('total magnetization', 'total magnetization')
-              "
-            ></el-table-column>
-            <el-table-column
-              v-if="colData[16].istrue"
-              prop="experimentally observed"
-              label="experimentally observed"
-              :width="
-                flexColumnWidth(
-                  'experimentally observed',
-                  'experimentally observed'
-                )
-              "
-            ></el-table-column>
           </el-table>
         </el-main>
         <el-footer>
           <el-pagination
             ref="page"
-            @size-change="handleSizeChange('sizechange')"
+            @size-change="handleSizeChange()"
             @current-change="handleCurrentChange"
             :current-page="currentPage"
-            :page-sizes="[5, 10, 15, 20]"
-            :page-size="10"
+            :page-sizes="pagesizeList"
+            :page-size="pagesize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
           >
@@ -288,9 +160,9 @@ export default {
       List: [],
       form: { "space group": "", "crystal system": "" },
       currentPage: 1,
+      pagesize: 10,
       preList_filter: [],
       preList: [],
-      aftersearchList: [],
       defaultSortMethod: { prop: "id", order: "ascending" },
       toggle: {
         Symmetry: true
@@ -1258,27 +1130,27 @@ export default {
         }
       ],
       colData: [
-        { title: "ID", istrue: true },
+        { title: "id", istrue: true },
         { title: "a", istrue: true },
         { title: "b", istrue: true },
         { title: "c", istrue: true },
-        { title: "α", istrue: false },
-        { title: "β", istrue: false },
-        { title: "γ", istrue: false },
         { title: "volume", istrue: true },
         { title: "formula", istrue: true },
         { title: "band gap", istrue: true },
         { title: "crystal system", istrue: true },
         { title: "space group", istrue: true },
         { title: "energy above hull", istrue: true },
+        { title: "α", istrue: false },
+        { title: "β", istrue: false },
+        { title: "γ", istrue: false },
         { title: "predicted formation energy", istrue: false },
         { title: "magnetic ordering", istrue: false },
         { title: "total magnetization", istrue: false },
         { title: "experimentally observed", istrue: false }
       ],
-      checkBoxGroup: [],
-      checkedColumns: [
-        "ID",
+      selectColumns: [],
+      selectedColumns: [
+        "id",
         "formula",
         "a",
         "b",
@@ -1299,22 +1171,32 @@ export default {
     total: function () {
       let totalList = this.selectList(this.preList, this.preList_filter);
       return totalList.length;
+    },
+    pagesizeList: function () {
+      return [
+        Math.ceil(this.pagesize / 2),
+        Math.ceil(this.pagesize),
+        Math.ceil(this.pagesize * 1.5),
+        Math.ceil(this.pagesize * 2)
+      ];
     }
   },
   watch: {
+    // 数据后处理及table的初始化
     searchList: function () {
-      this.aftersearchList = JSON.parse(JSON.stringify(this.searchList));
-      this.preList = this.aftersearchList.filter(
+      this.preList = JSON.parse(JSON.stringify(this.searchList));
+      this.preList = this.preList.filter(
         (x) => (
-          (x["formula"] = this.handleBigNumber(x["formula"])),
-          (x["space group"] = this.handlespacegroup(x["space group"])),
+          (x["formula"] = this.tranStr(0, x["formula"])),
+          (x["space group"] = this.tranStr(1, x["space group"])),
           (x["crystal system"] = this.handleBigChar(x["crystal system"]))
         )
       );
-      this.handleSizeChange();
+      this.handleSizeChange("init");
     },
-    checkedColumns: function (newval) {
-      let arr = this.checkBoxGroup.filter((i) => !newval.includes(i));
+    // 列的选择
+    selectedColumns: function (newval) {
+      let arr = this.selectColumns.filter((i) => !newval.includes(i));
       this.colData.forEach((item) => {
         if (arr.includes(item.title)) {
           item.istrue = false;
@@ -1332,21 +1214,22 @@ export default {
           }
           if (select) return x;
         });
-        this.handleSizeChange();
+        this.handleSizeChange("init");
       },
       deep: true
     }
   },
-  // 初始化checkBoxGroup数组
+  // 初始化selectColumns数组
   created() {
     this.colData.forEach((item) => {
-      this.checkBoxGroup.push(item.title);
+      this.selectColumns.push(item.title);
     });
   },
   methods: {
     getspacegroup() {
       console.log(this.$refs.spacegroup.$children[0].$props);
     },
+    // List数据的选择
     filterisempty(form) {
       for (let key in form) {
         if (form[key] != "") return false;
@@ -1357,38 +1240,13 @@ export default {
       if (this.filterisempty(this.form)) return preList;
       else return preList_filter;
     },
-    handleBigNumber(num) {
-      let List = "";
-      for (let i of num) {
-        if (i.match(/\d+/)) List += "<sub>" + i + "</sub>";
-        else List += i;
-      }
-      return List;
-    },
-    handlespacegroup(str) {
-      let a = "";
-      let b = "";
-      for (let i = 0; i < str.length; i++) {
-        if (str[i] === "-") {
-          a = str[i] + str[i + 1];
-          b =
-            "<span style='text-decoration: overline'>" + str[i + 1] + "</span>";
-          i += b.length - 1;
-          str = str.replace(new RegExp(a), b);
-        } else if (str[i] === "_") {
-          a = str[i] + str[i + 1];
-          b = "<sub>" + str[i + 1] + "</sub>";
-          i += b.length - 1;
-          str = str.replace(new RegExp(a), b);
-        }
-      }
-      return str;
-    },
+    // 首字母大写
     handleBigChar(str) {
       let bigchar = str.slice(0, 1).toUpperCase();
       let smallchar = str.slice(1);
       return bigchar + smallchar;
     },
+    // 自适应列宽度函数
     flexColumnWidth(label, prop) {
       // 1.获取该列的所有数据
       const arr = this.List.map((x) => x[prop]);
@@ -1419,8 +1277,9 @@ export default {
       document.querySelector(".getTextWidth").remove();
       return width;
     },
+    // table初始化函数
     handleSizeChange(str) {
-      if (str === undefined) {
+      if (str === "init") {
         this.floor = (this.currentPage - 1) * this.$refs.page.internalPageSize;
         this.upper = Math.min(
           this.total,
@@ -1441,13 +1300,14 @@ export default {
       );
     },
     handleCurrentChange() {
-      this.handleSizeChange("fill");
+      this.handleSizeChange();
     },
+    // 排序函数
     sortChange({ prop, order }) {
       this.selectList(this.preList, this.preList_filter).sort(
         this.compare(prop, order)
       );
-      this.handleSizeChange("fill");
+      this.handleSizeChange();
     },
     compare(propertyName, sort) {
       return function (obj1, obj2) {
@@ -1465,6 +1325,7 @@ export default {
         }
       };
     },
+    // 路由跳转函数
     detailedinformation(row) {
       this.$router.push({ name: "detail", query: { id: row.id } });
     },
