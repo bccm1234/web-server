@@ -85,10 +85,10 @@
       <el-container>
         <el-header>
           <div class="searchresult-header">
-            <span>
+            <div>
               <b>{{ this.total + " materials" }}</b>
               match your search
-            </span>
+            </div>
             <div>
               {{
                 "Showing " +
@@ -122,7 +122,7 @@
             :data="List"
             border
             style="margin: 0 auto"
-            :default-sort="default_sortmethod"
+            :default-sort="defaultSortMethod"
             @sort-change="sortChange"
             @row-click="detailedinformation"
           >
@@ -291,7 +291,7 @@ export default {
       preList_filter: [],
       preList: [],
       aftersearchList: [],
-      default_sortmethod: { prop: "id", order: "ascending" },
+      defaultSortMethod: { prop: "id", order: "ascending" },
       toggle: {
         Symmetry: true
       },
@@ -1337,6 +1337,7 @@ export default {
       deep: true
     }
   },
+  // 初始化checkBoxGroup数组
   created() {
     this.colData.forEach((item) => {
       this.checkBoxGroup.push(item.title);
@@ -1547,13 +1548,13 @@ export default {
       .searchresult-header {
         margin-top: 10px;
         padding-left: 10px;
-        span {
+        div:first-child {
           font-size: 0.09rem;
           b {
             font-size: 0.12rem;
           }
         }
-        div {
+        div:last-child {
           font-size: 0.084rem;
           text-align: left;
         }
