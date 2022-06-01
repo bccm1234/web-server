@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-    <!-- <header>
-      <myWebHead></myWebHead>
-    </header> -->
     <nav>
       <myWebNav></myWebNav>
     </nav>
@@ -18,12 +15,10 @@
   </div>
 </template>
 <script>
-// import myWebHead from "@/components/web-head.vue";
-import myWebNav from "@/components/web-nav.vue";
-import myWebFooter from "@/components/web-foot.vue";
+import myWebNav from "@/components/web/web-nav.vue";
+import myWebFooter from "@/components/web/web-foot.vue";
 export default {
   components: {
-    // myWebHead,
     myWebNav,
     myWebFooter
   }
