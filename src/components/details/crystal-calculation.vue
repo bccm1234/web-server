@@ -106,9 +106,7 @@
         </ul>
       </div>
     </div>
-    <div v-if="!crystalCal.lattice">
-      <span class="itemRight">Not Found</span>
-    </div>
+    <div v-if="!crystalCal.lattice" class="notFound">Not Found</div>
   </div>
 </template>
 
@@ -128,8 +126,7 @@ export default {
   methods: {
     dealInfo() {
       this.crystalCal = this.$store.getters.allInfo["crystal-strusture"].cal;
-      // delete this.crystalCal.a;
-      // console.log("crystal", this.crystalCal);
+      console.log("getsession", this.getSession("allInfo"));
       if (this.crystalCal) {
         if (this.crystalCal.spacegroup.length < 10) {
           this.crystalCal.spacegroup = this.tranStr(

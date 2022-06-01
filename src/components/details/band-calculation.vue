@@ -59,6 +59,7 @@
         </ul>
       </div>
     </div>
+    <div v-if="!bandCal.bandgap" class="notFound">Not Found</div>
   </div>
 </template>
 
@@ -80,10 +81,7 @@ export default {
   },
   methods: {
     dealInfo() {
-      this.bandCal = Object.assign(
-        { a: 1 },
-        this.$store.getters.allInfo["band-dos"].cal
-      );
+      this.bandCal = this.$store.getters.allInfo["band-dos"].cal;
     }
   }
 };

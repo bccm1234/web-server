@@ -1,22 +1,25 @@
 <template>
   <div>
-    <div class="title">
-      <span class="itemLeft">Band Gap :</span>
-      <span class="itemRight">{{ assessData(bandExp.bandgap, " ev") }}</span>
+    <div v-if="bandExp.bandgap">
+      <div class="title">
+        <span class="itemLeft">Band Gap :</span>
+        <span class="itemRight">{{ assessData(bandExp.bandgap, " ev") }}</span>
+      </div>
+      <div class="articleBox">
+        <ul>
+          <li class="title">Article</li>
+          <li class="item" style="width: 700px">
+            <span>Doi :</span>
+            <span>
+              <a :href="bandExp.doi" target="blank" class="doiLink">
+                {{ assessData(bandExp.doi) }}
+              </a>
+            </span>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="articleBox">
-      <ul>
-        <li class="title">Article</li>
-        <li class="item" style="width: 700px">
-          <span>Doi :</span>
-          <span>
-            <a :href="bandExp.doi" target="blank" class="doiLink">
-              {{ assessData(bandExp.doi) }}
-            </a>
-          </span>
-        </li>
-      </ul>
-    </div>
+    <div v-if="!bandExp.bandgap" class="notFound">Not Found</div>
   </div>
 </template>
 
@@ -39,7 +42,6 @@ export default {
   methods: {
     dealInfo() {
       this.bandExp = this.$store.getters.allInfo["band-dos"].exp;
-      console.log("bandExp", this.bandExp);
     }
   }
 };

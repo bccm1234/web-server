@@ -78,9 +78,7 @@
         </ul>
       </div>
     </div>
-    <div v-show="!crystalExp">
-      <span class="chargeExperiment">Not Found</span>
-    </div>
+    <div v-show="!crystalExp.lattice" class="notFound">Not Found</div>
   </div>
 </template>
 
@@ -96,7 +94,7 @@ export default {
   },
   mounted() {
     this.crystalExpInfo();
-    console.log("exp");
+    // console.log("exp");
   },
   watch: {
     "$store.getters.allInfo"() {
@@ -105,11 +103,8 @@ export default {
   },
   methods: {
     crystalExpInfo() {
-      this.crystalExp = Object.assign(
-        {},
-        this.$store.getters.allInfo["crystal-strusture"].exp
-      );
-      console.log("crystalexp", this.crystalExp);
+      this.crystalExp = this.$store.getters.allInfo["crystal-strusture"].exp;
+      // console.log("crystalexp", this.crystalExp);
       if (this.crystalExp.spacegroup.length < 10) {
         this.crystalExp.spacegroup = this.tranStr(
           1,
@@ -124,10 +119,6 @@ export default {
 <style lang="less" scoped>
 .symmetry {
   margin: 20px 0;
-}
-.chargeExperiment {
-  font-size: 24px;
-  font-weight: 700;
 }
 .article .doiBox {
   width: 700px;
