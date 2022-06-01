@@ -72,11 +72,12 @@ export default {
   text-align: center;
   min-width: 220px;
   user-select: none;
+  padding-left: 50px;
 }
 .formulaName {
-  display: inline-block;
+  display: block;
   height: 75px;
-  width: 100%;
+  width: 220px;
   font-size: 64px;
   font-family: PHTB;
   font-weight: bold;
@@ -85,7 +86,8 @@ export default {
   font-family: "PHTB";
 }
 .formulaId {
-  display: inline-block;
+  display: block;
+  width: 220px;
   height: 60px;
   font-size: 36px;
   line-height: 60px;

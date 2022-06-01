@@ -86,18 +86,17 @@
         class="modelCanvas"
         id="chemIframe"
       ></iframe>
-      <span
-        class="colorBox br-10 PHTB"
-        :style="{ backgroundColor: infoObj.color1 }"
-        >{{ infoObj.element1 }}</span
-      >
-      <span
-        class="colorBox br-10 PHTB"
-        :style="{ backgroundColor: infoObj.color2 }"
-        >{{ infoObj.element2 }}</span
-      >
+      <span class="colorBox br-10 PHTB" :style="{ backgroundColor: color1 }">{{
+        infoObj.element1
+      }}</span>
+      <span class="colorBox br-10 PHTB" :style="{ backgroundColor: color2 }">{{
+        infoObj.element2
+      }}</span>
       <span class="downloadBox br-10"
-        ><a class="el-icon-download download" :href="downLoadUrl"
+        ><a
+          class="el-icon-download download"
+          :href="downLoadUrl"
+          @click="downLoad()"
           >DownLoad</a
         ></span
       >
@@ -162,17 +161,46 @@ export default {
     return {
       //默认扩胞侧边栏关闭
       isCollapse: true,
-      downLoadUrl: ""
+      downLoadUrl: "",
+      color1: this.infoObj.color1,
+      color2: this.infoObj.color2,
+      input1: null,
+      input2: null,
+      input3: null
     };
   },
+  created() {
+    this.color();
+    this.downLoad();
+  },
+  mounted() {
+    this.color();
+  },
   methods: {
+    color() {
+      setTimeout(() => {
+        this.color1 = this.infoObj.color1;
+        this.color2 = this.infoObj.color2;
+      }, 50);
+    },
     downLoad() {
-      this.downLoadUrl =
-        "http://localhost:3000/public/cif/" + this.infoObj.id + ".cif";
+      // console.log(this.infoObj.id);
+      this.$nextTick(() => {
+        this.downLoadUrl =
+          "http://localhost:3000/public/cif/" + this.infoObj.id + ".cif";
+      });
     },
     //设置扩胞侧边栏开关
     changeState() {
       this.isCollapse = !this.isCollapse;
+      let input1 = document.getElementById("input1").value;
+      let input2 = document.getElementById("input2").value;
+      let input3 = document.getElementById("input3").value;
+      setTimeout(() => {
+        document.getElementById("input1").value = input1;
+        document.getElementById("input2").value = input2;
+        document.getElementById("input3").value = input3;
+      }, 340);
     },
     sentToChemIframe() {
       let iFrame1 = document.getElementById("chemIframe");
