@@ -8,7 +8,7 @@
       <details-abstract :crystalURL="crystalURL" :infoObj="infoObj">
       </details-abstract>
       <!-- Box2 -->
-      <details-crystal :infoObj="infoObj"></details-crystal>
+      <details-crystal></details-crystal>
       <!-- box3 -->
       <details-band></details-band>
       <!-- box4 -->
@@ -45,7 +45,6 @@ export default {
     // 组件创建完后获取数据，
     // 此时 data 已经被 observed 了
     this.fetchData();
-    this.handleInfo();
   },
   mounted() {
     window.addEventListener("scroll", this.scrollColor);
@@ -59,7 +58,20 @@ export default {
       let idNumber = window.location.hash;
       let hashId = idNumber.substring(12, idNumber.length);
       const { data: res } = await this.$axios.get("/materials/index");
+      // console.log("res", res);
+      const { data: colorRes } = await this.$axios.get(
+        "/materials/detail/atomcolor"
+      );
+      // console.log("colorRes", colorRes);
       this.infoObj = res[hashId - 1];
+      // console.log("info", this.infoObj);
+      this.infoObj.color1 = colorRes[this.infoObj.element[1] - 1]["color"];
+      this.infoObj.color2 = colorRes[this.infoObj.element[0] - 1]["color"];
+      this.infoObj["space group"] = this.tranStr(
+        1,
+        this.infoObj["space group"]
+      );
+      this.infoObj.formula = this.tranStr(0, this.infoObj["formula"]);
       this.hashNum = hashId;
       this.crystalURL =
         "http://localhost:3000/public/html/chemdoodle/chemdoodle.html?" +
@@ -69,20 +81,6 @@ export default {
       this.allInfo = result;
       //vuex
       this.$store.commit("system/SET_AllInfo", this.allInfo);
-    },
-    async handleInfo() {
-      const { data: res } = await this.$axios.get(
-        "/materials/detail/atomcolor"
-      );
-      setTimeout(() => {
-        this.infoObj.color2 = res[this.infoObj.element[0] - 1]["color"];
-        this.infoObj.color1 = res[this.infoObj.element[1] - 1]["color"];
-        this.infoObj["space group"] = this.tranStr(
-          1,
-          this.infoObj["space group"]
-        );
-        this.infoObj.formula = this.tranStr(0, this.infoObj["formula"]);
-      }, 100);
     },
     //滑动相应导航单改变
     scrollColor() {
@@ -113,14 +111,6 @@ export default {
   margin-left: -650px;
   width: 1300px;
   user-select: none;
-}
-.topBox {
-  position: fixed;
-  top: 0;
-  height: 160px;
-  width: 100%;
-  background-color: #e4e6e8;
-  z-index: 99;
 }
 .rightBox {
   position: relative;
@@ -183,5 +173,9 @@ export default {
 }
 ::v-deep .PHTM {
   font-family: PHTM;
+}
+::v-deep .notFound {
+  font-size: 24px;
+  font-weight: 700;
 }
 </style>

@@ -1,207 +1,217 @@
 <template>
-  <div class="chargeBox" v-if="charge.cifUrl">
-    <div class="chargeTop PHTM">
-      <div class="chargeSetBox">
-        <el-menu
-          default-active="1-4-1"
-          class="el-menu-vertical-demo"
-          :collapse="isCollapse"
-        >
-          <form action="" v-show="!isCollapse" ref="chargeForm">
-            <div class="setTitle">SETTING</div>
-            <div class="nextTitle">Isosurface</div>
-            <table class="isoSetTable">
+  <div>
+    <div class="chargeBox" v-if="charge.cifUrl">
+      <div class="chargeTop PHTM">
+        <div class="chargeSetBox">
+          <el-menu
+            default-active="1-4-1"
+            class="el-menu-vertical-demo"
+            :collapse="isCollapse"
+          >
+            <form action="" v-show="!isCollapse" ref="chargeForm">
+              <div class="setTitle">SETTING</div>
+              <div class="nextTitle">Isosurface</div>
+              <table class="isoSetTable">
+                <tr>
+                  <td>Choose</td>
+                  <td>Model</td>
+                  <td>isosurface level&nbsp;</td>
+                  <td>Color</td>
+                </tr>
+                <tr>
+                  <td>
+                    <el-checkbox
+                      v-model="isPositive"
+                      class="chargeCheck"
+                    ></el-checkbox>
+                  </td>
+                  <td>Positive</td>
+                  <td>
+                    <input
+                      type="text"
+                      id="inputP"
+                      class="isoInput"
+                      placeholder="eg:0.05"
+                      autocomplete="off"
+                      @input="checkNumP()"
+                      value=""
+                    />
+                  </td>
+                  <td class="colorBox">
+                    <el-color-picker v-model="colorPositive"></el-color-picker>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <el-checkbox
+                      v-model="isNegative"
+                      class="chargeCheck"
+                    ></el-checkbox>
+                  </td>
+                  <td>Negative</td>
+                  <td>
+                    <input
+                      type="text"
+                      id="inputN"
+                      class="isoInput"
+                      placeholder="eg:-0.05"
+                      autocomplete="off"
+                      @propertychange="checkNumN()"
+                      @input="checkNumN()"
+                      @keypress="checkNumN()"
+                    />
+                  </td>
+                  <td class="colorBox">
+                    <el-color-picker v-model="colorNegative"></el-color-picker>
+                  </td>
+                </tr>
+                <tr style="font-size: 22px">
+                  <td>Move</td>
+                  <td>Model</td>
+                </tr>
+                <tr>
+                  <td>
+                    <el-checkbox
+                      v-model="isMoveX"
+                      class="chargeCheck"
+                    ></el-checkbox>
+                  </td>
+                  <td>X Axis</td>
+                  <td>
+                    <input
+                      type="text"
+                      id="inputX"
+                      class="isoInput"
+                      placeholder="eg:20"
+                      autocomplete="off"
+                      oninput="value=value.replace(/[^\d]/g,'').replace(/^0{1,}/g,'');"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <el-checkbox
+                      v-model="isMoveY"
+                      class="chargeCheck"
+                    ></el-checkbox>
+                  </td>
+                  <td>Y Axis</td>
+                  <td>
+                    <input
+                      id="inputY"
+                      type="text"
+                      class="isoInput"
+                      placeholder="eg:20"
+                      autocomplete="off"
+                      oninput="value=value.replace(/[^\d]/g,'').replace(/^0{1,}/g,'');"
+                    />
+                  </td>
+                </tr>
+                <tr style="font-size: 22px">
+                  <td>Spin</td>
+                </tr>
+              </table>
+              <div class="settingButtons">
+                <button
+                  class="settingButton"
+                  @click="sentToChargeIframe"
+                  type="button"
+                >
+                  Go!
+                </button>
+                <button
+                  class="settingButton"
+                  @click="resetChargeForm"
+                  type="button"
+                >
+                  Clean
+                </button>
+                <button
+                  class="settingButton"
+                  @click="refreshModel"
+                  type="button"
+                >
+                  Refresh
+                </button>
+              </div>
+            </form>
+            <table v-show="!isCollapse" class="spinSelectTable">
               <tr>
-                <td>Choose</td>
-                <td>Model</td>
-                <td>isosurface level&nbsp;</td>
-                <td>Color</td>
-              </tr>
-              <tr>
-                <td>
+                <td style="width: 64px; text-align: center">
                   <el-checkbox
-                    v-model="isPositive"
+                    v-model="isSpin"
                     class="chargeCheck"
                   ></el-checkbox>
                 </td>
-                <td>Positive</td>
-                <td>
-                  <input
-                    type="text"
-                    id="inputP"
-                    class="isoInput"
-                    placeholder="eg:0.05"
-                    autocomplete="off"
-                    @input="checkNumP()"
-                    value=""
-                  />
+                <td class="spinSelect" style="width: 80px; text-align: center">
+                  <el-select v-model="spinAxis" :popper-append-to-body="isbody">
+                    <el-option key="选项1" label="X Axis" value="x"></el-option>
+                    <el-option key="选项2" label="Y Axis" value="y"></el-option>
+                    <el-option
+                      key="选项3"
+                      label="Z Axis"
+                      value="z"
+                      selected
+                    ></el-option>
+                  </el-select>
                 </td>
-                <td class="colorBox">
-                  <el-color-picker v-model="colorPositive"></el-color-picker>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <el-checkbox
-                    v-model="isNegative"
-                    class="chargeCheck"
-                  ></el-checkbox>
-                </td>
-                <td>Negative</td>
-                <td>
-                  <input
-                    type="text"
-                    id="inputN"
-                    class="isoInput"
-                    placeholder="eg:-0.05"
-                    autocomplete="off"
-                    @propertychange="checkNumN()"
-                    @input="checkNumN()"
-                    @keypress="checkNumN()"
-                  />
-                </td>
-                <td class="colorBox">
-                  <el-color-picker v-model="colorNegative"></el-color-picker>
-                </td>
-              </tr>
-              <tr style="font-size: 22px">
-                <td>Move</td>
-                <td>Model</td>
-              </tr>
-              <tr>
-                <td>
-                  <el-checkbox
-                    v-model="isMoveX"
-                    class="chargeCheck"
-                  ></el-checkbox>
-                </td>
-                <td>X Axis</td>
-                <td>
-                  <input
-                    type="text"
-                    id="inputX"
-                    class="isoInput"
-                    placeholder="eg:20"
-                    autocomplete="off"
-                    oninput="value=value.replace(/[^\d]/g,'').replace(/^0{1,}/g,'');lessNum(this)"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <el-checkbox
-                    v-model="isMoveY"
-                    class="chargeCheck"
-                  ></el-checkbox>
-                </td>
-                <td>Y Axis</td>
-                <td>
-                  <input
-                    id="inputY"
-                    type="text"
-                    class="isoInput"
-                    placeholder="eg:20"
-                    autocomplete="off"
-                    oninput="value=value.replace(/[^\d]/g,'').replace(/^0{1,}/g,'');lessNum(this)"
-                  />
-                </td>
-              </tr>
-              <tr style="font-size: 22px">
-                <td>Spin</td>
               </tr>
             </table>
-            <div class="settingButtons">
-              <button
-                class="settingButton"
-                @click="sentToChargeIframe"
-                type="button"
-              >
-                Go!
-              </button>
-              <button
-                class="settingButton"
-                @click="resetChargeForm"
-                type="button"
-              >
-                Clean
-              </button>
-              <button class="settingButton" @click="refreshModel" type="button">
-                Refresh
-              </button>
-            </div>
-          </form>
-          <table v-show="!isCollapse" class="spinSelectTable">
-            <tr>
-              <td style="width: 64px; text-align: center">
-                <el-checkbox v-model="isSpin" class="chargeCheck"></el-checkbox>
-              </td>
-              <td class="spinSelect" style="width: 80px; text-align: center">
-                <el-select v-model="spinAxis" :popper-append-to-body="isbody">
-                  <el-option key="选项1" label="X Axis" value="x"></el-option>
-                  <el-option key="选项2" label="Y Axis" value="y"></el-option>
-                  <el-option
-                    key="选项3"
-                    label="Z Axis"
-                    value="z"
-                    selected
-                  ></el-option>
-                </el-select>
-              </td>
-            </tr>
-          </table>
-        </el-menu>
-        <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
-          <div class="setButton el-icon-setting" @click="changeState()"></div>
-        </el-radio-group>
+          </el-menu>
+          <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
+            <div class="setButton el-icon-setting" @click="changeState()"></div>
+          </el-radio-group>
+        </div>
+        <iframe
+          :src="chargeURL"
+          scrolling="no"
+          class="chargeCanvas"
+          id="chargeIframe"
+        ></iframe>
       </div>
-      <iframe
-        :src="chargeURL"
-        scrolling="no"
-        class="chargeCanvas"
-        id="chargeIframe"
-      ></iframe>
+      <div class="calculation-summer PHTB">
+        <ul>
+          <li class="title">Calculation Summar</li>
+          <li class="item">
+            <span class="itemLeft">Run Type :</span>
+            <span class="itemRight">
+              {{ assessData(charge.summary.runtype) }}
+            </span>
+          </li>
+          <li class="item">
+            <span class="itemLeft">U-values :</span>
+            <span class="itemRight">
+              {{ assessData(charge.summary.u) }}
+            </span>
+          </li>
+          <li class="item">
+            <span class="itemLeft">Energy Cutoff :</span>
+            <span class="itemRight">
+              {{ assessData(charge.summary.encut) }}
+            </span>
+          </li>
+          <li class="item">
+            <span class="itemLeft">code :</span>
+            <span class="itemRight">
+              {{ assessData(charge.summary.code) }}
+            </span>
+          </li>
+          <li class="item">
+            <span class="itemLeft">Kpoint :</span>
+            <span class="itemRight">
+              {{ assessData(charge.summary.kpoint) }}
+            </span>
+          </li>
+          <li class="item">
+            <span class="itemLeft">more details :</span>
+            <span class="itemRight">
+              {{ assessData(charge.summary.details) }}
+            </span>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="calculation-summer PHTB">
-      <ul>
-        <li class="title">Calculation Summar</li>
-        <li class="item">
-          <span class="itemLeft">Run Type :</span>
-          <span class="itemRight">
-            {{ assessData(charge.summary.runtype) }}
-          </span>
-        </li>
-        <li class="item">
-          <span class="itemLeft">U-values :</span>
-          <span class="itemRight">
-            {{ assessData(charge.summary.u) }}
-          </span>
-        </li>
-        <li class="item">
-          <span class="itemLeft">Energy Cutoff :</span>
-          <span class="itemRight">
-            {{ assessData(charge.summary.encut) }}
-          </span>
-        </li>
-        <li class="item">
-          <span class="itemLeft">code :</span>
-          <span class="itemRight">
-            {{ assessData(charge.summary.code) }}
-          </span>
-        </li>
-        <li class="item">
-          <span class="itemLeft">Kpoint :</span>
-          <span class="itemRight">
-            {{ assessData(charge.summary.kpoint) }}
-          </span>
-        </li>
-        <li class="item">
-          <span class="itemLeft">more details :</span>
-          <span class="itemRight">
-            {{ assessData(charge.summary.details) }}
-          </span>
-        </li>
-      </ul>
-    </div>
+    <div v-if="!charge.cifUrl" class="notFound">Not Found</div>
   </div>
 </template>
 
@@ -243,10 +253,7 @@ export default {
         "http://localhost:3000/public/html/3dmol/3Dmol.html?" + hashId;
     },
     dealInfo() {
-      this.charge = Object.assign(
-        { a: 1 },
-        this.$store.getters.allInfo["charge-density"]
-      );
+      this.charge = this.$store.getters.allInfo["charge-density"];
     },
     //限制positive输入0-1内的四位小数
     checkNumP() {
@@ -284,17 +291,28 @@ export default {
       if (num >= 1) {
         num = 1;
       }
-      console.log("numafter", num);
+      // console.log("numafter", num);
       if (numStr !== "") {
         numStr = "-" + num;
       }
-      console.log("numStrafter", numStr);
+      // console.log("numStrafter", numStr);
       value = numStr;
       document.getElementById("inputN").value = value;
     },
     //改变设置侧边栏开关状态
     changeState() {
       this.isCollapse = !this.isCollapse;
+      let inputP = document.getElementById("inputP").value;
+      let inputN = document.getElementById("inputN").value;
+      let inputX = document.getElementById("inputX").value;
+      let inputY = document.getElementById("inputY").value;
+      console.log(inputP, inputN, inputX, inputY);
+      setTimeout(() => {
+        document.getElementById("inputP").value = inputP;
+        document.getElementById("inputN").value = inputN;
+        document.getElementById("inputX").value = inputX;
+        document.getElementById("inputY").value = inputY;
+      }, 340);
     },
     //发送表单内容到html页面
     sentToChargeIframe() {
