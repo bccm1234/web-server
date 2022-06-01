@@ -119,9 +119,6 @@ export default {
   height: 300px;
 }
 //子组件样式穿透
-::v-deep * {
-  box-sizing: border-box;
-}
 //标题
 ::v-deep .title {
   width: 740px;
