@@ -54,7 +54,7 @@
 >
 > > 命名要通俗易懂  
 > > 例如：  
-> > 广告条的 javascript 文件名为 advertising.js 
+> > 广告条的 javascript 文件名为 advertising.js
 > > 弹出窗口的 javascript 文件名为 popUpBox.js
 
 ### 文件存放位置规范
@@ -69,7 +69,7 @@
 > > - assets: 放置静态资源，包括公共的 css 文件、 js 文件、iconfont 字体文件、img 图片文件 以及其他资源类文件。  
 > >   之所以强调是公共的 css 文件，是因为要在组件的 css 标签里加入 ‘scoped‘ 标记，将其作用范围限制在此组件以及调用它的父级组件中，避免污染全局样式
 > > - components: 放置通用模块组件。  
-> >   项目里总会有一些复用的组件，例如弹出框、发送手机验证码、图片上传等，将它们作为通用组件，避免重复工作（放置views大页面下的后代组件；根据views中的大页面命名文件夹存放相应大页面下的后代组件）
+> >   项目里总会有一些复用的组件，例如弹出框、发送手机验证码、图片上传等，将它们作为通用组件，避免重复工作（放置 views 大页面下的后代组件；根据 views 中的大页面命名文件夹存放相应大页面下的后代组件）
 > > - utils: 放置混合选项的文件。  
 > >    具体来说，相当于是公用函数的集合，在组件中引用时，可以作用于组件而不必书写重复的方法
 > > - views: 放置主要页面的组件。  
@@ -181,3 +181,18 @@
 "no-console": process.env.NODE_ENV === "production" ? "warn" : "off"
 "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off"
 ```
+
+### main.js 书写细则
+
+> 导入顺序
+>
+> 1. vue 及相关库
+> 2. elementui 及相关库
+> 3. 其他第三方库
+> 4. 项目的 css(main.css)
+> 5. 项目的 js(details)
+
+> 1. 自定义指令
+> 2. vue 原型上添加的方法
+> 3. 使用 use 添加的方法
+> 4. vue 实例
