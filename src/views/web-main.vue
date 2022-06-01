@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import mysearchinput from "@/components/search-input.vue";
-import elementtable from "@/components/element-table.vue";
-import mysearchresult from "@/components/search-result.vue";
+import mysearchinput from "@/components/main/search-input.vue";
+import elementtable from "@/components/main/element-table.vue";
+import mysearchresult from "@/components/main/search-result.vue";
 export default {
   components: {
     mysearchresult,

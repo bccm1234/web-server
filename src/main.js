@@ -11,7 +11,7 @@ import "./mock/detail.js";
 import axios from "axios";
 import * as echarts from "echarts";
 import "lib-flexible/flexible.js";
-import details from "./js/details";
+import details from "./assets/js/details";
 Vue.directive("focus", {
   inserted: function (el) {
     el.querySelector(".el-input").children[0].focus();
