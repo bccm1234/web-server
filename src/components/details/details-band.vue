@@ -1,6 +1,6 @@
 <template>
-  <div id="2" class="totalBox rightItem">
-    <div class="navName">Band Structure & Dos</div>
+  <div id="2" class="totalBox">
+    <div class="moduleTitle">Band Structure & Dos</div>
     <div class="body br-10">
       <div class="button">
         <span

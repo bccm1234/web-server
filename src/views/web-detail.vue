@@ -1,8 +1,8 @@
 <template>
   <div class="totalbox">
-    <!-- 左 -->
+    <!-- 左侧导航栏 -->
     <details-leftbox :infoObj="infoObj"></details-leftbox>
-    <!-- 右 -->
+    <!-- 右侧内容部分 -->
     <div class="rightBox">
       <!-- Box1 -->
       <details-abstract :crystalURL="crystalURL" :infoObj="infoObj">
@@ -47,6 +47,7 @@ export default {
     this.fetchData();
   },
   mounted() {
+    //监听页面滚动事件
     window.addEventListener("scroll", this.scrollColor);
   },
   watch: {
@@ -54,6 +55,7 @@ export default {
     $route: "fetchData"
   },
   methods: {
+    //获取并处理数据
     async fetchData() {
       let idNumber = window.location.hash;
       let hashId = idNumber.substring(12, idNumber.length);
@@ -82,7 +84,7 @@ export default {
       //vuex
       this.$store.commit("system/SET_AllInfo", this.allInfo);
     },
-    //滑动相应导航单改变
+    //滑动页面相应导航单改变
     scrollColor() {
       const nav = document.getElementsByClassName("navItem");
       const item = document.getElementsByClassName("rightItem");
@@ -139,11 +141,6 @@ export default {
   line-height: 40px;
   color: #3d3d3d;
 }
-::v-deep canvas {
-  border-radius: 10px;
-  background: #eef5ff;
-  box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
-}
 ::v-deep .itemLeft {
   display: inline-block;
   margin-right: 30px;
@@ -151,7 +148,13 @@ export default {
 ::v-deep .itemRight {
   user-select: text;
 }
-::v-deep .navName {
+::v-deep canvas {
+  border-radius: 10px;
+  background: #eef5ff;
+  box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+}
+//右侧内容组件标题
+::v-deep .moduleTitle {
   width: 860px;
   height: 70px;
   font-size: 32px;
@@ -162,9 +165,15 @@ export default {
   text-align: left;
   font-family: PHTM;
 }
+//doi链接样式
+::v-deep .doiLink {
+  text-decoration: none;
+  color: #000;
+}
 ::v-deep .br-10 {
   border-radius: 10px;
 }
+//字体类型
 ::v-deep .PHTR {
   font-family: PHTR;
 }

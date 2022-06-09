@@ -1,6 +1,6 @@
 <template>
-  <div id="1" class="totalBox rightItem">
-    <div class="navName">Crystal Strusture</div>
+  <div id="1" class="totalBox">
+    <div class="moduleTitle">Crystal Strusture</div>
     <div class="body br-10">
       <div class="button">
         <span

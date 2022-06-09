@@ -1,6 +1,6 @@
 <template>
-  <div id="3" class="totalBox rightItem">
-    <div class="navName">Charge Density</div>
+  <div id="3" class="totalBox">
+    <div class="moduleTitle">Charge Density</div>
     <div class="body br-10">
       <div class="button">
         <span

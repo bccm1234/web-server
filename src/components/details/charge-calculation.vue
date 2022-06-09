@@ -2,6 +2,7 @@
   <div>
     <div class="chargeBox" v-if="charge.cifUrl">
       <div class="chargeTop PHTM">
+        <!-- 模型设置表单 -->
         <div class="chargeSetBox">
           <el-menu
             default-active="1-4-1"
@@ -162,6 +163,7 @@
             <div class="setButton el-icon-setting" @click="changeState()"></div>
           </el-radio-group>
         </div>
+        <!-- 3Dmol模型渲染 -->
         <iframe
           :src="chargeURL"
           scrolling="no"
@@ -169,9 +171,10 @@
           id="chargeIframe"
         ></iframe>
       </div>
-      <div class="calculation-summer PHTB">
+      <!-- calculation-summer部分 -->
+      <div class="PHTB">
         <ul>
-          <li class="title">Calculation Summar</li>
+          <li class="title">Calculation Summary</li>
           <li class="item">
             <span class="itemLeft">Run Type :</span>
             <span class="itemRight">
@@ -220,6 +223,9 @@ export default {
   name: "charge-calucation",
   data() {
     return {
+      //charge组件数据
+      charge: {},
+      //表单相关内容
       isCollapse: true,
       isPositive: false,
       isNegative: false,
@@ -230,29 +236,30 @@ export default {
       colorNegative: "#78fbfd",
       spinAxis: "z",
       isbody: false,
-      xLength: 0,
-      yLength: 0,
+      //表单内容对象
       chargeConfig: {},
-      chargeURL: "",
-      charge: {}
+      chargeURL: ""
     };
   },
   watch: {
+    //监听数据变化，调用函数
     "$store.getters.allInfo"() {
-      this.dealInfo();
+      this.chargeInfo();
     }
   },
   created() {
     this.fetchData();
   },
   methods: {
+    //获取页面hash值传给3dmol
     fetchData() {
       let idNumber = window.location.hash;
       let hashId = idNumber.substring(12, idNumber.length);
       this.chargeURL =
         "http://localhost:3000/public/html/3dmol/3Dmol.html?" + hashId;
     },
-    dealInfo() {
+    //从vuex中获取数据
+    chargeInfo() {
       this.charge = this.$store.getters.allInfo["charge-density"];
     },
     //限制positive输入0-1内的四位小数
@@ -299,7 +306,7 @@ export default {
       value = numStr;
       document.getElementById("inputN").value = value;
     },
-    //改变设置侧边栏开关状态
+    //改变设置侧边栏开关状态，保存表单输入内容
     changeState() {
       this.isCollapse = !this.isCollapse;
       let inputP = document.getElementById("inputP").value;
@@ -399,6 +406,7 @@ export default {
   z-index: 2;
 }
 //伸缩框设置
+//伸缩框展开面板
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   float: left;
   width: 370px;
@@ -414,6 +422,7 @@ export default {
 .el-menu {
   border: none;
 }
+//伸缩框收起面板
 .el-menu--collapse {
   float: left;
   width: 0;
@@ -569,12 +578,14 @@ input::-webkit-input-placeholder {
   }
 }
 //go/clean/refresh 按钮
+//按钮总盒子
 .settingButtons {
   width: 340px;
   height: 30px;
   position: relative;
   top: 105px;
 }
+//每个按钮
 .settingButton {
   float: right;
   min-width: 55px;
