@@ -1,181 +1,53 @@
 <template>
-  <div class="totalDetail">
-    <div class="topBox"></div>
-    <!-- left -->
-    <div class="leftBox">
-      <el-card>
-        <img src="../assets/logo.png" class="image" />
-        <span class="formulaName">{{ infoObject["formula"] }}</span>
-        <br />
-        <span class="formulaID">mp-{{ infoObject["id"] }}</span>
-      </el-card>
-      <div class="leftNav">
-        <el-row class="tac">
-          <el-col :span="24">
-            <el-menu default-active="2" class="el-menu-vertical-demo">
-              <el-menu-item index="2">
-                <span slot="title"><a href="#one">Summery</a></span>
-              </el-menu-item>
-              <el-submenu index="2">
-                <span slot="title">Properties</span>
-                <el-menu-item-group>
-                  <el-menu-item index="1-1"
-                    ><a href="#two">Electronic Structure</a></el-menu-item
-                  >
-                  <el-menu-item index="1-2">Themodynamic Stablity</el-menu-item>
-                </el-menu-item-group>
-              </el-submenu>
-            </el-menu>
-          </el-col>
-        </el-row>
-      </div>
-    </div>
-    <!-- right -->
+  <div class="totalbox">
+    <!-- 左 -->
+    <details-leftbox :infoObj="infoObj"></details-leftbox>
+    <!-- 右 -->
     <div class="rightBox">
-      <div class="rightBox1">
-        <a id="one"></a>
-        <div class="jsmolBox">
-          <iframe :src="JSmolURL" scrolling="no" class="br-5"></iframe>
-          <div class="colorDownload">
-            <span
-              class="colorBox br-5"
-              ref="ele1"
-              :style="{ 'background-color': color1 }"
-              >{{ infoObject.element1 }}</span
-            >
-            <span class="colorBox br-5">{{ infoObject.element2 }}</span>
-            <a class="downloadLink" href="#">download Link</a>
-          </div>
-        </div>
-        <div class="properties">
-          <el-card class="box-card base">
-            <div class="text baseItem">
-              <span>Energy Above Hull</span>
-              <span class="rightNum"
-                >{{ infoObject["energy above hull"] }} eV/atom</span
-              >
-            </div>
-            <div class="text baseItem">
-              <span>Band Gap</span>
-              <span class="rightNum">{{ infoObject["band gap"] }} eV</span>
-            </div>
-            <div class="text baseItem">
-              <span>Speace Group</span>
-              <span class="rightNum" v-html="speaceGroup"></span>
-            </div>
-            <div class="text baseItem">
-              <span class="leftProperties">Predicted Formation Energy</span>
-              <span class="rightNum"
-                >{{ infoObject["predicted formation energy"] }} ev/atom</span
-              >
-            </div>
-            <div class="text baseItem">
-              <span>Total Magnetization</span>
-              <span class="rightNum"
-                >{{ infoObject["total magnetization"] }} μB/f.u.</span
-              >
-            </div>
-            <div class="text baseItem">
-              <span>Magnetic Ordering</span>
-              <span class="rightNum">{{
-                infoObject["magnetic ordering"]
-              }}</span>
-            </div>
-            <div class="text baseItem">
-              <span class="leftProperties">Experimentally Observed</span>
-              <span class="rightNum">{{
-                infoObject["experimentally observed"]
-              }}</span>
-            </div>
-          </el-card>
-        </div>
-        <div class="spaceLattic">
-          <el-card class="box-card spaceGroup clearfix">
-            <div class="text Title">
-              <span>Space Group</span>
-              <hr />
-            </div>
-            <div class="text spaceItemBox">
-              <span class="fw-600">Hermann Mauguin</span> <br />
-              <span>000000</span>
-            </div>
-            <div class="text spaceItemBox">
-              <span class="fw-600">Point Group</span> <br />
-              <span>000000</span>
-            </div>
-            <div class="text spaceItemBox">
-              <span class="fw-600">Hall</span> <br />
-              <span>000000</span>
-            </div>
-            <div class="text spaceItemBox">
-              <span class="fw-600">crystal system</span> <br />
-              <span>{{ infoObject["crystal system"] }}</span>
-            </div>
-          </el-card>
-          <el-card class="box-card latticePara">
-            <div class="text Title">
-              <span class="Title">Lattice Parameters</span>
-              <hr />
-            </div>
-            <div class="text">
-              <span class="w-25">
-                <span class="latticeLength">a</span>
-              </span>
-              <span class="w-25">{{ infoObject["a"] }}</span>
-              <span class="w-25">
-                <span class="latticeLength">α</span>
-              </span>
-              <span class="w-25">{{ infoObject["α"] }}</span>
-            </div>
-            <div class="text">
-              <span class="w-25">
-                <span class="latticeLength">b</span>
-              </span>
-              <span class="w-25">{{ infoObject["b"] }}</span>
-              <span class="w-25">
-                <span class="latticeLength">β</span>
-              </span>
-              <span class="w-25">{{ infoObject["β"] }}</span>
-            </div>
-            <div class="text">
-              <span class="w-25">
-                <span class="latticeLength">c</span>
-              </span>
-              <span class="w-25">{{ infoObject["c"] }}</span>
-              <span class="w-25">
-                <span class="latticeLength">γ</span>
-              </span>
-              <span class="w-25">{{ infoObject["γ"] }}</span>
-            </div>
-          </el-card>
-        </div>
-      </div>
-      <div class="rightBox2">
-        <a id="two"></a>
-        box
-      </div>
-      <div class="rightBox2">box</div>
-      <div class="rightBox2">box</div>
+      <!-- Box1 -->
+      <details-abstract :crystalURL="crystalURL" :infoObj="infoObj">
+      </details-abstract>
+      <!-- Box2 -->
+      <details-crystal></details-crystal>
+      <!-- box3 -->
+      <details-band></details-band>
+      <!-- box4 -->
+      <details-charge></details-charge>
     </div>
   </div>
 </template>
 <script>
-import axios from "axios";
+import detailsLeftbox from "../components/detail/details-leftbox.vue";
+import detailsAbstract from "../components/detail/details-abstract.vue";
+import detailsCrystal from "../components/detail/details-crystal.vue";
+import detailsBand from "../components/detail/details-band.vue";
+import detailsCharge from "../components/detail/details-charge.vue";
 export default {
   name: "web-detail",
+  components: {
+    detailsLeftbox,
+    detailsAbstract,
+    detailsCrystal,
+    detailsBand,
+    detailsCharge
+  },
   data() {
     return {
-      JSmolURL: "",
-      infoObject: {},
-      speaceGroup: "",
-      color1: "",
-      color2: ""
+      infoObj: {},
+      crystalURL: "",
+      chargeURL: "",
+      hashNum: null,
+      // vuex
+      allInfo: {}
     };
   },
   created() {
     // 组件创建完后获取数据，
     // 此时 data 已经被 observed 了
     this.fetchData();
+  },
+  mounted() {
+    window.addEventListener("scroll", this.scrollColor);
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
@@ -184,227 +56,126 @@ export default {
   methods: {
     async fetchData() {
       let idNumber = window.location.hash;
-      let id = idNumber.substring(12, idNumber.length);
-      this.JSmolURL = "http://127.0.0.1:5500/public/detail.html?" + id;
-      const { data: res } = await axios.get("/index/element");
-      this.infoObject = res.data[id];
-      console.log("info", this.infoObject);
-      this.spaceText(this.infoObject["space group"]);
-      this.getColor(this.infoObject["element"][0], this.getcolor);
+      let hashId = idNumber.substring(12, idNumber.length);
+      const { data: res } = await this.$axios.get("/materials/index");
+      // console.log("res", res);
+      const { data: colorRes } = await this.$axios.get(
+        "/materials/detail/atomcolor"
+      );
+      // console.log("colorRes", colorRes);
+      this.infoObj = res[hashId - 1];
+      // console.log("info", this.infoObj);
+      this.infoObj.color1 = colorRes[this.infoObj.element[1] - 1]["color"];
+      this.infoObj.color2 = colorRes[this.infoObj.element[0] - 1]["color"];
+      this.infoObj["space group"] = this.tranStr(
+        1,
+        this.infoObj["space group"]
+      );
+      this.infoObj.formula = this.tranStr(0, this.infoObj["formula"]);
+      this.hashNum = hashId;
+      this.crystalURL =
+        "http://localhost:3000/public/html/chemdoodle/chemdoodle.html?" +
+        hashId;
+      // console.log("infoObj", this.infoObj);
+      const { data: result } = await this.$axios.get("/materials/detail/Cu2O");
+      this.allInfo = result;
+      //vuex
+      this.$store.commit("system/SET_AllInfo", this.allInfo);
     },
-    spaceText(str) {
-      let a = "";
-      let b = "";
-      for (let i = 0; i < str.length; i++) {
-        if (str[i] === "-") {
-          a = str[i] + str[i + 1];
-          b =
-            "<span span style='text-decoration: overline'>" +
-            str[i + 1] +
-            "</span>";
-          i += 50;
-          str = str.replace(new RegExp(a), b);
-        } else if (str[i] === "_") {
-          a = str[i] + str[i + 1];
-          b = "<sub>" + str[i + 1] + "</sub>";
-          i += 10;
-          str = str.replace(new RegExp(a), b);
+    //滑动相应导航单改变
+    scrollColor() {
+      const nav = document.getElementsByClassName("navItem");
+      const item = document.getElementsByClassName("rightItem");
+      const scrolltop = document.documentElement.scrollTop;
+      const screenHeight = document.documentElement.clientHeight;
+      const scrollHeight = (screenHeight - 160) / 2;
+      for (let i = 0; i < item.length; i++) {
+        const distanceT = item[i].offsetTop - scrolltop;
+        if (distanceT < scrollHeight && distanceT > -scrollHeight) {
+          for (let i = 0; i < item.length; i++) {
+            nav[i].style.backgroundColor = "";
+            nav[i].className = "navItem";
+          }
+          nav[i].classList.add("bgc");
         }
       }
-      console.log(str);
-      this.speaceGroup = str;
-    },
-    getColor(id, getcolor) {
-      return getcolor(id);
-    },
-    async getcolor(id) {
-      const { data: res } = await axios.get("/childpage/elementcolor");
-      console.log("getColor", res, id);
-      let color = res.data[id - 1].color;
-      this.$refs.ele1.style["background-color"] = color;
     }
   }
 };
 </script>
 <style lang="less" scoped>
-//圆角
-.br-5 {
-  border-radius: 5px;
-}
-//字体加粗
-.fw-600 {
-  font-weight: 600;
-}
-.topBox {
-  position: fixed;
-  top: 0;
-  height: 160px;
-  width: 100%;
-  background-color: #e4e6e8;
-  z-index: 99;
-}
-.totalDetail {
-  margin-top: 40px;
+.totalbox {
   position: relative;
-  width: 60%;
   left: 50%;
-  margin-left: -30%;
-  height: 100%;
-}
-.leftBox {
-  position: fixed;
-  top: 160px;
-  left: 20%;
-  width: 16%;
-  height: 100%;
-  text-align: left;
-}
-.infoCard {
-  width: 100%;
-  aspect-ratio: 2.5;
-  background-color: #fff;
-}
-.image {
-  float: left;
-  margin-top: 5%;
-  margin-left: 5%;
-  width: 25%;
-  aspect-ratio: 1;
-}
-.formulaName {
-  display: inline-block;
-  font-size: 30px;
-  font-weight: 700;
-  margin-top: 5%;
-}
-.formulaID {
-  display: inline-block;
-  margin-top: 6%;
-  font-size: 22px;
-}
-.leftNav {
-  background-color: #fff;
-  margin-top: 10px;
-  height: 100%;
+  top: 50px;
+  margin-left: -650px;
+  width: 1300px;
+  user-select: none;
 }
 .rightBox {
   position: relative;
-  width: 73%;
-  height: 100%;
-  left: 27%;
-  overflow: hidden;
+  left: 390px;
+  width: 860px;
+  height: 300px;
 }
-.jsmolBox {
-  float: left;
-  width: 50%;
-}
-.rightBox1 {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-iframe {
-  float: left;
-  width: 100%;
-  aspect-ratio: 1;
-  border: none;
-}
-.colorDownload {
-  float: left;
-  width: 100%;
-  text-align: left;
-  padding: 0 10px;
-  margin-top: 10px;
-}
-.colorBox {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  // background-color: #fff;
-  line-height: 50px;
-  margin-top: 1%;
-  text-align: center;
-  margin-right: 3%;
-}
-.downloadLink {
-  float: right;
-  margin-top: 6%;
-  text-decoration-line: none;
-}
-.properties {
-  position: relative;
-  top: 0;
-  left: 50%;
-  width: 49%;
-  background-color: olive;
-}
-.base {
-  position: absolute;
-  left: 1%;
-  width: 100%;
-  padding: 0 10px;
+//子组件样式穿透
+//标题
+::v-deep .title {
+  width: 740px;
+  height: 40px;
+  font-size: 24px;
+  font-family: PHTB;
   line-height: 40px;
+  letter-spacing: 1px;
+  color: #3d3d3d;
 }
-.baseItem {
-  position: relative;
-  border-bottom: 1px solid #ccc;
-  text-align: left;
-}
-.leftProperties {
+//小项
+::v-deep .item {
   display: inline-block;
-  width: 64%;
-}
-.rightNum {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 36%;
-  text-align: left;
-  line-height: 1.3rem;
-  color: blue;
-}
-.spaceLattic {
-  float: left;
-  width: 100%;
-  margin-top: 10px;
-}
-.spaceGroup {
-  float: left;
-  width: 49%;
-  text-align: left;
-}
-.Title {
+  width: 370px;
+  height: 40px;
   font-size: 18px;
+  font-family: PHTB;
+  line-height: 40px;
+  color: #3d3d3d;
+}
+::v-deep canvas {
+  border-radius: 10px;
+  background: #eef5ff;
+  box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+}
+::v-deep .itemLeft {
+  display: inline-block;
+  margin-right: 30px;
+}
+::v-deep .itemRight {
+  user-select: text;
+}
+::v-deep .navName {
+  width: 860px;
+  height: 70px;
+  font-size: 32px;
+  line-height: 70px;
+  letter-spacing: 0px;
+  color: #3d3d3d;
+  text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: left;
+  font-family: PHTM;
+}
+::v-deep .br-10 {
+  border-radius: 10px;
+}
+::v-deep .PHTR {
+  font-family: PHTR;
+}
+::v-deep .PHTB {
+  font-family: PHTB;
+}
+::v-deep .PHTM {
+  font-family: PHTM;
+}
+::v-deep .notFound {
+  font-size: 24px;
   font-weight: 700;
-  line-height: 2rem;
-}
-.spaceItemBox {
-  border-bottom: 1px solid #ebeef5;
-  line-height: 1.7rem;
-  padding: 0 1rem;
-}
-.latticePara {
-  float: right;
-  width: 49%;
-  line-height: 4.62rem;
-}
-.latticeLength {
-  display: inline-block;
-  width: 40px;
-  height: 30px;
-  border-radius: 15px;
-  background-color: #d9edf7;
-  text-align: center;
-  line-height: 30px;
-}
-.w-25 {
-  display: inline-block;
-  width: 25%;
-}
-.rightBox2 {
-  width: 100%;
-  background-color: #fff;
-  height: 500px;
-  margin-top: 10px;
 }
 </style>
