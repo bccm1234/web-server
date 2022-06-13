@@ -391,18 +391,18 @@ export default {
 <style lang="less" scoped>
 .el-container {
   .el-aside {
-    background-color: #fff;
     margin: 0.06rem;
+    background-color: #fff;
     .filter-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: rgb(187, 187, 187);
       height: 70px;
+      background-color: rgb(187, 187, 187);
       .filter-header-title {
+        margin-left: 0.125rem;
         font-weight: 700;
         font-size: 0.12rem;
-        margin-left: 0.125rem;
       }
       .el-button {
         margin-right: 0.125rem;
@@ -410,9 +410,9 @@ export default {
       }
     }
     .filter-form /deep/ .el-form-item {
-      text-align: left;
       margin-left: 21px;
       margin-bottom: 7px;
+      text-align: left;
     }
     .icon-symmetry {
       display: flex;
@@ -422,9 +422,9 @@ export default {
         font-size: 18px;
       }
       span {
+        margin-left: 3px;
         font-size: 0.1rem;
         font-weight: 600;
-        margin-left: 3px;
       }
     }
     .filter-body {
@@ -444,10 +444,10 @@ export default {
     min-width: 540px;
     .el-header {
       display: flex;
-      background-color: #fff;
+      justify-content: space-between;
       padding: 0px;
       margin: 10px 20px 0;
-      justify-content: space-between;
+      background-color: #fff;
       .searchresult-header {
         margin-top: 10px;
         padding-left: 10px;

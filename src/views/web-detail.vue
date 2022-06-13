@@ -17,11 +17,11 @@
   </div>
 </template>
 <script>
-import detailsLeftbox from "../components/details/details-leftbox.vue";
-import detailsAbstract from "../components/details/details-abstract.vue";
-import detailsCrystal from "../components/details/details-crystal.vue";
-import detailsBand from "../components/details/details-band.vue";
-import detailsCharge from "../components/details/details-charge.vue";
+import detailsLeftbox from "../components/detail/details-leftbox.vue";
+import detailsAbstract from "../components/detail/details-abstract.vue";
+import detailsCrystal from "../components/detail/details-crystal.vue";
+import detailsBand from "../components/detail/details-band.vue";
+import detailsCharge from "../components/detail/details-charge.vue";
 export default {
   name: "web-detail",
   components: {

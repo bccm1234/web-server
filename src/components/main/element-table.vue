@@ -930,11 +930,11 @@ export default {
 
 <style lang="less" scoped>
 .element-top {
-  width: 8rem;
-  margin: 0.2rem auto;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  width: 8rem;
+  margin: 0.2rem auto;
 }
 
 .element-bottom {
@@ -943,11 +943,11 @@ export default {
 }
 
 .column {
-  width: 0.4rem;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  width: 0.4rem;
+  height: 100%;
   margin: 0rem 0.02rem;
 }
 
@@ -966,11 +966,11 @@ export default {
 }
 
 .line {
+  display: flex;
+  justify-content: center;
   width: 100%;
   height: 0.4rem;
   margin: 0.1rem auto;
-  display: flex;
-  justify-content: center;
 }
 
 .line-element {
@@ -978,69 +978,69 @@ export default {
 }
 
 .base-color {
+  border: 0.025rem solid rgb(119, 232, 255);
   background: rgb(0, 43, 52);
   color: rgb(119, 232, 255);
-  border: 0.025rem solid rgb(119, 232, 255);
 }
 
 .color-1 {
+  border: 0.025rem solid rgb(255, 119, 142);
   background: rgb(52, 0, 9);
   color: rgb(255, 119, 142);
-  border: 0.025rem solid rgb(255, 119, 142);
 }
 
 .color-2 {
+  border: 0.025rem solid rgb(255, 161, 119);
   background: rgb(52, 16, 0);
   color: rgb(255, 161, 119);
-  border: 0.025rem solid rgb(255, 161, 119);
 }
 
 .color-3 {
+  border: 0.025rem solid rgb(236, 255, 119);
   background: rgb(45, 52, 0);
   color: rgb(236, 255, 119);
-  border: 0.025rem solid rgb(236, 255, 119);
 }
 
 .color-4 {
+  border: 0.025rem solid rgb(119, 255, 155);
   background: rgb(0, 52, 14);
   color: rgb(119, 255, 155);
-  border: 0.025rem solid rgb(119, 255, 155);
 }
 
 .color-5 {
+  border: 0.025rem solid rgb(140, 119, 255);
   background: rgb(0, 37, 52);
   color: rgb(140, 119, 255);
-  border: 0.025rem solid rgb(140, 119, 255);
 }
 
 .color-6 {
+  border: 0.025rem solid rgb(235, 120, 255);
   background: rgb(42, 0, 52);
   color: rgb(235, 120, 255);
-  border: 0.025rem solid rgb(235, 120, 255);
 }
 
 .color-7 {
+  border: 0.025rem solid rgb(198, 198, 198);
   background: rgb(73, 73, 73);
   color: rgb(198, 198, 198);
-  border: 0.025rem solid rgb(198, 198, 198);
 }
 
 .color-8 {
+  border: 0.025rem solid rgb(255, 184, 119);
   background: rgb(52, 25, 0);
   color: rgb(255, 184, 119);
-  border: 0.025rem solid rgb(255, 184, 119);
 }
 
 .color-9 {
+  border: 0.025rem solid rgb(255, 216, 119);
   background: rgb(52, 37, 0);
   color: rgb(255, 216, 119);
-  border: 0.025rem solid rgb(255, 216, 119);
 }
 
 .color-\* {
+  border: 0.025rem solid rgb(196, 255, 58);
   background: rgb(25, 25, 25);
   color: rgb(196, 255, 58);
-  border: 0.025rem solid rgb(196, 255, 58);
 }
 
 .font-sm {
