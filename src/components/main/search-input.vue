@@ -352,8 +352,8 @@ export default {
 .el-form {
   margin-top: 15px;
   /deep/ .el-form-item__label {
-    font-size: 0.1rem;
     margin-right: 0.2rem;
+    font-size: 0.1rem;
   }
   .el-button {
     font-size: 0.1rem;
