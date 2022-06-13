@@ -1,7 +1,8 @@
 <template>
   <div>
     <div v-if="crystalExp.lattice">
-      <div class="lattice">
+      <!-- lattice部分 -->
+      <div>
         <ul>
           <li class="title">Lattice</li>
           <li class="item">
@@ -42,6 +43,7 @@
           </li>
         </ul>
       </div>
+      <!-- symmetry部分 -->
       <div class="symmetry">
         <ul>
           <li class="title">Symmetry</li>
@@ -64,6 +66,7 @@
           </li>
         </ul>
       </div>
+      <!-- article部分 -->
       <div class="article">
         <ul>
           <li class="title">Article</li>
@@ -93,15 +96,11 @@ export default {
     };
   },
   mounted() {
+    //渲染组件时调用函数
     this.crystalExpInfo();
-    // console.log("exp");
-  },
-  watch: {
-    "$store.getters.allInfo"() {
-      this.crystalExpInfo();
-    }
   },
   methods: {
+    //获取并处理数据
     crystalExpInfo() {
       this.crystalExp = this.$store.getters.allInfo["crystal-strusture"].exp;
       // console.log("crystalexp", this.crystalExp);
@@ -122,9 +121,5 @@ export default {
 }
 .article .doiBox {
   width: 700px;
-}
-.doiLink {
-  text-decoration: none;
-  color: #000;
 }
 </style>

@@ -1,7 +1,8 @@
-/* eslint-disable vue/no-dupe-keys */
 <template>
-  <div class="abstractBox PHTM rightItem" id="0">
+  <div class="abstractBox PHTM rightModule" id="0">
+    <!-- chemdoodle模型渲染框 -->
     <div class="modelBox">
+      <!-- 扩胞设置侧边伸缩框 -->
       <div class="supercellBox">
         <el-menu
           default-active="1-4-1"
@@ -19,9 +20,9 @@
                 placeholder="eg:2"
                 id="input1"
                 autocomplete="off"
-                @propertychange="checkNumX()"
-                @input="checkNumX()"
-                @keypress="checkNumX()"
+                @propertychange="checkNumInput('input1')"
+                @input="checkNumInput('input1')"
+                @keypress="checkNumInput('input1')"
               />
             </div>
             <div style="width: 200px">
@@ -32,9 +33,9 @@
                 placeholder="eg:2"
                 id="input2"
                 autocomplete="off"
-                @propertychange="checkNumY()"
-                @input="checkNumY()"
-                @keypress="checkNumY()"
+                @propertychange="checkNumInput('input2')"
+                @input="checkNumInput('input2')"
+                @keypress="checkNumInput('input2')"
               />
             </div>
             <div style="width: 200px">
@@ -45,9 +46,9 @@
                 placeholder="eg:2"
                 id="input3"
                 autocomplete="off"
-                @propertychange="checkNumZ()"
-                @input="checkNumZ()"
-                @keypress="checkNumZ()"
+                @propertychange="checkNumInput('input3')"
+                @input="checkNumInput('input3')"
+                @keypress="checkNumInput('input3')"
               />
             </div>
             <div style="width: 230px">
@@ -80,18 +81,25 @@
           <div class="setButton el-icon-setting" @click="changeState()"></div>
         </el-radio-group>
       </div>
+      <!-- chemdoodle -->
       <iframe
         :src="crystalURL"
         scrolling="no"
         class="modelCanvas"
         id="chemIframe"
       ></iframe>
-      <span class="colorBox br-10 PHTB" :style="{ backgroundColor: color1 }">{{
-        infoObj.element1
-      }}</span>
-      <span class="colorBox br-10 PHTB" :style="{ backgroundColor: color2 }">{{
-        infoObj.element2
-      }}</span>
+      <!-- 原子颜色 -->
+      <span
+        class="colorBox br-10 PHTB"
+        :style="{ backgroundColor: this.infoObj.color1 }"
+        >{{ infoObj.element1 }}</span
+      >
+      <span
+        class="colorBox br-10 PHTB"
+        :style="{ backgroundColor: this.infoObj.color2 }"
+        >{{ infoObj.element2 }}</span
+      >
+      <!-- 下载 -->
       <span class="downloadBox br-10"
         ><a
           class="el-icon-download download"
@@ -101,8 +109,10 @@
         ></span
       >
     </div>
-    <div class="list">
+    <!-- 右侧内容 -->
+    <div class="baseInfo">
       <ul class="abstractTable">
+        <!-- abstract部分 -->
         <li class="abstractTitle">Abstract</li>
         <li class="abstractItem">
           <span class="abstractItemLeft">Crystal System:</span>
@@ -119,7 +129,8 @@
           <span class="abstractItemLeft">band Gap(Calutation):</span>
           <span class="abstractItemRight">{{ infoObj["band gap"] }}ev</span>
         </li>
-        <li class="abstractTitle" style="margin-bottom: 0px">Lattice</li>
+        <!-- lattice部分 -->
+        <li class="abstractTitle">Lattice</li>
         <li class="abstractItem">
           <span class="abstractItemLeft">a:</span>
           <span class="abstractItemRight">{{ infoObj.a + " Å" }}</span>
@@ -162,27 +173,17 @@ export default {
       //默认扩胞侧边栏关闭
       isCollapse: true,
       downLoadUrl: "",
-      color1: this.infoObj.color1,
-      color2: this.infoObj.color2,
+      //模型设置栏表单内容
       input1: null,
       input2: null,
       input3: null
     };
   },
   created() {
-    this.color();
     this.downLoad();
   },
-  mounted() {
-    this.color();
-  },
   methods: {
-    color() {
-      setTimeout(() => {
-        this.color1 = this.infoObj.color1;
-        this.color2 = this.infoObj.color2;
-      }, 50);
-    },
+    //动态拼接下载链接
     downLoad() {
       // console.log(this.infoObj.id);
       this.$nextTick(() => {
@@ -202,6 +203,7 @@ export default {
         document.getElementById("input3").value = input3;
       }, 340);
     },
+    //发送模型设置框内容到iframe内的html页面
     sentToChemIframe() {
       let iFrame1 = document.getElementById("chemIframe");
       //有输入值，传值，没有输入值，传默认值[2,2,2]
@@ -241,20 +243,10 @@ export default {
       value = num;
       return value;
     },
-    checkNumX() {
-      let value = document.getElementById("input1").value;
+    checkNumInput(idName) {
+      let value = document.getElementById(idName).value;
       value = this.checkNum(value);
-      document.getElementById("input1").value = value;
-    },
-    checkNumY() {
-      let value = document.getElementById("input2").value;
-      value = this.checkNum(value);
-      document.getElementById("input2").value = value;
-    },
-    checkNumZ() {
-      let value = document.getElementById("input3").value;
-      value = this.checkNum(value);
-      document.getElementById("input3").value = value;
+      document.getElementById(idName).value = value;
     }
   }
 };
@@ -264,47 +256,47 @@ export default {
 .abstractBox {
   width: 860px;
   height: 550px;
-  overflow: hidden;
 }
 .modelBox {
   position: absolute;
   width: 470px;
   height: 520px;
+  padding: 25px;
   border-radius: 10px;
+  text-align: left;
   background: #ffffff;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
-  text-align: left;
-  padding: 25px;
 }
+//扩胞设置框---start---
 .supercellBox {
   position: absolute;
   left: 25px;
   top: 25px;
-  width: 0;
   z-index: 1;
+  width: 0;
 }
+//伸缩框展开面板
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   float: left;
   width: 260px;
   height: 420px;
+  padding: 30px 15px;
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.6);
-  box-sizing: border-box;
   border: 2px solid #cdd3dc;
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(2px);
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
-  padding: 30px 15px;
 }
 .el-menu {
   border: none;
 }
+//伸缩框收缩面板
 .el-menu--collapse {
   float: left;
   width: 0;
   height: 420px;
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.6) !important;
-  box-sizing: border-box;
   backdrop-filter: blur(2px);
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
 }
@@ -312,17 +304,16 @@ export default {
   height: 40px;
   font-size: 28px;
   line-height: 40px;
-  text-transform: uppercase;
   letter-spacing: 4px;
-  color: #ffffff;
   text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
 }
 .nextTitle {
   height: 30px;
   font-size: 22px;
   line-height: 30px;
   text-transform: capitalize;
-  letter-spacing: 0px;
   color: #fff;
 }
 .inputLeft {
@@ -332,21 +323,19 @@ export default {
   font-size: 18px;
   line-height: 30px;
   text-transform: capitalize;
-  letter-spacing: 0px;
   color: #ffffff;
   text-align: center;
 }
 .inputRight {
   width: 108px;
   height: 22px;
-  border-radius: 10px;
-  box-sizing: border-box;
   border: 1px solid #ffffff;
-  background: rgba(0, 0, 0, 0);
-  text-indent: 20px;
-  color: #fff;
+  border-radius: 10px;
   font-family: PHTM;
   font-size: 18px;
+  text-indent: 20px;
+  background: rgba(0, 0, 0, 0);
+  color: #fff;
 }
 .inputRight::-webkit-input-placeholder {
   color: #464646;
@@ -354,26 +343,28 @@ export default {
 //refresh/clean/go按钮
 .settingButton {
   float: right;
-  margin-top: 165px;
   min-width: 55px;
   height: 25px;
-  border-radius: 10px;
-  background: #d8d8d8;
-  box-sizing: border-box;
-  border: 1px solid #ffffff;
+  padding: 0 3px;
   margin-left: 15px;
-  cursor: pointer;
+  margin-top: 165px;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
   font-size: 18px;
   font-family: PHTM;
-  padding: 0 3px;
+  background: #d8d8d8;
+  cursor: pointer;
 }
 //侧边设置栏伸缩按钮
 .setButton {
   float: left;
-  margin-top: 30px;
   width: 50px;
   height: 40px;
+  margin-top: 30px;
   border-radius: 0px 10px 10px 0px;
+  font-size: 24px;
+  text-align: center;
+  line-height: 40px;
   background: linear-gradient(
     90deg,
     #cdd3dc 0%,
@@ -382,9 +373,6 @@ export default {
     #b9c0b9 100%
   );
   box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.3);
-  font-size: 24px;
-  text-align: center;
-  line-height: 40px;
   cursor: pointer;
 }
 //chem渲染画布
@@ -392,43 +380,42 @@ export default {
   position: absolute;
   left: 25px;
   top: 25px;
+  z-index: 0;
   width: 420px;
   height: 420px;
   border: none;
-  z-index: 0;
 }
 .colorBox {
   float: left;
   width: 45px;
   height: 45px;
-  line-height: 50px;
-  margin-top: 428px;
-  text-align: center;
   margin-right: 10px;
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
+  margin-top: 428px;
   font-size: 18px;
+  line-height: 50px;
+  text-align: center;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
 }
 .downloadBox {
   float: right;
   width: 150px;
   height: 45px;
-  line-height: 50px;
   margin-top: 428px;
-  text-align: center;
   margin-left: 130px;
+  font-size: 18px;
+  line-height: 50px;
+  text-align: center;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
   background: #84b1ff;
-  font-size: 18px;
   cursor: pointer;
 }
 .download {
-  font-weight: 700;
+  font-weight: 500;
   text-decoration: none;
   color: #000;
-  font-weight: 500;
 }
-.list {
-  /* list */
+//右侧内容位置
+.baseInfo {
   position: absolute;
   right: 0;
   width: 360px;
@@ -443,19 +430,16 @@ export default {
   top: 19.74px;
   width: 285px;
   height: 480px;
-  display: flex;
-  flex-direction: column;
-  padding: 0px;
 }
 .abstractTable > li {
   height: 40px;
   line-height: 50px;
 }
 .abstractTitle {
+  margin: 8px 0;
   text-align: left;
   font-size: 24px;
   letter-spacing: 4px;
-  margin: 8px 0;
 }
 .abstractItem {
   text-align: left;
