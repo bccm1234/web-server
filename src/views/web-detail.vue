@@ -87,7 +87,7 @@ export default {
     //滑动页面相应导航单改变
     scrollColor() {
       const nav = document.getElementsByClassName("navItem");
-      const item = document.getElementsByClassName("rightItem");
+      const item = document.getElementsByClassName("rightModule");
       const scrolltop = document.documentElement.scrollTop;
       const screenHeight = document.documentElement.clientHeight;
       const scrollHeight = (screenHeight - 160) / 2;
@@ -112,6 +112,7 @@ export default {
   top: 50px;
   margin-left: -650px;
   width: 1300px;
+  //不可选中
   user-select: none;
 }
 .rightBox {
@@ -136,8 +137,8 @@ export default {
   display: inline-block;
   width: 370px;
   height: 40px;
-  font-size: 18px;
   font-family: PHTB;
+  font-size: 18px;
   line-height: 40px;
   color: #3d3d3d;
 }
@@ -157,13 +158,12 @@ export default {
 ::v-deep .moduleTitle {
   width: 860px;
   height: 70px;
+  font-family: PHTM;
   font-size: 32px;
   line-height: 70px;
-  letter-spacing: 0px;
-  color: #3d3d3d;
-  text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
   text-align: left;
-  font-family: PHTM;
+  text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  color: #3d3d3d;
 }
 //doi链接样式
 ::v-deep .doiLink {

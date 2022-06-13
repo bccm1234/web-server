@@ -1,5 +1,5 @@
 <template>
-  <div id="1" class="totalBox">
+  <div id="1" class="totalBox rightModule">
     <div class="moduleTitle">Crystal Strusture</div>
     <div class="body br-10">
       <div class="button">
@@ -78,12 +78,12 @@ export default {
   display: inline-block;
   width: 150px;
   height: 40px;
-  line-height: 40px;
   border-radius: 10px 10px 0px 0px;
+  font-family: PHTB;
   font-size: 18px;
   text-align: center;
+  line-height: 40px;
   cursor: pointer;
-  font-family: PHTB;
 }
 .mainBox {
   padding: 20px 20px 0;

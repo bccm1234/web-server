@@ -392,18 +392,18 @@ export default {
 .chargeTop {
   width: 740px;
   height: 500px;
+  margin: 10px 0;
   font-size: 18px;
   text-align: right;
-  margin: 10px 0;
 }
 //charge伸缩设置框，start
 .chargeSetBox {
   position: absolute;
   left: 0px;
   top: 0px;
+  z-index: 2;
   width: 0;
   height: 0;
-  z-index: 2;
 }
 //伸缩框设置
 //伸缩框展开面板
@@ -411,13 +411,12 @@ export default {
   float: left;
   width: 370px;
   height: 500px;
+  padding: 30px 15px;
+  border: 2px solid #cdd3dc;
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.6);
-  box-sizing: border-box;
-  border: 2px solid #cdd3dc;
   backdrop-filter: blur(2px);
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
-  padding: 30px 15px;
 }
 .el-menu {
   border: none;
@@ -429,7 +428,6 @@ export default {
   height: 500px;
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.6) !important;
-  box-sizing: border-box;
   backdrop-filter: blur(2px);
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
 }
@@ -439,23 +437,22 @@ export default {
   line-height: 40px;
   text-transform: uppercase;
   letter-spacing: 4px;
-  color: #ffffff;
   text-align: center;
+  color: #ffffff;
 }
 .nextTitle {
   height: 30px;
   font-size: 22px;
   line-height: 30px;
   text-transform: capitalize;
-  letter-spacing: 0px;
-  color: #fff;
   text-align: left;
+  color: #fff;
 }
 .isoSetTable {
+  width: 340px;
+  font-size: 18px;
   text-align: center;
   color: #fff;
-  font-size: 18px;
-  width: 340px;
 }
 .isoSetTable > tr {
   height: 30px;
@@ -463,25 +460,23 @@ export default {
 }
 //选择框
 .chargeCheck /deep/.el-checkbox__input > .el-checkbox__inner {
-  background-color: rgba(0, 0, 0, 0);
-  border: 2px solid #fff;
   width: 18px;
   height: 18px;
+  border: 2px solid #fff;
+  background-color: rgba(0, 0, 0, 0);
 }
 .isoInput {
-  width: 108px;
-  background: none;
   width: 108px;
   height: 22px;
   border-radius: 10px;
   box-sizing: border-box;
   border: 1px solid #ffffff;
+  font-family: PHTM;
   text-indent: 15px;
   font-size: 18px;
   font-weight: 500;
-  // padding-top: 2px;
+  background: none;
   color: #fff;
-  font-family: PHTM;
 }
 input::-webkit-input-placeholder {
   font-size: 18px;
@@ -489,7 +484,6 @@ input::-webkit-input-placeholder {
   text-transform: lowercase;
   letter-spacing: 0px;
   color: #464646;
-  // line-height: 22px;
 }
 //颜色选择器
 .colorBox {
@@ -528,8 +522,7 @@ input::-webkit-input-placeholder {
       width: 64px;
       height: 30px;
       padding: 0 5px;
-      font-size: 18px;
-      background: #d8d8d8;
+      border: 1px solid #fff;
       border-radius: 0;
       font-family: PHTM;
       font-size: 18px;
@@ -537,7 +530,7 @@ input::-webkit-input-placeholder {
       text-transform: capitalize;
       letter-spacing: 0px;
       color: #5f6266;
-      border: 1px solid #fff;
+      background: #d8d8d8;
     }
     .el-input__suffix > .el-input__suffix-inner > .el-select__caret {
       display: none;
@@ -551,20 +544,19 @@ input::-webkit-input-placeholder {
       padding: 0;
       border-bottom: 1px solid #fff;
       .el-select-dropdown__item {
-        padding: 0;
         width: 64px;
         height: 30px;
-        background: rgba(0, 0, 0, 0.6);
-        box-sizing: border-box;
-        font-size: 18px;
+        padding: 0;
+        border-left: 1px solid #fff;
+        border-right: 1px solid #fff;
         font-family: PHTM;
+        font-size: 18px;
         line-height: 30px;
         text-transform: capitalize;
         letter-spacing: 0px;
         text-align: center;
         color: #fff;
-        border-left: 1px solid #fff;
-        border-right: 1px solid #fff;
+        background: rgba(0, 0, 0, 0.6);
       }
     }
   }
@@ -580,33 +572,35 @@ input::-webkit-input-placeholder {
 //go/clean/refresh 按钮
 //按钮总盒子
 .settingButtons {
-  width: 340px;
-  height: 30px;
   position: relative;
   top: 105px;
+  width: 340px;
+  height: 30px;
 }
 //每个按钮
 .settingButton {
   float: right;
   min-width: 55px;
   height: 25px;
-  border-radius: 10px;
-  background: #d8d8d8;
-  box-sizing: border-box;
-  border: 1px solid #ffffff;
+  padding: 0 3px;
   margin-left: 15px;
-  cursor: pointer;
+  border-radius: 10px;
+  border: 1px solid #ffffff;
   font-size: 18px;
   font-family: PHTM;
-  padding: 0 3px;
+  background: #d8d8d8;
+  cursor: pointer;
 }
 //设置（抽屉开关按钮）
 .setButton {
   float: left;
-  margin-top: 30px;
   width: 50px;
   height: 40px;
+  margin-top: 30px;
   border-radius: 0px 10px 10px 0px;
+  font-size: 24px;
+  text-align: center;
+  line-height: 40px;
   background: linear-gradient(
     90deg,
     #cdd3dc 0%,
@@ -615,9 +609,6 @@ input::-webkit-input-placeholder {
     #b9c0b9 100%
   );
   box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.3);
-  font-size: 24px;
-  text-align: center;
-  line-height: 40px;
   cursor: pointer;
 }
 //侧边设置栏end
@@ -629,9 +620,9 @@ input::-webkit-input-placeholder {
   width: 740px;
   height: 500px;
   margin: 0 0 20px;
+  border: none;
   border-radius: 10px;
   background: #eef5ff;
   box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
-  border: none;
 }
 </style>

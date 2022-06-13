@@ -1,5 +1,5 @@
 <template>
-  <div id="2" class="totalBox">
+  <div id="2" class="totalBox rightModule">
     <div class="moduleTitle">Band Structure & Dos</div>
     <div class="body br-10">
       <div class="button">
@@ -63,9 +63,9 @@ export default {
   margin-top: 30px;
 }
 .body {
-  background-color: #fff;
   padding: 30px;
   text-align: left;
+  background-color: #fff;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.3);
 }
 .button {
