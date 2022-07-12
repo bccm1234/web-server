@@ -1,7 +1,8 @@
 <template>
   <div>
     <div v-if="bandCal.bandgap">
-      <div class="band">
+      <!-- band部分 -->
+      <div>
         <ul>
           <li class="title">Band Structure</li>
           <li class="item">
@@ -13,13 +14,15 @@
         </ul>
         <bandPicture></bandPicture>
       </div>
+      <!-- density部分 -->
       <div class="density">
         <div class="title">Density Of States</div>
         <dosPicture></dosPicture>
       </div>
-      <div class="calculation-summer">
+      <!-- Calculation Summary部分 -->
+      <div>
         <ul>
-          <li class="title">Calculation Summar</li>
+          <li class="title">Calculation Summary</li>
           <li class="item">
             <span class="itemLeft">Run Type :</span>
             <span class="itemRight">
@@ -75,12 +78,14 @@ export default {
     };
   },
   watch: {
+    //监听数据变化，调用函数
     "$store.getters.allInfo"() {
-      this.dealInfo();
+      this.bandCalInfo();
     }
   },
   methods: {
-    dealInfo() {
+    //从vuex中获取数据
+    bandCalInfo() {
       this.bandCal = this.$store.getters.allInfo["band-dos"].cal;
     }
   }

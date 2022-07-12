@@ -1,10 +1,12 @@
 <template>
   <div>
     <div v-if="bandExp.bandgap">
+      <!-- bandGap部分 -->
       <div class="title">
         <span class="itemLeft">Band Gap :</span>
         <span class="itemRight">{{ assessData(bandExp.bandgap, " ev") }}</span>
       </div>
+      <!-- article部分 -->
       <div class="articleBox">
         <ul>
           <li class="title">Article</li>
@@ -32,15 +34,12 @@ export default {
     };
   },
   mounted() {
-    this.dealInfo();
-  },
-  watch: {
-    "$store.getters.allInfo"() {
-      this.dealInfo();
-    }
+    //渲染组件时调用函数
+    this.bandExpInfo();
   },
   methods: {
-    dealInfo() {
+    //从vuex中获取数据
+    bandExpInfo() {
       this.bandExp = this.$store.getters.allInfo["band-dos"].exp;
     }
   }

@@ -56,9 +56,9 @@ export default {
   position: fixed;
   top: 130px;
   left: 50%;
-  margin-left: -650px;
   width: 320px;
   height: 1000px;
+  margin-left: -650px;
   text-align: left;
 }
 //元素卡片
@@ -67,32 +67,31 @@ export default {
   position: absolute;
   left: 0px;
   top: 35px;
-  margin-bottom: 75px;
-  color: #3d3d3d;
-  text-align: center;
-  min-width: 220px;
-  user-select: none;
   padding-left: 50px;
+  min-width: 220px;
+  margin-bottom: 75px;
+  text-align: center;
+  color: #3d3d3d;
+  user-select: none;
 }
 .formulaName {
   display: block;
   height: 75px;
   width: 220px;
+  font-family: "PHTB";
   font-size: 64px;
-  font-family: PHTB;
-  font-weight: bold;
   letter-spacing: 1px;
   line-height: 75px;
-  font-family: "PHTB";
+  font-weight: bold;
 }
 .formulaId {
   display: block;
   width: 220px;
   height: 60px;
+  font-family: "PHTR";
   font-size: 36px;
   line-height: 60px;
   text-align: center;
-  font-family: "PHTR";
 }
 .leftNav {
   position: absolute;
@@ -100,8 +99,8 @@ export default {
   width: 100%;
   height: 735px;
   margin-top: 10px;
-  color: #202535;
   text-indent: 30px;
+  color: #202535;
 }
 .leftNav > li {
   width: 320px;

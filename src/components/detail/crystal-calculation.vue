@@ -1,7 +1,8 @@
 <template>
   <div>
     <div v-if="crystalCal.lattice">
-      <div class="lattice">
+      <!-- lattice部分 -->
+      <div>
         <ul>
           <li class="title">Lattice</li>
           <li class="item">
@@ -42,6 +43,7 @@
           </li>
         </ul>
       </div>
+      <!-- symmetry部分 -->
       <div class="symmetry">
         <ul>
           <li class="title">Symmetry</li>
@@ -64,7 +66,8 @@
           </li>
         </ul>
       </div>
-      <div class="calculation-summer">
+      <!-- calculation-summary部分 -->
+      <div>
         <ul>
           <li class="title">Calculation Summary</li>
           <li class="item">
@@ -119,21 +122,20 @@ export default {
     };
   },
   watch: {
+    //监听vuex getters中的数据变化
     "$store.getters.allInfo"() {
-      this.dealInfo();
+      this.crystalCalInfo();
     }
   },
   methods: {
-    dealInfo() {
+    //获取数据并处理
+    crystalCalInfo() {
       this.crystalCal = this.$store.getters.allInfo["crystal-strusture"].cal;
-      console.log("getsession", this.getSession("allInfo"));
-      if (this.crystalCal) {
-        if (this.crystalCal.spacegroup.length < 10) {
-          this.crystalCal.spacegroup = this.tranStr(
-            1,
-            this.$store.getters.allInfo["crystal-strusture"].cal.spacegroup
-          );
-        }
+      if (this.crystalCal.spacegroup.length < 10) {
+        this.crystalCal.spacegroup = this.tranStr(
+          1,
+          this.$store.getters.allInfo["crystal-strusture"].cal.spacegroup
+        );
       }
     }
   }
@@ -143,13 +145,5 @@ export default {
 <style lang="less" scoped>
 .symmetry {
   margin: 20px 0;
-}
-.lattice {
-  position: relative;
-}
-.rightUl {
-  position: absolute;
-  left: 50px;
-  top: 0;
 }
 </style>
