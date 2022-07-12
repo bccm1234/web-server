@@ -1057,10 +1057,6 @@ export default {
     transform: scale(1);
   }
 
-  /* 50% {
-      transform: scale(0.8) rotateX(270deg) skewX(90deg);
-    } */
-
   100% {
     transform: scale(1.3);
   }
