@@ -12,12 +12,12 @@
             </span>
           </li>
         </ul>
-        <bandPicture></bandPicture>
+        <dosPicture></dosPicture>
       </div>
       <!-- density部分 -->
       <div class="density">
         <div class="title">Density Of States</div>
-        <dosPicture></dosPicture>
+        <elePicture></elePicture>
       </div>
       <!-- Calculation Summary部分 -->
       <div>
@@ -67,10 +67,10 @@
 </template>
 
 <script>
-import bandPicture from "./band-picture.vue";
 import dosPicture from "./dos-picture.vue";
+import elePicture from "./ele-picture.vue";
 export default {
-  components: { bandPicture, dosPicture },
+  components: { dosPicture, elePicture },
   name: "band-calucation",
   data() {
     return {

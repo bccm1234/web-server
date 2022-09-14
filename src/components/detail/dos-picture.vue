@@ -20,8 +20,17 @@ export default {
       const { data: dosdata } = await this.$axios.get(
         "/public/echart/dos/dos.json"
       );
-      this.dosdata = dosdata;
+      this.dosdata = this.dealData(dosdata);
       this.setOption();
+    },
+    dealData(data) {
+      let source = data.source;
+      for (let i in source) {
+        if (i == "tot-") {
+          source[i] = source[i].map((x) => x * -1);
+        }
+      }
+      return data;
     },
     setOption() {
       let source = this.dosdata.source;
@@ -50,7 +59,8 @@ export default {
               showMaxLabel: false,
               showMinLabel: false
             },
-            axisLine: { onZero: false }
+            axisLine: { onZero: false },
+            nameGap: 20
           },
           {
             min: "dataMin",
@@ -67,11 +77,10 @@ export default {
             axisLine: { onZero: false },
             name: "Density of State",
             nameLocation: "center",
-            nameGap: 20
+            nameGap: 30
           },
           {
-            axisLine: { onZero: false },
-            nameGap: 20
+            axisLine: { onZero: false }
           }
         ],
         series: [
@@ -84,9 +93,9 @@ export default {
               y: "tot+"
             },
             showSymbol: false,
-            itemStyle: { color: "rgb(135,135,135)" },
+            itemStyle: { color: "rgb(255,135,135)" },
             lineStyle: { width: 1 },
-            areaStyle: { color: "rgb(200,200,200)" }
+            areaStyle: { color: "rgb(200,100,100)" }
           },
           {
             type: "line",
@@ -97,82 +106,82 @@ export default {
               y: "tot-"
             },
             showSymbol: false,
-            itemStyle: { color: "rgb(135,135,135)" },
+            itemStyle: { color: "rgb(135,135,255)" },
             lineStyle: { width: 1 },
-            areaStyle: { color: "rgb(200,200,200)" }
-          },
-          {
-            type: "line",
-            name: "s+",
-            seriesLayoutBy: "row",
-            encode: {
-              x: "energy",
-              y: "s+"
-            },
-            showSymbol: false,
-            itemStyle: { color: "rgb(255,0,0)" },
-            lineStyle: { width: 1 }
-          },
-          {
-            type: "line",
-            name: "s-",
-            seriesLayoutBy: "row",
-            encode: {
-              x: "energy",
-              y: "s-"
-            },
-            showSymbol: false,
-            itemStyle: { color: "rgb(255,0,0)" },
-            lineStyle: { width: 1 }
-          },
-          {
-            type: "line",
-            name: "p+",
-            seriesLayoutBy: "row",
-            encode: {
-              x: "energy",
-              y: "p+"
-            },
-            showSymbol: false,
-            itemStyle: { color: "#0000FF" },
-            lineStyle: { width: 1 }
-          },
-          {
-            type: "line",
-            name: "p-",
-            seriesLayoutBy: "row",
-            encode: {
-              x: "energy",
-              y: "p-"
-            },
-            showSymbol: false,
-            itemStyle: { color: "#0000FF" },
-            lineStyle: { width: 1 }
-          },
-          {
-            type: "line",
-            name: "d+",
-            seriesLayoutBy: "row",
-            encode: {
-              x: "energy",
-              y: "d+"
-            },
-            showSymbol: false,
-            itemStyle: { color: "#00FF00" },
-            lineStyle: { width: 1 }
-          },
-          {
-            type: "line",
-            name: "d-",
-            seriesLayoutBy: "row",
-            encode: {
-              x: "energy",
-              y: "d-"
-            },
-            showSymbol: false,
-            itemStyle: { color: "#00FF00" },
-            lineStyle: { width: 1 }
+            areaStyle: { color: "rgb(100,100,200)" }
           }
+          // {
+          //   type: "line",
+          //   name: "s+",
+          //   seriesLayoutBy: "row",
+          //   encode: {
+          //     x: "energy",
+          //     y: "s+"
+          //   },
+          //   showSymbol: false,
+          //   itemStyle: { color: "rgb(255,0,0)" },
+          //   lineStyle: { width: 1 }
+          // },
+          // {
+          //   type: "line",
+          //   name: "s-",
+          //   seriesLayoutBy: "row",
+          //   encode: {
+          //     x: "energy",
+          //     y: "s-"
+          //   },
+          //   showSymbol: false,
+          //   itemStyle: { color: "rgb(255,0,0)" },
+          //   lineStyle: { width: 1 }
+          // },
+          // {
+          //   type: "line",
+          //   name: "p+",
+          //   seriesLayoutBy: "row",
+          //   encode: {
+          //     x: "energy",
+          //     y: "p+"
+          //   },
+          //   showSymbol: false,
+          //   itemStyle: { color: "#0000FF" },
+          //   lineStyle: { width: 1 }
+          // },
+          // {
+          //   type: "line",
+          //   name: "p-",
+          //   seriesLayoutBy: "row",
+          //   encode: {
+          //     x: "energy",
+          //     y: "p-"
+          //   },
+          //   showSymbol: false,
+          //   itemStyle: { color: "#0000FF" },
+          //   lineStyle: { width: 1 }
+          // },
+          // {
+          //   type: "line",
+          //   name: "d+",
+          //   seriesLayoutBy: "row",
+          //   encode: {
+          //     x: "energy",
+          //     y: "d+"
+          //   },
+          //   showSymbol: false,
+          //   itemStyle: { color: "#00FF00" },
+          //   lineStyle: { width: 1 }
+          // },
+          // {
+          //   type: "line",
+          //   name: "d-",
+          //   seriesLayoutBy: "row",
+          //   encode: {
+          //     x: "energy",
+          //     y: "d-"
+          //   },
+          //   showSymbol: false,
+          //   itemStyle: { color: "#00FF00" },
+          //   lineStyle: { width: 1 }
+          // }
         ]
       });
     }
