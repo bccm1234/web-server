@@ -25,4 +25,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
 > 一个简单的材料数据库demo框架
+> 
 > 技术栈 vue2+element-ui 
