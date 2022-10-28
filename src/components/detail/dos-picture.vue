@@ -20,18 +20,18 @@ export default {
       const { data: dosdata } = await this.$axios.get(
         "/public/echart/dos/dos.json"
       );
-      this.dosdata = this.dealData(dosdata);
+      this.dosdata = dosdata;
       this.setOption();
     },
-    dealData(data) {
-      let source = data.source;
-      for (let i in source) {
-        if (i == "tot-") {
-          source[i] = source[i].map((x) => x * -1);
-        }
-      }
-      return data;
-    },
+    // dealData(data) {
+    //   let source = data.source;
+    //   for (let i in source) {
+    //     if (i == "tot-") {
+    //       source[i] = source[i].map((x) => x * -1);
+    //     }
+    //   }
+    //   return data;
+    // },
     setOption() {
       let source = this.dosdata.source;
       this.chartInstance.setOption({
@@ -86,11 +86,11 @@ export default {
         series: [
           {
             type: "line",
-            name: "tot+",
+            name: "TDOS_up",
             seriesLayoutBy: "row",
             encode: {
               x: "energy",
-              y: "tot+"
+              y: "TDOS_up"
             },
             showSymbol: false,
             itemStyle: { color: "rgb(255,135,135)" },
@@ -99,16 +99,27 @@ export default {
           },
           {
             type: "line",
-            name: "tot-",
+            name: "TDOS_down",
             seriesLayoutBy: "row",
             encode: {
               x: "energy",
-              y: "tot-"
+              y: "TDOS_down"
             },
             showSymbol: false,
             itemStyle: { color: "rgb(135,135,255)" },
             lineStyle: { width: 1 },
-            areaStyle: { color: "rgb(100,100,200)" }
+            areaStyle: { color: "rgb(100,100,200)" },
+            markLine: {
+              symbol: ["none", "none"], //去掉箭头
+              lineStyle: { type: "dashed", color: "black" },
+              label: { position: "end", formatter: "{b}" },
+              data: [
+                {
+                  name: "fermi_Energy",
+                  xAxis: source.fermi_Energy
+                }
+              ]
+            }
           }
           // {
           //   type: "line",
